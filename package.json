@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx nx run-many --target=build --all",
     "prettier-check": "prettier --check \"**/*.{jsx,ts,tsx,js,css,md,mdx,json,yml}\"",
     "prettier-write": "prettier --write \"**/*.{jsx,ts,tsx,js,css,md,mdx,json,yml}\"",
     "eslint-check": "eslint --fix-dry-run \"**/*.{jsx,ts,tsx,js}\"",

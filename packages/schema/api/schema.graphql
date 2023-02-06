@@ -1,0 +1,197 @@
+input MetaDataInput {
+  name: String!
+  value: String!
+}
+
+input SalesInput {
+  year: Int!
+  amount: Int!
+}
+
+input SalesSplitInput {
+  name: String!
+  percentage: Int!
+}
+
+input UnitEconomicsInput {
+  name: String!
+  amount: Int!
+}
+
+input DealInput {
+  sharkName: String!
+  amount: Int!
+  valuation: String!
+  equity: Int!
+  debt: Int
+  debtInterest: Int
+}
+
+input ProductInput {
+  title: String!
+  companyName: String!
+  website: String
+  marketPlace: [MetaDataInput]
+  appStoreLink: String
+  playStoreLink: String
+  established: Int!
+  founders: String
+  numberOfEmployees: Int
+  story: String
+  productFeatures: [String]
+  valueChain: [String]
+  originalAsk: String
+  sales: [SalesInput]
+  salesSplit: [SalesSplitInput]
+  unitEconomics: [UnitEconomicsInput]
+  statistics: [MetaDataInput]
+  counterOffer: [DealInput]
+  dealClosed: DealInput
+  productImage: String
+  informationImage: String
+  categories: [String]
+  createdAt: AWSDateTime
+}
+
+## Types
+
+type MetaData {
+  name: String!
+  value: String!
+}
+
+type Sales {
+  year: Int!
+  amount: Int!
+}
+
+type SalesSplit {
+  name: String!
+  percentage: Int!
+}
+
+type UnitEconomics {
+  name: String!
+  amount: Int!
+}
+
+type Deal {
+  sharkName: String!
+  amount: Int!
+  valuation: String!
+  equity: Int!
+  debt: Int
+  debtInterest: Int
+}
+
+type Product {
+  id: String!
+  title: String!
+  companyName: String!
+  website: String
+  marketPlace: [MetaData]
+  appStoreLink: String
+  playStoreLink: String
+  established: Int!
+  founders: String
+  numberOfEmployees: Int
+  story: String!
+  productFeatures: [String]
+  valueChain: [String]
+  originalAsk: String!
+  sales: [Sales]
+  salesSplit: [SalesSplit]
+  unitEconomics: [UnitEconomics]
+  statistics: [MetaData]
+  counterOffer: [Deal]
+  dealClosed: Deal
+  productImage: String
+  informationImage: String
+  categories: [String]!
+  createdAt: AWSDateTime
+}
+
+# Outputs
+
+enum Status {
+  OPEN
+  CLOSED
+}
+
+## Errors
+
+type ValidationErrorField
+  @aws_cognito_user_pools(cognito_groups: ["am_admin"])
+  @aws_iam
+  @aws_api_key {
+  field: String!
+  errorMessages: [String!]!
+}
+
+type ValidationError
+  @aws_cognito_user_pools(cognito_groups: ["am_admin"])
+  @aws_iam
+  @aws_api_key {
+  message: String!
+  data: [ValidationErrorField!]!
+}
+
+type ServerError
+  @aws_cognito_user_pools(cognito_groups: ["am_admin"])
+  @aws_iam
+  @aws_api_key {
+  message: String!
+}
+
+type Products @aws_cognito_user_pools(cognito_groups: ["am_admin"]) @aws_iam {
+  products: [Product]!
+}
+
+type ProductCreationSuccess
+  @aws_cognito_user_pools(cognito_groups: ["am_admin"])
+  @aws_iam
+  @aws_api_key {
+  id: String!
+}
+
+# Query
+
+## GetProduct
+
+union GetProductDetailResult = Product | ValidationError | ServerError
+
+input GetProductDetailInput {
+  id: String
+}
+
+## GetProducts
+
+union GetProductsResult = Products | ValidationError | ServerError
+
+input GetProductsInput {
+  categories: String
+}
+
+type Query {
+  productDetail(input: GetProductDetailInput!): GetProductDetailResult
+    @aws_iam
+    @aws_api_key
+  products: GetProductsResult
+    @aws_cognito_user_pools(cognito_groups: ["am_admin"])
+    @aws_iam
+}
+
+# Mutation
+
+## SubmitProductCreation
+
+union ProductCreationResult =
+    ProductCreationSuccess
+  | ValidationError
+  | ServerError
+
+type Mutation {
+  submitProductCreation(input: ProductInput!): ProductCreationResult
+    @aws_iam
+    @aws_api_key
+}

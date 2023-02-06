@@ -1,0 +1,175 @@
+mutation SubmitProductCreation($input: ProductInput!) {
+  submitProductCreation(input: $input) {
+    ... on ProductCreationSuccess {
+      __typename
+      id
+    }
+    ... on ValidationError {
+      __typename
+      message
+      data {
+        field
+        errorMessages
+      }
+    }
+    ... on ServerError {
+      __typename
+      message
+    }
+  }
+}
+
+query productDetail($input: GetProductDetailInput!) {
+  productDetail(input: $input) {
+    ... on Product {
+      __typename
+      id
+      title
+      companyName
+      website
+      marketPlace {
+        __typename
+        name
+        value
+      }
+      appStoreLink
+      playStoreLink
+      established
+      founders
+      numberOfEmployees
+      story
+      productFeatures
+      valueChain
+      originalAsk
+      sales {
+        __typename
+        year
+        amount
+      }
+      salesSplit {
+        __typename
+        name
+        percentage
+      }
+      unitEconomics {
+        __typename
+        name
+        amount
+      }
+      statistics {
+        __typename
+        name
+        value
+      }
+      counterOffer {
+        __typename
+        sharkName
+        amount
+        valuation
+        equity
+        debt
+        debtInterest
+      }
+      dealClosed {
+        __typename
+        sharkName
+        amount
+        valuation
+        equity
+        debt
+        debtInterest
+      }
+      productImage
+      informationImage
+      categories
+      createdAt
+    }
+    ... on ValidationError {
+      __typename
+      message
+      data {
+        field
+        errorMessages
+      }
+    }
+    ... on ServerError {
+      __typename
+      message
+    }
+  }
+}
+
+query products {
+  products {
+    ... on Products {
+      __typename
+      products {
+        __typename
+        id
+        title
+        companyName
+        website
+        marketPlace {
+          __typename
+          name
+          value
+        }
+        appStoreLink
+        playStoreLink
+        established
+        founders
+        numberOfEmployees
+        story
+        productFeatures
+        valueChain
+        originalAsk
+        sales {
+          __typename
+          year
+          amount
+        }
+        salesSplit {
+          __typename
+          name
+          percentage
+        }
+        unitEconomics {
+          __typename
+          name
+          amount
+        }
+        statistics {
+          __typename
+          name
+          value
+        }
+        counterOffer {
+          __typename
+          sharkName
+          amount
+          valuation
+          equity
+          debt
+          debtInterest
+        }
+        dealClosed {
+          __typename
+          sharkName
+          amount
+          valuation
+          equity
+          debt
+          debtInterest
+        }
+        productImage
+        informationImage
+        categories
+        createdAt
+      }
+    }
+    ... on ServerError {
+      __typename
+      message
+    }
+  }
+}

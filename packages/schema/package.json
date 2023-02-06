@@ -1,0 +1,33 @@
+{
+  "name": "sharktankpedia-schema",
+  "version": "1.0.0",
+  "description": "Schema for the SharkTank Pedia",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "graphql-codegen && tsc -b"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/uuid": "8.3.4",
+    "jest": "^27.4.5",
+    "ts-jest": "^27.1.2",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@graphql-codegen/add": "^3.1.0",
+    "@graphql-codegen/cli": "^2.0.1",
+    "@graphql-codegen/client-preset": "2.0.0",
+    "@graphql-codegen/fragment-matcher": "3.2.1",
+    "@graphql-codegen/typed-document-node": "^2.0.0",
+    "@graphql-codegen/typescript": "^2.0.0",
+    "@graphql-codegen/typescript-operations": "^2.0.0",
+    "@graphql-typed-document-node/core": "^3.1.0",
+    "clean-deep": "3.4.0",
+    "uuid": "8.3.2",
+    "graphql": "^15.5.1"
+  }
+}

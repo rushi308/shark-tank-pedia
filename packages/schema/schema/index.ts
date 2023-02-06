@@ -1,0 +1,231 @@
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+export type Maybe<T> = T;
+export type InputMaybe<T> = T;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+  AWSDate: string;
+  AWSDateTime: string;
+  AWSEmail: string;
+  AWSIPAddress: string;
+  AWSJSON: string;
+  AWSPhone: string;
+  AWSTime: string;
+  AWSTimestamp: number;
+  AWSURL: string;
+};
+
+export type Deal = {
+  __typename: 'Deal';
+  amount: Scalars['Int'];
+  debt?: Maybe<Scalars['Int']>;
+  debtInterest?: Maybe<Scalars['Int']>;
+  equity: Scalars['Int'];
+  sharkName: Scalars['String'];
+  valuation: Scalars['String'];
+};
+
+export type DealInput = {
+  amount: Scalars['Int'];
+  debt?: InputMaybe<Scalars['Int']>;
+  debtInterest?: InputMaybe<Scalars['Int']>;
+  equity: Scalars['Int'];
+  sharkName: Scalars['String'];
+  valuation: Scalars['String'];
+};
+
+export type GetProductDetailInput = {
+  id?: InputMaybe<Scalars['String']>;
+};
+
+export type GetProductDetailResult = Product | ServerError | ValidationError;
+
+export type GetProductsInput = {
+  categories?: InputMaybe<Scalars['String']>;
+};
+
+export type GetProductsResult = Products | ServerError | ValidationError;
+
+export type MetaData = {
+  __typename: 'MetaData';
+  name: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type MetaDataInput = {
+  name: Scalars['String'];
+  value: Scalars['String'];
+};
+
+export type Mutation = {
+  __typename: 'Mutation';
+  submitProductCreation?: Maybe<ProductCreationResult>;
+};
+
+
+export type MutationSubmitProductCreationArgs = {
+  input: ProductInput;
+};
+
+export type Product = {
+  __typename: 'Product';
+  appStoreLink?: Maybe<Scalars['String']>;
+  categories: Array<Maybe<Scalars['String']>>;
+  companyName: Scalars['String'];
+  counterOffer?: Maybe<Array<Maybe<Deal>>>;
+  createdAt?: Maybe<Scalars['AWSDateTime']>;
+  dealClosed?: Maybe<Deal>;
+  established: Scalars['Int'];
+  founders?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  informationImage?: Maybe<Scalars['String']>;
+  marketPlace?: Maybe<Array<Maybe<MetaData>>>;
+  numberOfEmployees?: Maybe<Scalars['Int']>;
+  originalAsk: Scalars['String'];
+  playStoreLink?: Maybe<Scalars['String']>;
+  productFeatures?: Maybe<Array<Maybe<Scalars['String']>>>;
+  productImage?: Maybe<Scalars['String']>;
+  sales?: Maybe<Array<Maybe<Sales>>>;
+  salesSplit?: Maybe<Array<Maybe<SalesSplit>>>;
+  statistics?: Maybe<Array<Maybe<MetaData>>>;
+  story: Scalars['String'];
+  title: Scalars['String'];
+  unitEconomics?: Maybe<Array<Maybe<UnitEconomics>>>;
+  valueChain?: Maybe<Array<Maybe<Scalars['String']>>>;
+  website?: Maybe<Scalars['String']>;
+};
+
+export type ProductCreationResult = ProductCreationSuccess | ServerError | ValidationError;
+
+export type ProductCreationSuccess = {
+  __typename: 'ProductCreationSuccess';
+  id: Scalars['String'];
+};
+
+export type ProductInput = {
+  appStoreLink?: InputMaybe<Scalars['String']>;
+  categories?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  companyName: Scalars['String'];
+  counterOffer?: InputMaybe<Array<InputMaybe<DealInput>>>;
+  createdAt?: InputMaybe<Scalars['AWSDateTime']>;
+  dealClosed?: InputMaybe<DealInput>;
+  established: Scalars['Int'];
+  founders?: InputMaybe<Scalars['String']>;
+  informationImage?: InputMaybe<Scalars['String']>;
+  marketPlace?: InputMaybe<Array<InputMaybe<MetaDataInput>>>;
+  numberOfEmployees?: InputMaybe<Scalars['Int']>;
+  originalAsk?: InputMaybe<Scalars['String']>;
+  playStoreLink?: InputMaybe<Scalars['String']>;
+  productFeatures?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  productImage?: InputMaybe<Scalars['String']>;
+  sales?: InputMaybe<Array<InputMaybe<SalesInput>>>;
+  salesSplit?: InputMaybe<Array<InputMaybe<SalesSplitInput>>>;
+  statistics?: InputMaybe<Array<InputMaybe<MetaDataInput>>>;
+  story?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+  unitEconomics?: InputMaybe<Array<InputMaybe<UnitEconomicsInput>>>;
+  valueChain?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  website?: InputMaybe<Scalars['String']>;
+};
+
+export type Products = {
+  __typename: 'Products';
+  products: Array<Maybe<Product>>;
+};
+
+export type Query = {
+  __typename: 'Query';
+  productDetail?: Maybe<GetProductDetailResult>;
+  products?: Maybe<GetProductsResult>;
+};
+
+
+export type QueryProductDetailArgs = {
+  input: GetProductDetailInput;
+};
+
+export type Sales = {
+  __typename: 'Sales';
+  amount: Scalars['Int'];
+  year: Scalars['Int'];
+};
+
+export type SalesInput = {
+  amount: Scalars['Int'];
+  year: Scalars['Int'];
+};
+
+export type SalesSplit = {
+  __typename: 'SalesSplit';
+  name: Scalars['String'];
+  percentage: Scalars['Int'];
+};
+
+export type SalesSplitInput = {
+  name: Scalars['String'];
+  percentage: Scalars['Int'];
+};
+
+export type ServerError = {
+  __typename: 'ServerError';
+  message: Scalars['String'];
+};
+
+export enum Status {
+  Closed = 'CLOSED',
+  Open = 'OPEN'
+}
+
+export type UnitEconomics = {
+  __typename: 'UnitEconomics';
+  amount: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+export type UnitEconomicsInput = {
+  amount: Scalars['Int'];
+  name: Scalars['String'];
+};
+
+export type ValidationError = {
+  __typename: 'ValidationError';
+  data: Array<ValidationErrorField>;
+  message: Scalars['String'];
+};
+
+export type ValidationErrorField = {
+  __typename: 'ValidationErrorField';
+  errorMessages: Array<Scalars['String']>;
+  field: Scalars['String'];
+};
+
+export type SubmitProductCreationMutationVariables = Exact<{
+  input: ProductInput;
+}>;
+
+
+export type SubmitProductCreationMutation = { __typename: 'Mutation', submitProductCreation?: { __typename: 'ProductCreationSuccess', id: string } | { __typename: 'ServerError', message: string } | { __typename: 'ValidationError', message: string, data: Array<{ __typename: 'ValidationErrorField', field: string, errorMessages: Array<string> }> } };
+
+export type ProductDetailQueryVariables = Exact<{
+  input: GetProductDetailInput;
+}>;
+
+
+export type ProductDetailQuery = { __typename: 'Query', productDetail?: { __typename: 'Product', id: string, title: string, companyName: string, website?: string, appStoreLink?: string, playStoreLink?: string, established: number, founders?: string, numberOfEmployees?: number, story: string, productFeatures?: Array<string>, valueChain?: Array<string>, originalAsk: string, productImage?: string, informationImage?: string, categories: Array<string>, createdAt?: string, marketPlace?: Array<{ __typename: 'MetaData', name: string, value: string }>, sales?: Array<{ __typename: 'Sales', year: number, amount: number }>, salesSplit?: Array<{ __typename: 'SalesSplit', name: string, percentage: number }>, unitEconomics?: Array<{ __typename: 'UnitEconomics', name: string, amount: number }>, statistics?: Array<{ __typename: 'MetaData', name: string, value: string }>, counterOffer?: Array<{ __typename: 'Deal', sharkName: string, amount: number, valuation: string, equity: number, debt?: number, debtInterest?: number }>, dealClosed?: { __typename: 'Deal', sharkName: string, amount: number, valuation: string, equity: number, debt?: number, debtInterest?: number } } | { __typename: 'ServerError', message: string } | { __typename: 'ValidationError', message: string, data: Array<{ __typename: 'ValidationErrorField', field: string, errorMessages: Array<string> }> } };
+
+export type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductsQuery = { __typename: 'Query', products?: { __typename: 'Products', products: Array<{ __typename: 'Product', id: string, title: string, companyName: string, website?: string, appStoreLink?: string, playStoreLink?: string, established: number, founders?: string, numberOfEmployees?: number, story: string, productFeatures?: Array<string>, valueChain?: Array<string>, originalAsk: string, productImage?: string, informationImage?: string, categories: Array<string>, createdAt?: string, marketPlace?: Array<{ __typename: 'MetaData', name: string, value: string }>, sales?: Array<{ __typename: 'Sales', year: number, amount: number }>, salesSplit?: Array<{ __typename: 'SalesSplit', name: string, percentage: number }>, unitEconomics?: Array<{ __typename: 'UnitEconomics', name: string, amount: number }>, statistics?: Array<{ __typename: 'MetaData', name: string, value: string }>, counterOffer?: Array<{ __typename: 'Deal', sharkName: string, amount: number, valuation: string, equity: number, debt?: number, debtInterest?: number }>, dealClosed?: { __typename: 'Deal', sharkName: string, amount: number, valuation: string, equity: number, debt?: number, debtInterest?: number } }> } | { __typename: 'ServerError', message: string } | { __typename: 'ValidationError' } };
+
+
+export const SubmitProductCreationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SubmitProductCreation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ProductInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"submitProductCreation"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ProductCreationSuccess"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ValidationError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"errorMessages"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ServerError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]} as unknown as DocumentNode<SubmitProductCreationMutation, SubmitProductCreationMutationVariables>;
+export const ProductDetailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"productDetail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetProductDetailInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"productDetail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Product"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"marketPlace"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"appStoreLink"}},{"kind":"Field","name":{"kind":"Name","value":"playStoreLink"}},{"kind":"Field","name":{"kind":"Name","value":"established"}},{"kind":"Field","name":{"kind":"Name","value":"founders"}},{"kind":"Field","name":{"kind":"Name","value":"numberOfEmployees"}},{"kind":"Field","name":{"kind":"Name","value":"story"}},{"kind":"Field","name":{"kind":"Name","value":"productFeatures"}},{"kind":"Field","name":{"kind":"Name","value":"valueChain"}},{"kind":"Field","name":{"kind":"Name","value":"originalAsk"}},{"kind":"Field","name":{"kind":"Name","value":"sales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"salesSplit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"percentage"}}]}},{"kind":"Field","name":{"kind":"Name","value":"unitEconomics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"statistics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"counterOffer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"sharkName"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"valuation"}},{"kind":"Field","name":{"kind":"Name","value":"equity"}},{"kind":"Field","name":{"kind":"Name","value":"debt"}},{"kind":"Field","name":{"kind":"Name","value":"debtInterest"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dealClosed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"sharkName"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"valuation"}},{"kind":"Field","name":{"kind":"Name","value":"equity"}},{"kind":"Field","name":{"kind":"Name","value":"debt"}},{"kind":"Field","name":{"kind":"Name","value":"debtInterest"}}]}},{"kind":"Field","name":{"kind":"Name","value":"productImage"}},{"kind":"Field","name":{"kind":"Name","value":"informationImage"}},{"kind":"Field","name":{"kind":"Name","value":"categories"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ValidationError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"errorMessages"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ServerError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]} as unknown as DocumentNode<ProductDetailQuery, ProductDetailQueryVariables>;
+export const ProductsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"products"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"products"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Products"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"products"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"companyName"}},{"kind":"Field","name":{"kind":"Name","value":"website"}},{"kind":"Field","name":{"kind":"Name","value":"marketPlace"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"appStoreLink"}},{"kind":"Field","name":{"kind":"Name","value":"playStoreLink"}},{"kind":"Field","name":{"kind":"Name","value":"established"}},{"kind":"Field","name":{"kind":"Name","value":"founders"}},{"kind":"Field","name":{"kind":"Name","value":"numberOfEmployees"}},{"kind":"Field","name":{"kind":"Name","value":"story"}},{"kind":"Field","name":{"kind":"Name","value":"productFeatures"}},{"kind":"Field","name":{"kind":"Name","value":"valueChain"}},{"kind":"Field","name":{"kind":"Name","value":"originalAsk"}},{"kind":"Field","name":{"kind":"Name","value":"sales"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"year"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"salesSplit"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"percentage"}}]}},{"kind":"Field","name":{"kind":"Name","value":"unitEconomics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}}]}},{"kind":"Field","name":{"kind":"Name","value":"statistics"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"counterOffer"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"sharkName"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"valuation"}},{"kind":"Field","name":{"kind":"Name","value":"equity"}},{"kind":"Field","name":{"kind":"Name","value":"debt"}},{"kind":"Field","name":{"kind":"Name","value":"debtInterest"}}]}},{"kind":"Field","name":{"kind":"Name","value":"dealClosed"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"sharkName"}},{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"valuation"}},{"kind":"Field","name":{"kind":"Name","value":"equity"}},{"kind":"Field","name":{"kind":"Name","value":"debt"}},{"kind":"Field","name":{"kind":"Name","value":"debtInterest"}}]}},{"kind":"Field","name":{"kind":"Name","value":"productImage"}},{"kind":"Field","name":{"kind":"Name","value":"informationImage"}},{"kind":"Field","name":{"kind":"Name","value":"categories"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ServerError"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]} as unknown as DocumentNode<ProductsQuery, ProductsQueryVariables>;

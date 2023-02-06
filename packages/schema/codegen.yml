@@ -1,0 +1,26 @@
+overwrite: true
+schema:
+  - api/schema.graphql
+  - api/appsync.graphql
+documents:
+  - api/operations.graphql
+generates:
+  schema/index.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typed-document-node
+config:
+  scalars:
+    AWSJSON: string
+    AWSDate: string
+    AWSTime: string
+    AWSDateTime: string
+    AWSTimestamp: number
+    AWSEmail: string
+    AWSURL: string
+    AWSPhone: string
+    AWSIPAddress: string
+  nonOptionalTypename: true
+  maybeValue: T
+  apolloClientVersion: 2
