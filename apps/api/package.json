@@ -24,7 +24,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.266.1",
+    "@aws-sdk/client-s3": "^3.266.1",
     "@aws-sdk/lib-dynamodb": "^3.266.1",
+    "@aws-sdk/s3-request-presigner": "^3.266.1",
     "sharktankpedia-schema": "workspace:*",
     "uuid": "8.3.2",
     "winston": "^3.8.2"

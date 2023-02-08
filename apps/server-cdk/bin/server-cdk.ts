@@ -11,5 +11,9 @@ if (!ENVIRONMENT_NAME) {
 }
 
 new SharkTankPediaStack(app, `${ENVIRONMENT_NAME}-SharkTankPediaStack`, {
+  env: {
+    region: "us-east-1",
+    account: "438422980939",
+  },
   environmentName: ENVIRONMENT_NAME,
 });

@@ -1,4 +1,10 @@
-import { aws_appsync, RemovalPolicy, Stack, StackProps } from "aws-cdk-lib";
+import {
+  aws_appsync,
+  aws_s3,
+  RemovalPolicy,
+  Stack,
+  StackProps,
+} from "aws-cdk-lib";
 import { GraphqlApi } from "aws-cdk-lib/aws-appsync";
 import { Construct } from "constructs";
 import { NodejsServiceFunction } from "../constructs/nodejs-service-function";
@@ -25,6 +31,10 @@ export class SharkTankPediaStack extends Stack {
       pointInTimeRecovery: environmentName === "Production" ? true : false,
     });
 
+    const s3Bucket = new aws_s3.Bucket(this, "ImageUploadBucket", {
+      bucketName: "sharktank-pedia-image-upload-bucket",
+    });
+
     // Sample lambda for monitoring datadog
     const apiLambda = new NodejsServiceFunction(
       this,
@@ -32,11 +42,15 @@ export class SharkTankPediaStack extends Stack {
       {
         functionName: `${environmentName}-SharkTankPediaAPILambda`,
         packageName: "api",
-        environment: { PRODUCTS_TABLE_NAME: productsDynamoDBTable.tableName },
+        environment: {
+          PRODUCTS_TABLE_NAME: productsDynamoDBTable.tableName,
+          IMAGE_UPLOAD_BUCKET_NAME: s3Bucket.bucketName,
+        },
       }
     );
 
     productsDynamoDBTable.grantReadWriteData(apiLambda);
+    s3Bucket.grantReadWrite(apiLambda);
 
     const graphqlAPI = new GraphqlApi(this, "SharkTankPediaAPI", {
       name: `${environmentName}-SharkTankPediaAPI`,
@@ -70,6 +84,11 @@ export class SharkTankPediaStack extends Stack {
     apiLambdaDataSource.createResolver("ProductMutation", {
       typeName: "Mutation",
       fieldName: "product",
+    });
+
+    apiLambdaDataSource.createResolver("ImageUploadMutation", {
+      typeName: "Mutation",
+      fieldName: "imageUpload",
     });
   }
 }

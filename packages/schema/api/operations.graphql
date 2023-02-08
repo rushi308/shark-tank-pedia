@@ -5,70 +5,35 @@ mutation MutateProduct($input: ProductInput!) {
       id
       title
       companyName
-      website
-      marketPlace {
-        __typename
-        name
-        value
-      }
-      appStoreLink
-      playStoreLink
-      established
-      founders
       numberOfEmployees
-      story
       productFeatures
-      valueChain
-      originalAsk
-      sales {
-        __typename
-        name
-        value
-      }
-      salesSplit {
-        __typename
-        name
-        value
-      }
-      unitEconomics {
-        __typename
-        name
-        amount
-      }
-      statistics {
-        __typename
-        name
-        value
-      }
-      counterOffer {
-        __typename
-        sharkName
-        amount
-        amountIn
-        valuation
-        equity
-        debt
-        debtIn
-        debtInterest
-      }
-      dealClosed {
-        __typename
-        sharkName
-        amount
-        amountIn
-        valuation
-        equity
-        debt
-        debtIn
-        debtInterest
-      }
       productImage
       informationImage
-      categories
       season
       episode
       precedence
       createdAt
+    }
+    ... on ValidationError {
+      __typename
+      message
+      data {
+        field
+        errorMessages
+      }
+    }
+    ... on ServerError {
+      __typename
+      message
+    }
+  }
+}
+
+mutation MutateImage($input: ImageInput!) {
+  imageUpload(input: $input) {
+    ... on ImageUploadSuccess {
+      __typename
+      url
     }
     ... on ValidationError {
       __typename
@@ -131,22 +96,18 @@ query product($input: GetProductDetailInput!) {
         __typename
         sharkName
         amount
-        amountIn
         valuation
         equity
         debt
-        debtIn
         debtInterest
       }
       dealClosed {
         __typename
         sharkName
         amount
-        amountIn
         valuation
         equity
         debt
-        debtIn
         debtInterest
       }
       productImage
@@ -220,22 +181,18 @@ query products($input: GetProductsInput!) {
           __typename
           sharkName
           amount
-          amountIn
           valuation
           equity
           debt
-          debtIn
           debtInterest
         }
         dealClosed {
           __typename
           sharkName
           amount
-          amountIn
           valuation
           equity
           debt
-          debtIn
           debtInterest
         }
         productImage

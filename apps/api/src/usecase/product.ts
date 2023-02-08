@@ -2,6 +2,9 @@ import { v4 as uuidv4 } from "uuid";
 import {
   GetProductDetailInput,
   GetProductsInput,
+  ImageInput,
+  ImageUpload,
+  ImageUploadSuccess,
   Product,
   ProductInput,
   Products,
@@ -10,17 +13,23 @@ import DynamoDBAdapter from "../adapter/ddb";
 import ServerError from "../entity/ServerError";
 import ValidationError from "../entity/ValidationError";
 import Validator from "../utils/validator";
+import S3Adapter from "../adapter/s3";
 
 const INVALID_GET_PRODUCT_DETAIL_INPUT_ERROR_MESSAGE = "id must be defined";
 const INVALID_GET_PRODUCTS_INPUT_LIMIT_ERROR_MESSAGE =
   "Limit must be a positive integer below 1000";
 export default class ProductUsecase {
   ddbAdapter: DynamoDBAdapter;
-
+  s3Adapter: S3Adapter;
   validator: Validator;
 
-  constructor(ddbAdapter: DynamoDBAdapter, validator?: Validator) {
+  constructor(
+    ddbAdapter: DynamoDBAdapter,
+    s3Adapter: S3Adapter,
+    validator?: Validator
+  ) {
     this.ddbAdapter = ddbAdapter;
+    this.s3Adapter = s3Adapter;
     // this.validator = validator;
   }
 
@@ -73,5 +82,14 @@ export default class ProductUsecase {
     const product: any = { ...input, __typename: "Product", id: uuidv4() };
 
     return this.ddbAdapter.putProduct(product);
+  }
+
+  async mutateImage(input?: ImageInput): Promise<ImageUploadSuccess> {
+    if (!input) {
+      throw new ValidationError("Input required to mutate activity", []);
+    }
+
+    const image: ImageUpload = { ...input, __typename: "ImageUpload" };
+    return this.s3Adapter.uploadImage(image);
   }
 }

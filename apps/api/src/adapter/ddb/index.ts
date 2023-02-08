@@ -4,13 +4,11 @@ import {
   GetCommand,
   ScanCommand,
   PutCommand,
-  QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import DynamoDBError from "../../entity/DynamoDBError";
 import { logger } from "../../utils/logger";
 import { Product, Products } from "sharktankpedia-schema";
 import ProductNotFoundError from "../../entity/ProductNotFoundError";
-
 const {
   PRODUCTS_TABLE_NAME,
   // ACTIVITIES_URL_INDEX_NAME,

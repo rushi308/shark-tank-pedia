@@ -4,7 +4,6 @@ import {
   NodejsFunctionProps,
   SourceMapMode,
 } from "aws-cdk-lib/aws-lambda-nodejs";
-import * as logs from "aws-cdk-lib/aws-logs";
 import { Construct } from "constructs";
 import * as path from "path";
 
@@ -16,8 +15,8 @@ export class NodejsServiceFunction extends NodejsFunction {
   constructor(scope: Construct, id: string, props: NodejsServiceFunctionProps) {
     const runtime = props.runtime ?? lambda.Runtime.NODEJS_16_X;
 
-    const logRetention = logs.RetentionDays.THREE_MONTHS;
-    const tracing = lambda.Tracing.ACTIVE;
+    // const logRetention = logs.RetentionDays.THREE_MONTHS;
+    // const tracing = lambda.Tracing.ACTIVE;
     const rootDirectory = path.resolve(__dirname, "../../../");
     const packageDirectory = path.resolve(
       rootDirectory,
@@ -35,16 +34,14 @@ export class NodejsServiceFunction extends NodejsFunction {
       tsconfig,
       sourceMapMode: SourceMapMode.INLINE,
       sourcesContent: false,
-      externalModules: ["aws-sdk"],
+      externalModules: ["aws-sdk", "winston"],
       nodeModules: ["winston"],
     };
 
     super(scope, id, {
       ...props,
-      tracing,
       runtime,
       bundling,
-      logRetention,
       entry,
     });
     this.addEnvironment("LOG_LEVEL", "40");

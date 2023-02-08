@@ -10,13 +10,16 @@ input UnitEconomicsInput {
 
 input DealInput {
   sharkName: String!
-  amount: Float!
+  amount: String!
   valuation: String!
-  equity: Int!
-  amountIn: String!
+  equity: Float!
   debt: Int
-  debtIn: String
   debtInterest: Int
+}
+
+input ImageInput {
+  contentType: String!
+  base64: String!
 }
 
 input ProductInput {
@@ -63,12 +66,10 @@ type UnitEconomics {
 
 type Deal {
   sharkName: String!
-  amount: Float!
+  amount: String!
   valuation: String!
-  equity: Int!
-  amountIn: String!
+  equity: Float!
   debt: Int
-  debtIn: String
   debtInterest: Int
 }
 
@@ -102,6 +103,19 @@ type Product {
   createdAt: AWSDateTime
 }
 
+type Products {
+  products: [Product]!
+}
+
+type ImageUpload {
+  contentType: String!
+  base64: String!
+}
+
+type ImageUploadSuccess {
+  url: String!
+}
+
 # Outputs
 
 enum Status {
@@ -123,14 +137,6 @@ type ValidationError {
 
 type ServerError {
   message: String!
-}
-
-type Products {
-  products: [Product]!
-}
-
-type ProductCreationSuccess {
-  id: String!
 }
 
 # Query
@@ -162,7 +168,9 @@ type Query {
 ## SubmitProductCreation
 
 union ProductCreationResult = Product | ValidationError | ServerError
+union ImageUploadResult = ImageUploadSuccess | ValidationError | ServerError
 
 type Mutation {
   product(input: ProductInput!): ProductCreationResult @aws_iam @aws_api_key
+  imageUpload(input: ImageInput!): ImageUploadResult @aws_iam @aws_api_key
 }

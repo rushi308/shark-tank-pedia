@@ -7,23 +7,35 @@ import {
   GetProductDetailResult,
   GetProductsInput,
   GetProductsResult,
+  MutationImageUploadArgs,
   MutationProductArgs,
   ProductCreationResult,
   ProductInput,
+  ImageInput,
   QueryProductArgs,
   QueryProductsArgs,
+  ImageUploadResult,
 } from "sharktankpedia-schema";
 import ProductUsecase from "./usecase/product";
 import DynamoDBAdapter from "./adapter/ddb";
 import ServerError from "./entity/ServerError";
+import S3Adapter from "./adapter/s3";
 // import ProductNotFoundError from "./entity/ProductNotFoundError";
 const ddbAdapter = new DynamoDBAdapter();
+const s3Adapter = new S3Adapter();
 
-const productUsecase = new ProductUsecase(ddbAdapter);
+const productUsecase = new ProductUsecase(ddbAdapter, s3Adapter);
 
 export const handler: AppSyncResolverHandler<
-  MutationProductArgs | QueryProductArgs | QueryProductsArgs | undefined,
-  ProductCreationResult | GetProductDetailResult | GetProductsResult
+  | MutationProductArgs
+  | QueryProductArgs
+  | QueryProductsArgs
+  | MutationImageUploadArgs
+  | undefined,
+  | ProductCreationResult
+  | GetProductDetailResult
+  | GetProductsResult
+  | ImageUploadResult
 > = async (event: any, context: any) => {
   logger.defaultMeta = {
     awsRequestId: context.awsRequestId,
@@ -48,6 +60,12 @@ export const handler: AppSyncResolverHandler<
       case "products": {
         return await productUsecase.getProducts(
           event.arguments?.input as GetProductsInput
+        );
+      }
+
+      case "imageUpload": {
+        return await productUsecase.mutateImage(
+          event.arguments?.input as ImageInput
         );
       }
 
