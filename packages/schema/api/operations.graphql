@@ -1,26 +1,5 @@
-mutation SubmitProductCreation($input: ProductInput!) {
-  submitProductCreation(input: $input) {
-    ... on ProductCreationSuccess {
-      __typename
-      id
-    }
-    ... on ValidationError {
-      __typename
-      message
-      data {
-        field
-        errorMessages
-      }
-    }
-    ... on ServerError {
-      __typename
-      message
-    }
-  }
-}
-
-query productDetail($input: GetProductDetailInput!) {
-  productDetail(input: $input) {
+mutation MutateProduct($input: ProductInput!) {
+  product(input: $input) {
     ... on Product {
       __typename
       id
@@ -43,13 +22,13 @@ query productDetail($input: GetProductDetailInput!) {
       originalAsk
       sales {
         __typename
-        year
-        amount
+        name
+        value
       }
       salesSplit {
         __typename
         name
-        percentage
+        value
       }
       unitEconomics {
         __typename
@@ -65,23 +44,30 @@ query productDetail($input: GetProductDetailInput!) {
         __typename
         sharkName
         amount
+        amountIn
         valuation
         equity
         debt
+        debtIn
         debtInterest
       }
       dealClosed {
         __typename
         sharkName
         amount
+        amountIn
         valuation
         equity
         debt
+        debtIn
         debtInterest
       }
       productImage
       informationImage
       categories
+      season
+      episode
+      precedence
       createdAt
     }
     ... on ValidationError {
@@ -99,7 +85,94 @@ query productDetail($input: GetProductDetailInput!) {
   }
 }
 
-query products {
+query product($input: GetProductDetailInput!) {
+  product(input: $input) {
+    ... on Product {
+      __typename
+      id
+      title
+      companyName
+      website
+      marketPlace {
+        __typename
+        name
+        value
+      }
+      appStoreLink
+      playStoreLink
+      established
+      founders
+      numberOfEmployees
+      story
+      productFeatures
+      valueChain
+      originalAsk
+      sales {
+        __typename
+        name
+        value
+      }
+      salesSplit {
+        __typename
+        name
+        value
+      }
+      unitEconomics {
+        __typename
+        name
+        amount
+      }
+      statistics {
+        __typename
+        name
+        value
+      }
+      counterOffer {
+        __typename
+        sharkName
+        amount
+        amountIn
+        valuation
+        equity
+        debt
+        debtIn
+        debtInterest
+      }
+      dealClosed {
+        __typename
+        sharkName
+        amount
+        amountIn
+        valuation
+        equity
+        debt
+        debtIn
+        debtInterest
+      }
+      productImage
+      informationImage
+      categories
+      season
+      episode
+      precedence
+      createdAt
+    }
+    ... on ValidationError {
+      __typename
+      message
+      data {
+        field
+        errorMessages
+      }
+    }
+    ... on ServerError {
+      __typename
+      message
+    }
+  }
+}
+
+query products($input: GetProductsInput!) {
   products {
     ... on Products {
       __typename
@@ -125,13 +198,13 @@ query products {
         originalAsk
         sales {
           __typename
-          year
-          amount
+          name
+          value
         }
         salesSplit {
           __typename
           name
-          percentage
+          value
         }
         unitEconomics {
           __typename
@@ -147,23 +220,30 @@ query products {
           __typename
           sharkName
           amount
+          amountIn
           valuation
           equity
           debt
+          debtIn
           debtInterest
         }
         dealClosed {
           __typename
           sharkName
           amount
+          amountIn
           valuation
           equity
           debt
+          debtIn
           debtInterest
         }
         productImage
         informationImage
         categories
+        season
+        episode
+        precedence
         createdAt
       }
     }

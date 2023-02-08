@@ -12,6 +12,7 @@
     "eslint-write": "eslint --fix \"**/*.{jsx,ts,tsx,js}\""
   },
   "devDependencies": {
+    "@types/jest": "^29.4.0",
     "@types/prettier": "^2.7.2",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",

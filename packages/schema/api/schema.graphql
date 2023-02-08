@@ -3,31 +3,24 @@ input MetaDataInput {
   value: String!
 }
 
-input SalesInput {
-  year: Int!
-  amount: Int!
-}
-
-input SalesSplitInput {
-  name: String!
-  percentage: Int!
-}
-
 input UnitEconomicsInput {
   name: String!
-  amount: Int!
+  amount: Float!
 }
 
 input DealInput {
   sharkName: String!
-  amount: Int!
+  amount: Float!
   valuation: String!
   equity: Int!
+  amountIn: String!
   debt: Int
+  debtIn: String
   debtInterest: Int
 }
 
 input ProductInput {
+  id: String
   title: String!
   companyName: String!
   website: String
@@ -41,15 +34,18 @@ input ProductInput {
   productFeatures: [String]
   valueChain: [String]
   originalAsk: String
-  sales: [SalesInput]
-  salesSplit: [SalesSplitInput]
+  sales: [MetaDataInput]
+  salesSplit: [MetaDataInput]
   unitEconomics: [UnitEconomicsInput]
   statistics: [MetaDataInput]
   counterOffer: [DealInput]
   dealClosed: DealInput
   productImage: String
   informationImage: String
-  categories: [String]
+  categories: [String]!
+  season: Int!
+  episode: Int!
+  precedence: Int!
   createdAt: AWSDateTime
 }
 
@@ -60,27 +56,19 @@ type MetaData {
   value: String!
 }
 
-type Sales {
-  year: Int!
-  amount: Int!
-}
-
-type SalesSplit {
-  name: String!
-  percentage: Int!
-}
-
 type UnitEconomics {
   name: String!
-  amount: Int!
+  amount: Float!
 }
 
 type Deal {
   sharkName: String!
-  amount: Int!
+  amount: Float!
   valuation: String!
   equity: Int!
+  amountIn: String!
   debt: Int
+  debtIn: String
   debtInterest: Int
 }
 
@@ -99,8 +87,8 @@ type Product {
   productFeatures: [String]
   valueChain: [String]
   originalAsk: String!
-  sales: [Sales]
-  salesSplit: [SalesSplit]
+  sales: [MetaData]
+  salesSplit: [MetaData]
   unitEconomics: [UnitEconomics]
   statistics: [MetaData]
   counterOffer: [Deal]
@@ -108,6 +96,9 @@ type Product {
   productImage: String
   informationImage: String
   categories: [String]!
+  season: Int!
+  episode: Int!
+  precedence: Int!
   createdAt: AWSDateTime
 }
 
@@ -120,37 +111,25 @@ enum Status {
 
 ## Errors
 
-type ValidationErrorField
-  @aws_cognito_user_pools(cognito_groups: ["am_admin"])
-  @aws_iam
-  @aws_api_key {
+type ValidationErrorField {
   field: String!
   errorMessages: [String!]!
 }
 
-type ValidationError
-  @aws_cognito_user_pools(cognito_groups: ["am_admin"])
-  @aws_iam
-  @aws_api_key {
+type ValidationError {
   message: String!
   data: [ValidationErrorField!]!
 }
 
-type ServerError
-  @aws_cognito_user_pools(cognito_groups: ["am_admin"])
-  @aws_iam
-  @aws_api_key {
+type ServerError {
   message: String!
 }
 
-type Products @aws_cognito_user_pools(cognito_groups: ["am_admin"]) @aws_iam {
+type Products {
   products: [Product]!
 }
 
-type ProductCreationSuccess
-  @aws_cognito_user_pools(cognito_groups: ["am_admin"])
-  @aws_iam
-  @aws_api_key {
+type ProductCreationSuccess {
   id: String!
 }
 
@@ -169,29 +148,21 @@ input GetProductDetailInput {
 union GetProductsResult = Products | ValidationError | ServerError
 
 input GetProductsInput {
+  limit: Int
   categories: String
 }
 
 type Query {
-  productDetail(input: GetProductDetailInput!): GetProductDetailResult
-    @aws_iam
-    @aws_api_key
-  products: GetProductsResult
-    @aws_cognito_user_pools(cognito_groups: ["am_admin"])
-    @aws_iam
+  product(input: GetProductDetailInput!): GetProductDetailResult
+  products(input: GetProductsInput): GetProductsResult
 }
 
 # Mutation
 
 ## SubmitProductCreation
 
-union ProductCreationResult =
-    ProductCreationSuccess
-  | ValidationError
-  | ServerError
+union ProductCreationResult = Product | ValidationError | ServerError
 
 type Mutation {
-  submitProductCreation(input: ProductInput!): ProductCreationResult
-    @aws_iam
-    @aws_api_key
+  product(input: ProductInput!): ProductCreationResult @aws_iam @aws_api_key
 }
