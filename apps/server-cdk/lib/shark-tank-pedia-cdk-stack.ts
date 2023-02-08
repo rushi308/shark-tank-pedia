@@ -1,6 +1,7 @@
 import {
   aws_appsync,
   aws_s3,
+  CfnOutput,
   RemovalPolicy,
   Stack,
   StackProps,
@@ -89,6 +90,10 @@ export class SharkTankPediaStack extends Stack {
     apiLambdaDataSource.createResolver("ImageUploadMutation", {
       typeName: "Mutation",
       fieldName: "imageUpload",
+    });
+
+    new CfnOutput(this, "Graphqlurl", {
+      value: graphqlAPI.graphqlUrl,
     });
   }
 }

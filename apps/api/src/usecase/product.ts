@@ -74,12 +74,47 @@ export default class ProductUsecase {
       throw new ValidationError("Input required to mutate activity", []);
     }
 
-    // let current;
-    // if (input.id) {
-    //   current = await this.ddbAdapter.getProductDetailById(input.id);
-    // }
+    let current;
+    if (input.id) {
+      current = await this.ddbAdapter.getProductDetailById(input.id);
+    }
+    const date = new Date().toISOString();
 
-    const product: any = { ...input, __typename: "Product", id: uuidv4() };
+    const product: any = {
+      ...input,
+      __typename: "Product",
+      marketPlace: input.marketPlace?.map((mp) => ({
+        __typename: "MetaData",
+        ...mp,
+      })),
+      sales: input.sales?.map((s) => ({
+        __typename: "MetaData",
+        ...s,
+      })),
+      salesSplit: input.salesSplit?.map((ss) => ({
+        __typename: "MetaData",
+        ...ss,
+      })),
+      statistics: input.statistics?.map((ss) => ({
+        __typename: "MetaData",
+        ...ss,
+      })),
+      unitEconomics: input.unitEconomics?.map((ue) => ({
+        __typename: "UnitEconomics",
+        ...ue,
+      })),
+      ...(input.counterOffer && {
+        counterOffer: input.counterOffer?.map((co) => ({
+          __typename: "Deal",
+          ...co,
+        })),
+      }),
+      ...(input.dealClosed && {
+        dealClosed: { __typename: "Deal", ...input.dealClosed },
+      }),
+      id: input.id ?? uuidv4(),
+      createdAt: current ? current.createdAt : date,
+    };
 
     return this.ddbAdapter.putProduct(product);
   }

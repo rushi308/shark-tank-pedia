@@ -13,7 +13,7 @@ input DealInput {
   amount: String!
   valuation: String!
   equity: Float!
-  debt: Int
+  debt: String
   debtInterest: Int
 }
 
@@ -69,7 +69,7 @@ type Deal {
   amount: String!
   valuation: String!
   equity: Float!
-  debt: Int
+  debt: String
   debtInterest: Int
 }
 

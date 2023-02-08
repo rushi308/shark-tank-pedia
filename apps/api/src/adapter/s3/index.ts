@@ -15,7 +15,6 @@ export default class S3Adapter {
     try {
       const { base64, contentType } = image;
       const buffer = Buffer.from(base64, "base64");
-      console.log(buffer, "--BUFFER");
       const Key = `image-${Date.now()}.jpg`;
       const params = {
         Bucket: `${IMAGE_UPLOAD_BUCKET_NAME}`,
@@ -25,7 +24,6 @@ export default class S3Adapter {
         ContentType: contentType,
       };
       const command = new PutObjectCommand(params);
-      logger.info("Command Get", command);
       await s3Client.send(command);
       return {
         __typename: "ImageUploadSuccess",
