@@ -17,7 +17,7 @@ export class NodejsServiceFunction extends NodejsFunction {
 
     // const logRetention = logs.RetentionDays.THREE_MONTHS;
     // const tracing = lambda.Tracing.ACTIVE;
-    const rootDirectory = path.resolve(__dirname, "../../../");
+    const rootDirectory = path.resolve(__dirname, "../../../../");
     const packageDirectory = path.resolve(
       rootDirectory,
       "apps",

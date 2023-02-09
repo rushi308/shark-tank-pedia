@@ -58,6 +58,9 @@ query product($input: GetProductDetailInput!) {
       id
       title
       companyName
+      amazonLink
+      productDetails
+      flipkartLink
       website
       marketPlace {
         __typename
@@ -86,7 +89,7 @@ query product($input: GetProductDetailInput!) {
       unitEconomics {
         __typename
         name
-        amount
+        value
       }
       statistics {
         __typename
@@ -144,6 +147,9 @@ query products($input: GetProductsInput!) {
         id
         title
         companyName
+        amazonLink
+        flipkartLink
+        productDetails
         website
         marketPlace {
           __typename
@@ -172,7 +178,7 @@ query products($input: GetProductsInput!) {
         unitEconomics {
           __typename
           name
-          amount
+          value
         }
         statistics {
           __typename

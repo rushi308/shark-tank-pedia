@@ -3,11 +3,6 @@ input MetaDataInput {
   value: String!
 }
 
-input UnitEconomicsInput {
-  name: String!
-  amount: Float!
-}
-
 input DealInput {
   sharkName: String!
   amount: String!
@@ -26,6 +21,9 @@ input ProductInput {
   id: String
   title: String!
   companyName: String!
+  amazonLink: String
+  flipkartLink: String
+  productDetails: String
   website: String
   marketPlace: [MetaDataInput]
   appStoreLink: String
@@ -39,7 +37,7 @@ input ProductInput {
   originalAsk: String
   sales: [MetaDataInput]
   salesSplit: [MetaDataInput]
-  unitEconomics: [UnitEconomicsInput]
+  unitEconomics: [MetaDataInput]
   statistics: [MetaDataInput]
   counterOffer: [DealInput]
   dealClosed: DealInput
@@ -60,11 +58,6 @@ type MetaData {
   value: String!
 }
 
-type UnitEconomics {
-  name: String!
-  amount: Float!
-}
-
 type Deal {
   sharkName: String!
   amount: String!
@@ -78,6 +71,9 @@ type Product {
   id: String!
   title: String!
   companyName: String!
+  amazonLink: String
+  flipkartLink: String
+  productDetails: String
   website: String
   marketPlace: [MetaData]
   appStoreLink: String
@@ -91,7 +87,7 @@ type Product {
   originalAsk: String!
   sales: [MetaData]
   salesSplit: [MetaData]
-  unitEconomics: [UnitEconomics]
+  unitEconomics: [MetaData]
   statistics: [MetaData]
   counterOffer: [Deal]
   dealClosed: Deal
