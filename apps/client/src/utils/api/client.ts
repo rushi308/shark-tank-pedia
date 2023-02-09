@@ -42,7 +42,9 @@ async function query<
   return response.data;
 }
 
-export async function getProducts(limit: number): Promise<any> {
+export async function getProducts(
+  limit: number
+): Promise<Products | ValidationError | ServerError> {
   const response = await query<ProductsQuery, GetProductsInput>(
     ProductsDocument,
     false,
@@ -51,19 +53,17 @@ export async function getProducts(limit: number): Promise<any> {
   if (!response.products) {
     throw new Error("No response found");
   }
-  return response.products;
-  // switch (response.products.__typename) {
-  //   case "Products": {
-  //     console.log(response.products);
-  //   }
-  //   case "ValidationError":
-  //     break;
-  //   // case "ServerError":
-  //   //   return response.products;
-  //   // eslint-disable-next-line no-fallthrough
-  //   default:
-  //     throw new Error("Unable to determine type");
-  // }
+  // return response.products;
+  switch (response.products.__typename) {
+    case "Products": {
+      return response.products;
+    }
+    case "ValidationError":
+    case "ServerError":
+      return response.products;
+    default:
+      throw new Error("Unable to determine type");
+  }
 }
 
 export async function getProductDetail(
