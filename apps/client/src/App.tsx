@@ -6,26 +6,26 @@ import "./assets/css/bootstrap.min.css";
 // import "./assets/css/aos.css";
 import "./assets/css/style_1.css";
 import { Amplify } from "aws-amplify";
-import { getProductDetail, getProducts } from "./utils/client";
+import { getProducts } from "./utils/client";
 
 function App() {
   useEffect(() => {
     Amplify.configure({
-      aws_project_region: "us-east-1",
+      aws_project_region: process.env.REACT_APP_AWS_REGION,
       API: {
         aws_appsync_graphqlEndpoint:
-          "https://srqb3hebpzaidcpea5ahbv5kui.appsync-api.us-east-1.amazonaws.com/graphql",
-        aws_appsync_apiKey: "da2-rgglaq7l6racrcdbfjgvobaemu",
+          process.env.REACT_APP_APPSYNC_URL,
+        aws_appsync_apiKey:  process.env.REACT_APP_APPSYNC_API_KEY,
       },
     });
   });
 
   useEffect(() => {
-    console.log(
-      getProductDetail("0d727176-fefc-449f-a977-d080cd2bc46c").then((data) =>{
-        console.log(data,'--')
-      })
-    );
+    // console.log(
+    //   getProductDetail("0d727176-fefc-449f-a977-d080cd2bc46c").then((data) =>{
+    //     console.log(data,'--')
+    //   })
+    // );
     console.log(
       getProducts(10).then((data) =>{
         console.log(data,'--')

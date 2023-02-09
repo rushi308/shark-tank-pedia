@@ -136,7 +136,7 @@ query product($input: GetProductDetailInput!) {
 }
 
 query products($input: GetProductsInput!) {
-  products {
+  products(input: $input) {
     ... on Products {
       __typename
       products {

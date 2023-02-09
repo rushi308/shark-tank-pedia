@@ -46,7 +46,6 @@ export default class DynamoDBAdapter {
   async getProducts(limit?: number, featured?: boolean): Promise<Products> {
     let data;
     try {
-      console.log(featured);
       data = await client.send(
         new ScanCommand({
           TableName: PRODUCTS_TABLE_NAME,
