@@ -12,6 +12,7 @@ mutation MutateProduct($input: ProductInput!) {
       season
       episode
       precedence
+      featured
       createdAt
     }
     ... on ValidationError {
@@ -116,6 +117,7 @@ query product($input: GetProductDetailInput!) {
       season
       episode
       precedence
+      featured
       createdAt
     }
     ... on ValidationError {
@@ -201,7 +203,16 @@ query products($input: GetProductsInput!) {
         season
         episode
         precedence
+        featured
         createdAt
+      }
+    }
+    ... on ValidationError {
+      __typename
+      message
+      data {
+        field
+        errorMessages
       }
     }
     ... on ServerError {

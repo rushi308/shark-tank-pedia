@@ -49,6 +49,7 @@ input ProductInput {
   season: Int!
   episode: Int!
   precedence: Int!
+  featured: Boolean!
   createdAt: AWSDateTime
 }
 
@@ -100,6 +101,7 @@ type Product {
   season: Int!
   episode: Int!
   precedence: Int!
+  featured: Boolean!
   createdAt: AWSDateTime
 }
 
@@ -155,7 +157,7 @@ union GetProductsResult = Products | ValidationError | ServerError
 
 input GetProductsInput {
   limit: Int
-  categories: String
+  featured: Boolean
 }
 
 type Query {

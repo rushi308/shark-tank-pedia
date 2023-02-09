@@ -43,13 +43,25 @@ export default class DynamoDBAdapter {
     return data.Item as Product;
   }
 
-  async getProducts(limit?: number): Promise<Products> {
+  async getProducts(limit?: number, featured?: boolean): Promise<Products> {
     let data;
     try {
+      console.log(featured);
       data = await client.send(
         new ScanCommand({
           TableName: PRODUCTS_TABLE_NAME,
           Limit: limit,
+          ...(featured && {
+            KeyConditionExpression: "#featured = :featured",
+            ExpressionAttributeNames: {
+              "#featured": "featured",
+            },
+            ExpressionAttributeValues: {
+              ":featured": {
+                BOOL: featured,
+              },
+            },
+          }),
         })
       );
     } catch (e) {

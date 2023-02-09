@@ -66,7 +66,7 @@ export default class ProductUsecase {
         ]
       );
     }
-    return this.ddbAdapter.getProducts(input?.limit);
+    return this.ddbAdapter.getProducts(input?.limit, input?.featured);
   }
 
   async mutateProduct(input?: ProductInput): Promise<Product> {
