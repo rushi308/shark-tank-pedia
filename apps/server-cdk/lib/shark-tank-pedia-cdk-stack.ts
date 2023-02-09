@@ -8,7 +8,7 @@ import {
 } from "aws-cdk-lib";
 import { GraphqlApi } from "aws-cdk-lib/aws-appsync";
 import { Construct } from "constructs";
-import { NodejsServiceFunction } from "../constructs/nodejs-service-function";
+import { NodejsServiceFunction } from "./constructs/nodejs-service-function";
 import * as path from "path";
 import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
 

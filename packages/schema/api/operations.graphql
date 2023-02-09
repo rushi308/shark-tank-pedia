@@ -86,7 +86,7 @@ query product($input: GetProductDetailInput!) {
       unitEconomics {
         __typename
         name
-        amount
+        value
       }
       statistics {
         __typename
@@ -172,7 +172,7 @@ query products($input: GetProductsInput!) {
         unitEconomics {
           __typename
           name
-          amount
+          value
         }
         statistics {
           __typename

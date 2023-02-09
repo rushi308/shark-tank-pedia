@@ -3,11 +3,6 @@ input MetaDataInput {
   value: String!
 }
 
-input UnitEconomicsInput {
-  name: String!
-  amount: Float!
-}
-
 input DealInput {
   sharkName: String!
   amount: String!
@@ -39,7 +34,7 @@ input ProductInput {
   originalAsk: String
   sales: [MetaDataInput]
   salesSplit: [MetaDataInput]
-  unitEconomics: [UnitEconomicsInput]
+  unitEconomics: [MetaDataInput]
   statistics: [MetaDataInput]
   counterOffer: [DealInput]
   dealClosed: DealInput
@@ -58,11 +53,6 @@ input ProductInput {
 type MetaData {
   name: String!
   value: String!
-}
-
-type UnitEconomics {
-  name: String!
-  amount: Float!
 }
 
 type Deal {
@@ -91,7 +81,7 @@ type Product {
   originalAsk: String!
   sales: [MetaData]
   salesSplit: [MetaData]
-  unitEconomics: [UnitEconomics]
+  unitEconomics: [MetaData]
   statistics: [MetaData]
   counterOffer: [Deal]
   dealClosed: Deal
