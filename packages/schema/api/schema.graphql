@@ -21,6 +21,9 @@ input ProductInput {
   id: String
   title: String!
   companyName: String!
+  amazonLink: String
+  flipkartLink: String
+  productDetails: String
   website: String
   marketPlace: [MetaDataInput]
   appStoreLink: String
@@ -68,6 +71,9 @@ type Product {
   id: String!
   title: String!
   companyName: String!
+  amazonLink: String
+  flipkartLink: String
+  productDetails: String
   website: String
   marketPlace: [MetaData]
   appStoreLink: String
