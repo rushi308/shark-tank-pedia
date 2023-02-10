@@ -75,6 +75,7 @@ importers:
       aws-amplify: ^5.0.13
       bootstrap: ^5.2.3
       jquery: ^3.6.3
+      moment: ^2.29.4
       react: ^18.2.0
       react-dom: ^18.2.0
       react-scripts: 5.0.1
@@ -94,6 +95,7 @@ importers:
       aws-amplify: 5.0.13
       bootstrap: 5.2.3
       jquery: 3.6.3
+      moment: 2.29.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-scripts: 5.0.1_j5ip3o3v6sktjzl5cxtjyfbuo4
@@ -13466,6 +13468,10 @@ packages:
     resolution: {integrity: sha512-2K9QYubXx/NAjv4VLq1d1Ly8pWNC5L3BrixtdkyTegXWJIqY+zLNDhhX/A+ZwWt70tB1S8H4BE8FLYEFyNoOBw==}
     dependencies:
       obliterator: 1.6.1
+    dev: false
+
+  /moment/2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
     dev: false
 
   /ms/2.0.0:

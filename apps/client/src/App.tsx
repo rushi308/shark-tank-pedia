@@ -23,18 +23,6 @@ function App() {
     });
   });
 
-  useEffect(() => {
-    // console.log(
-    //   getProductDetail("0d727176-fefc-449f-a977-d080cd2bc46c").then((data) =>{
-    //     console.log(data,'--')
-    //   })
-    // );
-    console.log(
-      getProducts(10).then((data) => {
-        console.log(data, "--");
-      })
-    );
-  });
   return (
     <div className="App">
       <div className="site-wrap">

@@ -43,24 +43,23 @@ async function query<
 }
 
 export async function getProducts(
-  limit: number
-): Promise<Products | ValidationError | ServerError> {
+  limit: number,
+  featured: boolean
+): Promise<Products> {
   const response = await query<ProductsQuery, GetProductsInput>(
     ProductsDocument,
     false,
-    { limit, featured: false }
+    { limit, featured }
   );
   if (!response.products) {
     throw new Error("No response found");
   }
-  // return response.products;
   switch (response.products.__typename) {
-    case "Products": {
+    case "Products":
       return response.products;
-    }
     case "ValidationError":
     case "ServerError":
-      return response.products;
+      throw new Error("Unable to get products: ServerError");
     default:
       throw new Error("Unable to determine type");
   }
