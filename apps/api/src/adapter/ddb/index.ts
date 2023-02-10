@@ -51,19 +51,18 @@ export default class DynamoDBAdapter {
           TableName: PRODUCTS_TABLE_NAME,
           Limit: limit,
           ...(featured && {
-            KeyConditionExpression: "#featured = :featured",
+            FilterExpression: "featured = :featured",
             ExpressionAttributeNames: {
               "#featured": "featured",
             },
             ExpressionAttributeValues: {
-              ":featured": {
-                BOOL: featured,
-              },
+              ":featured": featured,
             },
           }),
         })
       );
     } catch (e) {
+      console.log("Get Products Error", e);
       logger.error("Unable to retrieve products");
       logger.error(e);
       throw new DynamoDBError("Unable to retrieve products");
