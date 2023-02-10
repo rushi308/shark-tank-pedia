@@ -7,8 +7,8 @@ function Footer() {
         <div className="row mb-5">
           <div className="col-md-4">
             <h3 className="footer-heading mb-4">About Us</h3>
-            <p>
-             SharkTankPedia prvides you information about the products which presenting in Shark Tank India.
+            <p className="text-white">
+              You may discover more about the products showcased on Shark Tank India by visiting SharkTankPedia.com.
             </p>
           </div>
           <div className="col-md-3 ml-auto">
@@ -46,7 +46,7 @@ function Footer() {
         </div>
         <div className="row">
           <div className="col-12 text-center">
-            <p>
+            <p className="text-white">
               Copyright ©
               <script>document.write(new Date().getFullYear());</script>2023 All
               rights reserved

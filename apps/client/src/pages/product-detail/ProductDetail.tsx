@@ -8,11 +8,11 @@ import {
   Card,
   CardBody,
   CardFooter,
-  CardTitle,
+  // CardTitle,
   Row,
   Col,
   // Button,
-  CardHeader,
+  // CardHeader,
 } from "reactstrap";
 
 import "../../assets/css/paper-dashboard.css";
@@ -20,13 +20,13 @@ import "../../assets/css/paper-dashboard.css";
 const ProductDetail = () => {
   const [product, setProduct] = useState<Product>();
   const { id } = useParams();
-  const backgrounds = [
-    "bg-primary",
-    "bg-danger",
-    "bg-warning",
-    "bg-info",
-    "bg-success",
-  ];
+  // const backgrounds = [
+  //   "bg-primary",
+  //   "bg-danger",
+  //   "bg-warning",
+  //   "bg-info",
+  //   "bg-success",
+  // ];
 
   useEffect(() => {
     loaderRef?.current?.show();
@@ -192,18 +192,26 @@ const ProductDetail = () => {
                     >
                       Important Links
                     </h6>
-                    {product?.website ?? (
-                      <p className="p-card">🌎 {product?.website}</p>
-                    )}
-                    {product?.amazonLink ?? (
+                    {product?.website ? (
                       <p className="p-card">
-                        🛒 <a href={product?.amazonLink} >Amazon</a> 
+                        🌎 <a href={product?.website} target="_blank" rel="noreferrer">Website</a>{" "}
                       </p>
+                    ) : (
+                      <></>
                     )}
-                    {product?.flipkartLink ?? (
+                    {product?.amazonLink ? (
                       <p className="p-card">
-                        🛍️ <a href={product?.flipkartLink}>Flipkart</a> 
+                        🛒 <a href={product?.amazonLink} target="_blank" rel="noreferrer">Amazon</a>
                       </p>
+                    ) : (
+                      <></>
+                    )}
+                    {product?.flipkartLink ? (
+                      <p className="p-card">
+                        🛍️ <a href={product?.flipkartLink} target="_blank" rel="noreferrer">Flipkart</a>
+                      </p>
+                    ) : (
+                      <></>
                     )}
                   </div>
                 </CardFooter>
@@ -213,10 +221,10 @@ const ProductDetail = () => {
         </div>
         <div className="container">
           <Row>
-            <Col md="6">
+            <Col md="6" className="text-center">
               <div className="card" style={{ width: "100%" }}>
                 <div className={`card-header bg-warning`}>
-                  <h6 className="mt-2">Original Ask</h6>
+                  <h6 className="mt-2 ">Original Ask</h6>
                 </div>
                 <div className="card-body">
                   <h5 className="card-title" style={{ fontWeight: "bold" }}>
@@ -225,7 +233,7 @@ const ProductDetail = () => {
                 </div>
               </div>
             </Col>
-            <Col md="6">
+            <Col md="6" className="text-center">
               <div className="card" style={{ width: "100%" }}>
                 <div className={`card-header bg-success`}>
                   <h6 className="mt-2">
@@ -238,12 +246,12 @@ const ProductDetail = () => {
                   {product?.dealClosed ? (
                     <h5 className="card-title" style={{ fontWeight: "bold" }}>
                       {product?.dealClosed?.amount} for{" "}
-                      {product?.dealClosed?.equity}%
+                      {product?.dealClosed?.equity}% &nbsp;
                       {product?.dealClosed?.debt
                         ? product?.dealClosed?.debt &&
-                          "&" + product?.dealClosed?.debt &&
+                         "& " +
                           product?.dealClosed?.debt +
-                            " " +
+                            " Debt for " +
                             product?.dealClosed?.debtInterest +
                             "%"
                         : ""}
