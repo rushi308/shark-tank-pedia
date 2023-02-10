@@ -9,8 +9,6 @@ import {
   Products,
   ProductsDocument,
   ProductsQuery,
-  ServerError,
-  ValidationError,
 } from "sharktankpedia-schema";
 
 async function query<
@@ -65,9 +63,7 @@ export async function getProducts(
   }
 }
 
-export async function getProductDetail(
-  id: string
-): Promise<Product | ValidationError | ServerError> {
+export async function getProductDetail(id: string): Promise<Product> {
   const response = await query<ProductQuery, GetProductDetailInput>(
     ProductDocument,
     false,
@@ -82,7 +78,7 @@ export async function getProductDetail(
     }
     case "ValidationError":
     case "ServerError":
-      return response.product;
+      throw new Error("Unable to get products: ServerError");
     default:
       throw new Error("Unable to determine type");
   }

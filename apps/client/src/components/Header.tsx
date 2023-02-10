@@ -6,7 +6,7 @@ function Header() {
       <div className="container-fluid">
         <div className="row align-items-center">
           <div className="col-4 site-logo">
-            <a href="index.html" className="text-black h2 mb-0">
+            <a href="/" className="text-black h2 mb-0">
               SharkTankPedia
             </a>
           </div>
@@ -14,10 +14,10 @@ function Header() {
             <nav className="site-navigation" role="navigation">
               <ul className="site-menu js-clone-nav mr-auto d-none d-lg-block mb-0">
                 <li>
-                  <a href="category.html">Home</a>
+                  <a href="/">Home</a>
                 </li>
                 <li>
-                  <a href="category.html">Sharks</a>
+                  <a href="/about">Sharks</a>
                 </li>
                 <li>
                   <a href="category.html">Season</a>
@@ -25,7 +25,7 @@ function Header() {
               </ul>
             </nav>
             <a
-              href="#"
+              href="/"
               className="site-menu-toggle js-menu-toggle text-black d-inline-block d-lg-none"
             >
               <span className="icon-menu h3"></span>

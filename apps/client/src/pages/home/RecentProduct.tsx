@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "../../utils/api/client";
-import { Products, Product } from "sharktankpedia-schema";
+import { Product } from "sharktankpedia-schema";
 import { convertDate } from "../../utils/util";
+import { loaderRef } from "../../components/Spinner";
 
 type ProductListProp = {
   products: Product[];
@@ -10,7 +11,7 @@ function Title() {
   return (
     <div className="row mb-5">
       <div className="col-12">
-        <h2>Recent Posts</h2>
+        <h2>Recent Products</h2>
       </div>
     </div>
   );
@@ -23,55 +24,66 @@ function ProductList({ products }: ProductListProp) {
         {products?.map((product: Product) => (
           <div className="col-lg-4 mb-4" key={product?.id}>
             <div className="entry2">
-              <a href="single.html">
+              <a href={`/product/${product.id}`}>
                 <img
                   src={product?.productImage}
-                  alt="Image"
-                  className="img-fluid rounded"
+                  alt="..."
+                  className="img-fluid rounded recentProductImage"
                 />
               </a>
               <div className="excerpt">
-                {product?.categories?.map((item) => (
+                {product?.categories?.map((item, index) => (
                   <>
-                    <span className="post-category text-white bg-success mb-3">
+                    <span
+                      key={item}
+                      className={`post-category text-white ${
+                        index === 0 ? "bg-success" : "bg-warning"
+                      }   mb-3 mr-2`}
+                    >
                       {item}
                     </span>
                   </>
                 ))}
 
-                <h2>{product?.title ?? ""}</h2>
+                <h2>
+                  S{product?.season} Episode {product?.episode} -{" "}
+                  {product?.title
+                    ? <a href={`/product/${product.id}`}> {product?.title.substring(0, 50) + "..."}</a>
+                    : ""}
+                </h2>
+
                 <div className="post-meta align-items-center text-left clearfix">
                   <span className="d-inline-block mt-1 mb-3">
-                    By <a href="#">{product?.founders ?? ""}</a>
+                    By <a href="/">SharkTankPedia</a>
                   </span>
                   <span> -  {convertDate(product?.createdAt ?? "")}</span>
                 </div>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo
-                  sunt tempora dolor laudantium sed optio, explicabo ad deleniti
-                  impedit facilis fugit recusandae! Illo, aliquid, dicta beatae
-                  quia porro id est.
+                  {product?.productDetails
+                    ? product?.productDetails.substring(0, 150) + "..."
+                    : ""}
                 </p>
                 <p>
-                  <a href="#">Read More</a>
+                  <a href={`/product/${product.id}`}>Read More</a>
                 </p>
               </div>
             </div>
           </div>
         ))}
       </div>
-      <div className="row text-center pt-5 border-top">
-        <div className="col-md-12">
-          <div className="custom-pagination">
-            <span>1</span>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <span>...</span>
-            <a href="#">15</a>
+      {products.length >= 6 && (
+        <div className="row text-center pt-5">
+          <div className="col-md-12">
+            <div className="custom-pagination">
+              <input
+                type="submit"
+                className="btn btn-primary"
+                value="Show More"
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
@@ -80,10 +92,11 @@ function RecentProduct() {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
+    loaderRef?.current?.show();
     const fetchProducts = async () => {
       const results = await getProducts(10, false);
       setProducts(results.products);
-      console.log(results.products);
+      loaderRef?.current?.hide();
     };
 
     fetchProducts();
