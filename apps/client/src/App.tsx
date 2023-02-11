@@ -1,12 +1,8 @@
 import React, { useEffect } from "react";
-// import logo from "./logo.svg";
 import "./App.css";
 import "./assets/css/style.css";
-import "./assets/css/bootstrap.min.css";
-// import "./assets/css/aos.css";
 import "./assets/css/style_1.css";
 import { Amplify } from "aws-amplify";
-import { getProducts } from "./utils/api/client";
 import MobileMenu from "./components/MobileMenu";
 import Header from "./components/Header";
 import Pages from "./pages/Pages";
