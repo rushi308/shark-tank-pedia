@@ -23,7 +23,7 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "reactstrap": "^9.1.5",
-    "sharktankpedia-schema": "workspace:*",
+    "sharktankpedia-schema": "file:../../packages/schema",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
