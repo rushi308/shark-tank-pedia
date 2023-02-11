@@ -3,6 +3,7 @@ import { getProducts } from "../../utils/api/client";
 import { Product } from "sharktankpedia-schema";
 import { convertDate } from "../../utils/util";
 import { loaderRef } from "../../components/Spinner";
+import { Helmet } from "react-helmet";
 
 type ProductListProp = {
   products: Product[];
@@ -23,6 +24,12 @@ function ProductList({ products }: ProductListProp) {
       <div className="row">
         {products?.map((product: Product) => (
           <div className="col-lg-4 mb-4" key={product?.id}>
+            <Helmet>
+              <meta charSet="utf-8" />
+              <title>{product.title}</title>
+              <meta name="description" content={product.productDetails} />
+              <meta name="og:image" content={product.productImage} />
+            </Helmet>
             <div className="entry2">
               <a href={`/product/${product.id}`}>
                 <img
@@ -47,9 +54,14 @@ function ProductList({ products }: ProductListProp) {
 
                 <h2>
                   S{product?.season} Episode {product?.episode} -{" "}
-                  {product?.title
-                    ? <a href={`/product/${product.id}`}> {product?.title.substring(0, 50) + "..."}</a>
-                    : ""}
+                  {product?.title ? (
+                    <a href={`/product/${product.id}`}>
+                      {" "}
+                      {product?.title.substring(0, 50) + "..."}
+                    </a>
+                  ) : (
+                    ""
+                  )}
                 </h2>
 
                 <div className="post-meta align-items-center text-left clearfix">

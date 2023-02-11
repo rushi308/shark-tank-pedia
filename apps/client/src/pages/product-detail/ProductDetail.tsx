@@ -14,6 +14,7 @@ import {
   // Button,
   // CardHeader,
 } from "reactstrap";
+import { Helmet } from "react-helmet";
 
 import "../../assets/css/paper-dashboard.css";
 
@@ -44,6 +45,12 @@ const ProductDetail = () => {
 
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{product?.title}</title>
+        <meta name="description" content={product?.productDetails} />
+        <meta name="og:image" content={product?.productImage} />
+      </Helmet>
       <div
         className="site-cover site-cover-sm same-height overlay single-page"
         style={{
@@ -194,21 +201,42 @@ const ProductDetail = () => {
                     </h6>
                     {product?.website ? (
                       <p className="p-card">
-                        🌎 <a href={product?.website} target="_blank" rel="noreferrer">Website</a>{" "}
+                        🌎{" "}
+                        <a
+                          href={product?.website}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Website
+                        </a>{" "}
                       </p>
                     ) : (
                       <></>
                     )}
                     {product?.amazonLink ? (
                       <p className="p-card">
-                        🛒 <a href={product?.amazonLink} target="_blank" rel="noreferrer">Amazon</a>
+                        🛒{" "}
+                        <a
+                          href={product?.amazonLink}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Amazon
+                        </a>
                       </p>
                     ) : (
                       <></>
                     )}
                     {product?.flipkartLink ? (
                       <p className="p-card">
-                        🛍️ <a href={product?.flipkartLink} target="_blank" rel="noreferrer">Flipkart</a>
+                        🛍️{" "}
+                        <a
+                          href={product?.flipkartLink}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Flipkart
+                        </a>
                       </p>
                     ) : (
                       <></>
@@ -249,8 +277,8 @@ const ProductDetail = () => {
                       {product?.dealClosed?.equity}% &nbsp;
                       {product?.dealClosed?.debt
                         ? product?.dealClosed?.debt &&
-                         "& " +
-                          product?.dealClosed?.debt +
+                          "& " +
+                            product?.dealClosed?.debt +
                             " Debt for " +
                             product?.dealClosed?.debtInterest +
                             "%"

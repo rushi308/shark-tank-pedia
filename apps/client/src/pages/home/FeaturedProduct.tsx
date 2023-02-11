@@ -3,6 +3,7 @@ import { getProducts } from "../../utils/api/client";
 import { Product } from "sharktankpedia-schema";
 import { convertDate } from "../../utils/util";
 import { loaderRef } from "../../components/Spinner";
+import { Helmet } from "react-helmet";
 
 type ProductListProp = {
   products: Product[];
@@ -16,24 +17,32 @@ function ProductList({ products }: ProductListProp) {
           {products.map(
             (product, index) =>
               (index === 0 || index === 1) && (
-                <a
-                  key={product?.id}
-                  href={`/product/${product.id}`}
-                  className="h-entry mb-30 v-height gradient"
-                  style={{ backgroundImage: `url(${product.productImage})` }}
-                >
-                  <div className="text">
-                    <h2>
-                      {" "}
-                      {product?.title
-                        ? product?.title.substring(0, 65) + "..."
-                        : ""}
-                    </h2>
-                    <span className="date">
-                      {convertDate(product?.createdAt ?? "")}
-                    </span>
-                  </div>
-                </a>
+                <>
+                  <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{product.title}</title>
+                    <meta name="description" content={product.productDetails} />
+                    <meta name="og:image" content={product.productImage} />
+                  </Helmet>
+                  <a
+                    key={product?.id}
+                    href={`/product/${product.id}`}
+                    className="h-entry mb-30 v-height gradient"
+                    style={{ backgroundImage: `url(${product.productImage})` }}
+                  >
+                    <div className="text">
+                      <h2>
+                        {" "}
+                        {product?.title
+                          ? product?.title.substring(0, 65) + "..."
+                          : ""}
+                      </h2>
+                      <span className="date">
+                        {convertDate(product?.createdAt ?? "")}
+                      </span>
+                    </div>
+                  </a>
+                </>
               )
           )}
         </div>
@@ -41,27 +50,35 @@ function ProductList({ products }: ProductListProp) {
           {products.map(
             (product, index) =>
               index === 2 && (
-                <a
-                  key={product?.id}
-                  href={`/product/${product.id}`}
-                  className="h-entry img-5 gradient"
-                  style={{
-                    backgroundImage: `url(${product.productImage})`,
-                    height: "93.5%",
-                  }}
-                >
-                  <div className="text">
-                    <h2>
-                      {" "}
-                      {product?.title
-                        ? product?.title.substring(0, 65) + "..."
-                        : ""}
-                    </h2>
-                    <span className="date">
-                      {convertDate(product?.createdAt ?? "")}
-                    </span>
-                  </div>
-                </a>
+                <>
+                  <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{product.title}</title>
+                    <meta name="description" content={product.productDetails} />
+                    <meta name="og:image" content={product.productImage} />
+                  </Helmet>
+                  <a
+                    key={product?.id}
+                    href={`/product/${product.id}`}
+                    className="h-entry img-5 gradient"
+                    style={{
+                      backgroundImage: `url(${product.productImage})`,
+                      height: "93.5%",
+                    }}
+                  >
+                    <div className="text">
+                      <h2>
+                        {" "}
+                        {product?.title
+                          ? product?.title.substring(0, 65) + "..."
+                          : ""}
+                      </h2>
+                      <span className="date">
+                        {convertDate(product?.createdAt ?? "")}
+                      </span>
+                    </div>
+                  </a>
+                </>
               )
           )}
         </div>
@@ -69,24 +86,32 @@ function ProductList({ products }: ProductListProp) {
           {products.map(
             (product, index) =>
               (index === 3 || index === 4) && (
-                <a
-                  key={product?.id}
-                  href={`/product/${product.id}`}
-                  className="h-entry mb-30 v-height gradient"
-                  style={{ backgroundImage: `url(${product.productImage})` }}
-                >
-                  <div className="text">
-                    <h2>
-                      {" "}
-                      {product?.title
-                        ? product?.title.substring(0, 65) + "..."
-                        : ""}
-                    </h2>
-                    <span className="date">
-                      {convertDate(product?.createdAt ?? "")}
-                    </span>
-                  </div>
-                </a>
+                <>
+                  <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>{product.title}</title>
+                    <meta name="description" content={product.productDetails} />
+                    <meta name="og:image" content={product.productImage} />
+                  </Helmet>
+                  <a
+                    key={product?.id}
+                    href={`/product/${product.id}`}
+                    className="h-entry mb-30 v-height gradient"
+                    style={{ backgroundImage: `url(${product.productImage})` }}
+                  >
+                    <div className="text">
+                      <h2>
+                        {" "}
+                        {product?.title
+                          ? product?.title.substring(0, 65) + "..."
+                          : ""}
+                      </h2>
+                      <span className="date">
+                        {convertDate(product?.createdAt ?? "")}
+                      </span>
+                    </div>
+                  </a>
+                </>
               )
           )}
         </div>
