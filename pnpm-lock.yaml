@@ -82,6 +82,7 @@ importers:
       react: ^18.2.0
       react-chartjs-2: ^5.2.0
       react-dom: ^18.2.0
+      react-ga4: ^2.0.0
       react-helmet: ^6.1.0
       react-loader-spinner: ^5.3.4
       react-router-dom: ^6.8.1
@@ -109,6 +110,7 @@ importers:
       react: 18.2.0
       react-chartjs-2: 5.2.0_t5yjg6ab35jnsudnh2qdighszm
       react-dom: 18.2.0_react@18.2.0
+      react-ga4: 2.0.0
       react-helmet: 6.1.0_react@18.2.0
       react-loader-spinner: 5.3.4_biqbaboplfbrettd7655fr4n2y
       react-router-dom: 6.8.1_biqbaboplfbrettd7655fr4n2y
@@ -15471,6 +15473,10 @@ packages:
 
   /react-fast-compare/3.2.0:
     resolution: {integrity: sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==}
+    dev: false
+
+  /react-ga4/2.0.0:
+    resolution: {integrity: sha512-WHi98hMunzh4ngRdNil8NN6Qly3ZZUkprhbgSqA+NFzovp8zqpYV3jcbKL9FnMdeBQHGhv8AVNCT2oFEE+EFXA==}
     dev: false
 
   /react-helmet/6.1.0_react@18.2.0:
