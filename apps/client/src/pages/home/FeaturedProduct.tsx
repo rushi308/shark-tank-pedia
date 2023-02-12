@@ -17,7 +17,7 @@ function ProductList({ products }: ProductListProp) {
           {products.map(
             (product, index) =>
               (index === 0 || index === 1) && (
-                <>
+                <div key={product?.companyName}>
                   <Helmet>
                     <meta charSet="utf-8" />
                     <title>{product.title}</title>
@@ -42,7 +42,7 @@ function ProductList({ products }: ProductListProp) {
                       </span>
                     </div>
                   </a>
-                </>
+                </div>
               )
           )}
         </div>
@@ -58,7 +58,7 @@ function ProductList({ products }: ProductListProp) {
                     <meta name="og:image" content={product.productImage} />
                   </Helmet>
                   <a
-                    key={product?.id}
+                    key={product?.companyName}
                     href={`/product/${product.id}`}
                     className="h-entry img-5 gradient"
                     style={{
@@ -86,7 +86,7 @@ function ProductList({ products }: ProductListProp) {
           {products.map(
             (product, index) =>
               (index === 3 || index === 4) && (
-                <>
+                <div key={product?.companyName}>
                   <Helmet>
                     <meta charSet="utf-8" />
                     <title>{product.title}</title>
@@ -111,7 +111,7 @@ function ProductList({ products }: ProductListProp) {
                       </span>
                     </div>
                   </a>
-                </>
+                </div>
               )
           )}
         </div>

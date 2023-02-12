@@ -8,6 +8,11 @@ import { Helmet } from "react-helmet";
 type ProductListProp = {
   products: Product[];
 };
+
+type ShowMoreProp = {
+  onClick: () => void;
+};
+
 function Title() {
   return (
     <div className="row mb-5">
@@ -23,7 +28,7 @@ function ProductList({ products }: ProductListProp) {
     <>
       <div className="row">
         {products?.map((product: Product) => (
-          <div className="col-lg-4 mb-4" key={product?.id}>
+          <div className="col-lg-4 mb-4" key={product?.companyName}>
             <Helmet>
               <meta charSet="utf-8" />
               <title>{product.title}</title>
@@ -83,43 +88,78 @@ function ProductList({ products }: ProductListProp) {
           </div>
         ))}
       </div>
-      {products.length >= 6 && (
-        <div className="row text-center pt-5">
-          <div className="col-md-12">
-            <div className="custom-pagination">
-              <input
-                type="submit"
-                className="btn btn-primary"
-                value="Show More"
-              />
-            </div>
-          </div>
-        </div>
-      )}
     </>
+  );
+}
+
+function ShowMore({ onClick }: ShowMoreProp) {
+  return (
+    <div className="row text-center pt-5" onClick={onClick}>
+      <div className="col-md-12">
+        <div className="custom-pagination">
+          <input type="submit" className="btn btn-primary" value="Show More" />
+        </div>
+      </div>
+    </div>
   );
 }
 
 function RecentProduct() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [productsList, setProductsList] = useState<Product[]>([]);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 6,
+    start: 0,
+    totalPages: 0,
+    end: 0,
+  });
 
   useEffect(() => {
     loaderRef?.current?.show();
     const fetchProducts = async () => {
-      const results = await getProducts(10, false);
+      const results = await getProducts(1000, false);
       setProducts(results.products);
+      setPagination({
+        ...pagination,
+        start: (pagination.page - 1) * pagination.limit,
+        end: pagination.page * pagination.limit,
+        totalPages: Math.ceil(results.products.length / pagination.limit),
+      });
       loaderRef?.current?.hide();
     };
 
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    setProductsList(products.slice(pagination.start, pagination.end));
+  }, [pagination]);
+
+  const onClick = () => {
+    let { page, limit } = pagination;
+    page += 1;
+    setPagination({
+      ...pagination,
+      page,
+      start: (page - 1) * limit,
+      end: page * limit,
+    });
+    setProductsList([
+      ...productsList,
+      ...products.slice(pagination.start, pagination.end),
+    ]);
+  };
+
   return (
     <>
       <div className="site-section">
         <div className="container">
           <Title />
-          <ProductList products={products} />
+          <ProductList products={productsList} />
+          {pagination.totalPages !== pagination.page && (
+            <ShowMore onClick={onClick} />
+          )}
         </div>
       </div>
     </>
