@@ -165,6 +165,12 @@ const ProductDetail = () => {
       setConvertedUnitEconomicsValue(convertedValue);
     }
   }, [product]);
+  const isImportantLink = (product: Product) => {
+    if (product.amazonLink || product.appStoreLink || product.website) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <>
@@ -175,9 +181,9 @@ const ProductDetail = () => {
         <meta name="og:image" content={product?.productImage} />
       </Helmet>
       <div
-        className="site-cover site-cover-sm same-height overlay single-page"
+        className="site-cover site-cover-sm same-height overlay single-page coverBg"
         style={{
-          backgroundImage: `url(https://news.northeastern.edu/wp-content/uploads/2022/07/great_white_1400.jpg)`,
+          backgroundImage: `url(https://i.pinimg.com/originals/4d/7d/57/4d7d57c57a18a708860cca50e98e00f5.gif)`,
         }}
       >
         <div className="container">
@@ -219,7 +225,7 @@ const ProductDetail = () => {
             </div>
             <div className="col-md-8 col-lg-8 main-content">
               <div className="post-content-body">
-                <p>{product?.productDetails}</p>
+                <p className="text-align-justify">{product?.productDetails}</p>
               </div>
               <div className="pt-2">
                 <p>
@@ -247,7 +253,11 @@ const ProductDetail = () => {
         </div>
         <div className="container">
           <Row>
-            <Col lg="4" md="6" sm="6">
+            <Col
+              lg={product && isImportantLink(product) ? "4" : "6"}
+              md="6"
+              sm="6"
+            >
               <Card className="card-stats">
                 <CardBody>
                   <Row>
@@ -273,7 +283,11 @@ const ProductDetail = () => {
                 </CardFooter>
               </Card>
             </Col>
-            <Col lg="4" md="6" sm="6">
+            <Col
+              lg={product && isImportantLink(product) ? "4" : "6"}
+              md="6"
+              sm="6"
+            >
               <Card className="card-stats">
                 <CardBody>
                   <Row>
@@ -301,59 +315,80 @@ const ProductDetail = () => {
                 </CardFooter>
               </Card>
             </Col>
-            <Col lg="4" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="12" xs="12" className="text-center">
-                      <i
-                        className="nc-icon nc-align-center text-danger"
-                        style={{ fontSize: "3em" }}
-                      />
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <h6
-                      className="text-center"
-                      style={{ textTransform: "capitalize", color: "#000" }}
-                    >
-                      Important Links
-                    </h6>
-                    {product?.website ? (
-                      <p className="p-card">
-                        🛒 <a href={product?.amazonLink}>Amazon</a>
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                    {product?.amazonLink ? (
-                      <p className="p-card">
-                        🛍️ <a href={product?.flipkartLink}>Flipkart</a>
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                    {product?.flipkartLink ? (
-                      <p className="p-card">
-                        🛍️{" "}
-                        <a
-                          href={product?.flipkartLink}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Flipkart
-                        </a>
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
+            {product && isImportantLink(product) && (
+              <Col lg="4" md="6" sm="6">
+                <Card className="card-stats">
+                  <CardBody>
+                    <Row>
+                      <Col md="12" xs="12" className="text-center">
+                        <i
+                          className="nc-icon nc-align-center text-danger"
+                          style={{ fontSize: "3em" }}
+                        />
+                      </Col>
+                    </Row>
+                  </CardBody>
+                  <CardFooter>
+                    <hr />
+                    <div className="stats">
+                      <h6
+                        className="text-center"
+                        style={{ textTransform: "capitalize", color: "#000" }}
+                      >
+                        Important Links
+                      </h6>
+                      {product?.website ? (
+                        <p className="p-card">
+                          <a
+                            href={product?.website}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <button className="ctaButton">
+                              <span>Visit Website</span>
+                              <svg
+                                viewBox="0 0 13 10"
+                                height="10px"
+                                width="15px"
+                              >
+                                <path d="M1,5 L11,5"></path>
+                                <polyline points="8 1 12 5 8 9"></polyline>
+                              </svg>
+                            </button>
+                          </a>
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                      {product?.amazonLink ? (
+                        <p className="p-card">
+                          <button className="ctaButton">
+                            <span>Buy on Amazon</span>
+                            <svg viewBox="0 0 13 10" height="10px" width="15px">
+                              <path d="M1,5 L11,5"></path>
+                              <polyline points="8 1 12 5 8 9"></polyline>
+                            </svg>
+                          </button>
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                      {product?.flipkartLink ? (
+                        <button className="ctaButton">
+                          <span>Buy on Flipkart</span>
+                          <svg viewBox="0 0 13 10" height="10px" width="15px">
+                            <path d="M1,5 L11,5"></path>
+                            <polyline points="8 1 12 5 8 9"></polyline>
+                          </svg>
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </CardFooter>
+                </Card>
+              </Col>
+            )}
           </Row>
         </div>
         <div className="container mt-4">

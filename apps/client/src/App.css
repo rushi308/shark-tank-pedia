@@ -65,6 +65,9 @@
   color: #999;
   margin-bottom: 25px;
 }
+.text-align-justify {
+  text-align: justify;
+}
 p {
   color: #000 !important;
   font-size: 1rem !important;
@@ -124,4 +127,78 @@ p {
 }
 .bg-statistics {
   background-color: #ffdab9 !important;
+}
+.logoShark {
+  height: 85px;
+  padding: 10px 0px;
+}
+
+.ctaButton {
+  position: relative;
+  margin: auto;
+  padding: 12px 18px;
+  transition: all 0.2s ease;
+  border: none;
+  background: none;
+}
+
+.ctaButton:before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  display: block;
+  border-radius: 50px;
+  background: #37abc8;
+  width: 45px;
+  height: 45px;
+  transition: all 0.3s ease;
+}
+
+.ctaButton span {
+  position: relative;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #234567;
+}
+
+.ctaButton svg {
+  position: relative;
+  top: 0;
+  margin-left: 10px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #234567;
+  stroke-width: 2;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+}
+
+.ctaButton:hover:before {
+  width: 100%;
+  cursor: pointer;
+  background: #37abc8;
+}
+
+.ctaButton:hover svg {
+  cursor: pointer;
+  transform: translateX(0);
+}
+
+.ctaButton:active {
+  transform: scale(0.95);
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.coverBg {
+  background-image: url(https://i.pinimg.com/originals/4d/7d/57/4d7d57c….gif);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: bottom;
 }
