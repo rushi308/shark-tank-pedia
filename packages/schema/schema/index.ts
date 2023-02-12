@@ -205,12 +205,12 @@ export type SalesInput = {
 export type SalesMetaData = {
   __typename: 'SalesMetaData';
   name?: Maybe<Scalars['String']>;
-  value?: Maybe<Scalars['Int']>;
+  value?: Maybe<Scalars['Float']>;
 };
 
 export type SalesMetaDataInput = {
   name?: InputMaybe<Scalars['String']>;
-  value?: InputMaybe<Scalars['Int']>;
+  value?: InputMaybe<Scalars['Float']>;
 };
 
 export type ServerError = {

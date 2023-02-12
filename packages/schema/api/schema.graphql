@@ -19,7 +19,7 @@ input ImageInput {
 
 input SalesMetaDataInput {
   name: String
-  value: Int
+  value: Float
 }
 
 input SalesInput {
@@ -79,7 +79,7 @@ type Deal {
 
 type SalesMetaData {
   name: String
-  value: Int
+  value: Float
 }
 
 type Sales {

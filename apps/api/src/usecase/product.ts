@@ -87,14 +87,8 @@ export default class ProductUsecase {
         __typename: "MetaData",
         ...mp,
       })),
-      sales: input.sales?.map((s) => ({
-        __typename: "MetaData",
-        ...s,
-      })),
-      salesSplit: input.salesSplit?.map((ss) => ({
-        __typename: "MetaData",
-        ...ss,
-      })),
+      sales: { __typename: "Sales", ...input.sales },
+      salesSplit: { __typename: "Sales", ...input.salesSplit },
       statistics: input.statistics?.map((ss) => ({
         __typename: "MetaData",
         ...ss,
