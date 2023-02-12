@@ -7,7 +7,6 @@ import MobileMenu from "./components/MobileMenu";
 import Header from "./components/Header";
 import Pages from "./pages/Pages";
 import Footer from "./components/Footer";
-import useAnalytics from "./utils/analytics/useAnalytics";
 
 Amplify.configure({
   aws_project_region: process.env.REACT_APP_AWS_REGION,
@@ -21,7 +20,6 @@ Amplify.configure({
 
 function App() {
 
-  useAnalytics();
   
   return (
     <div className="App">

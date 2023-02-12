@@ -16,6 +16,7 @@ import { Card, CardBody, CardFooter, Row, Col } from "reactstrap";
 import { Helmet } from "react-helmet";
 
 import "../../assets/css/paper-dashboard.css";
+import useAnalytics from "../../utils/analytics/useAnalytics";
 
 ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
@@ -171,6 +172,11 @@ const ProductDetail = () => {
     }
     return false;
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useAnalytics();
+  });
 
   return (
     <>
