@@ -22,7 +22,7 @@ function Header() {
                   <a href="/">Home</a>
                 </li>
                 <li>
-                  <a href="/about">Sharks</a>
+                  <a href="/about-sharks">Sharks</a>
                 </li>
                 <li>
                   <a href="category.html">Season</a>

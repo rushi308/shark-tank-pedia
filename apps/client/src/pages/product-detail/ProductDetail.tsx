@@ -142,10 +142,10 @@ const ProductDetail = () => {
     if (product && product?.sales) {
       const salesLabel: any = [];
       const salesValue: any = [];
-      product?.sales?.map((sale: any) => {
-        salesLabel.push(sale.name);
-        salesValue.push(sale.value);
-      });
+      // product?.sales?.map((sale: any) => {
+      //   salesLabel.push(sale.name);
+      //   salesValue.push(sale.value);
+      // });
 
       setLabels(salesLabel);
       setValue(salesValue);
@@ -465,7 +465,7 @@ const ProductDetail = () => {
                   </div>
                 </Col>
               )}
-            {product && product?.sales && product?.sales?.length > 0 && (
+            {/* {product && product?.sales && product?.sales?.length > 0 && (
               <Col md="4" className="text-center">
                 <div className="card" style={{ width: "100%" }}>
                   <div className={`card-header bg-info`}>
@@ -486,7 +486,7 @@ const ProductDetail = () => {
                   </div>
                 </div>
               </Col>
-            )}
+            )} */}
 
             <Col md="4" className="text-center">
               <div className="card" style={{ width: "100%" }}>

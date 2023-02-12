@@ -202,3 +202,9 @@ p {
   background-attachment: fixed;
   background-position: bottom;
 }
+
+.sharkImage {
+  max-height: 300px;
+  width: 100%;
+  min-height: 300px;
+}
