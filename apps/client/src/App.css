@@ -72,3 +72,56 @@ p {
 .p-card {
   font-size: 0.5rem;
 }
+.bg-ue {
+  background-color: #6ac9c9 !important;
+}
+.statistics-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.statistics-wrapper ol {
+  list-style: none;
+  padding: 0;
+}
+.statistics-wrapper li + li {
+  margin-top: 1rem;
+}
+
+.statistics-wrapper li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: aliceblue;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  width: calc(100% - 2rem);
+  box-shadow: 0.25rem 0.25rem 0.75rem rgb(0 0 0 / 0.1);
+}
+
+.statistics-wrapper li::before {
+  counter-increment: list-item;
+  content: counter(list-item);
+  font-size: 1.5rem;
+  font-weight: 700;
+  width: 1em;
+  height: 1em;
+  background: black;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.statistics-wrapper li:nth-child(even) {
+  flex-direction: row-reverse;
+  background: lavender;
+  margin-right: -2rem;
+  margin-left: 2rem;
+}
+.bg-statistics {
+  background-color: #ffdab9 !important;
+}
