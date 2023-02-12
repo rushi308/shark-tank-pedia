@@ -76,7 +76,7 @@ p {
   font-size: 0.5rem;
 }
 .bg-ue {
-  background-color: #6ac9c9 !important;
+  background-color: rgba(80, 188, 218, 0.5) !important;
 }
 .statistics-wrapper {
   max-width: 600px;

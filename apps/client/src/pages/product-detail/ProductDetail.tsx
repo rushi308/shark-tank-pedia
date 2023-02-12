@@ -32,22 +32,28 @@ const ProductDetail = () => {
   const { id } = useParams();
   const [labels, setLabels] = useState([]);
   const [value, setValue] = useState([]);
-  const [convertedSalesValues, setConvertedSalesValues] = useState([]);
+  const [column, setColumn] = useState(4);
+  const [salesSplitLabels, setSalesSlitLabels] = useState([]);
+  const [salesSpiltValue, setSalesSpiltValue] = useState([]);
   const [unitEconomicsLabel, setUnitEconomicsLabel] = useState([]);
   const [unitEconomicsValue, setUnitEconomicsValue] = useState([]);
   const [convertedUnitEconomicsValue, setConvertedUnitEconomicsValue] =
     useState([]);
-    useAnalytics();
+  useAnalytics();
+
   const data = {
     labels: labels,
     datasets: [
       {
         label: `${
-          convertedSalesValues?.length > 0
-            ? (convertedSalesValues[0] as string).split(" ")[1]
+          product &&
+          product?.sales &&
+          product?.sales?.values &&
+          product?.sales?.values.length > 0
+            ? product?.sales?.unit
             : ""
         }`,
-        data: convertedSalesValues.map((values: any) => values.split(" ")[0]),
+        data: value,
         backgroundColor: [
           "rgba(255, 99, 132)",
           "rgba(54, 162, 235)",
@@ -100,12 +106,45 @@ const ProductDetail = () => {
     ],
   };
 
+  const salesSplitData = {
+    labels: salesSplitLabels,
+    datasets: [
+      {
+        label: `${
+          product &&
+          product?.salesSplit &&
+          product?.salesSplit?.values &&
+          product?.salesSplit?.values.length > 0
+            ? product?.salesSplit?.unit
+            : ""
+        }`,
+        data: salesSpiltValue,
+        backgroundColor: [
+          "rgba(255, 228, 118, 0.85)",
+          "rgba(11, 165, 128, 0.85)",
+          "rgba(255, 159, 64,0.85)",
+          "rgba(75, 192, 192,0.85)",
+          "rgba(255, 206, 86,0.85)",
+          "rgba(153, 102, 255,0.85)",
+        ],
+        borderColor: [
+          "rgba(255, 228, 118, 1)",
+          "rgba(11, 165, 128, 1)",
+          "rgba(255, 159, 64,1)",
+          "rgba(75, 192, 192,1)",
+          "rgba(255, 206, 86,1)",
+          "rgba(153, 102, 255,1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   useEffect(() => {
     loaderRef?.current?.show();
     const fetchProducts = async () => {
       if (id) {
         const product = await getProductDetail(id);
-        console.log(product, "--");
         setProduct(product);
       }
       loaderRef?.current?.hide();
@@ -115,42 +154,29 @@ const ProductDetail = () => {
   }, [id]);
 
   useEffect(() => {
-    if (value) {
-      let unit = "Lakhs";
-      let conversionFactor = 1;
-
-      const valuesInCrores = value.filter((v: any) => v.includes("Crore"));
-
-      if (valuesInCrores.length >= 2) {
-        unit = "Crore";
-        conversionFactor = 0.01;
-      }
-
-      const convertedValues = value.map((v: any) => {
-        if (v.includes(unit)) {
-          return v;
-        } else {
-          let number = parseFloat(v.split(" ")[0]);
-          return (number * conversionFactor).toFixed(2) + " " + unit;
-        }
-      });
-      setConvertedSalesValues(convertedValues as any);
-    }
-  }, [value]);
-
-  useEffect(() => {
-    if (product && product?.sales) {
+    let numberOfColumn = 0;
+    if (
+      product &&
+      product?.sales &&
+      product?.sales?.values &&
+      product?.sales?.values?.length > 0
+    ) {
       const salesLabel: any = [];
       const salesValue: any = [];
-      product?.sales?.map((sale: any) => {
+      product?.sales?.values?.map((sale: any) => {
         salesLabel.push(sale.name);
         salesValue.push(sale.value);
       });
-
+      numberOfColumn++;
       setLabels(salesLabel);
       setValue(salesValue);
     }
-    if (product && product?.unitEconomics) {
+
+    if (
+      product &&
+      product?.unitEconomics &&
+      product?.unitEconomics.length > 0
+    ) {
       const label: any = [];
       const value: any = [];
       const convertedValue: any = [];
@@ -161,11 +187,38 @@ const ProductDetail = () => {
           value.push(unit.value);
           convertedValue.push(unit.value.split(" ")[0]);
         });
+      numberOfColumn++;
       setUnitEconomicsLabel(label);
       setUnitEconomicsValue(value);
       setConvertedUnitEconomicsValue(convertedValue);
     }
+
+    if (
+      product &&
+      product?.salesSplit &&
+      product?.salesSplit?.values &&
+      product?.salesSplit?.values?.length > 0
+    ) {
+      const salesLabel: any = [];
+      const salesValue: any = [];
+      product?.salesSplit?.values?.map((sale: any) => {
+        salesLabel.push(sale.name);
+        salesValue.push(sale.value);
+      });
+      numberOfColumn++;
+      setSalesSlitLabels(salesLabel);
+      setSalesSpiltValue(salesValue);
+    }
+
+    if (numberOfColumn === 2) {
+      setColumn(6);
+    } else if (numberOfColumn === 1) {
+      setColumn(12);
+    } else if (numberOfColumn === 0) {
+      setColumn(0);
+    }
   }, [product]);
+
   const isImportantLink = (product: Product) => {
     if (product.amazonLink || product.appStoreLink || product.website) {
       return true;
@@ -284,38 +337,44 @@ const ProductDetail = () => {
                 </CardFooter>
               </Card>
             </Col>
-            <Col
-              lg={product && isImportantLink(product) ? "4" : "6"}
-              md="6"
-              sm="6"
-            >
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="12" xs="12" className="text-center">
-                      <i
-                        className="nc-icon nc-bullet-list-67 text-info"
-                        style={{ fontSize: "3em" }}
-                      />
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <h6
-                      className="text-center"
-                      style={{ textTransform: "capitalize", color: "#000" }}
-                    >
-                      Highlights
-                    </h6>
-                    {product?.productFeatures?.map((pf) => (
-                      <p className="p-card">👉 {pf} </p>
-                    ))}
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
+
+            {product &&
+              product?.productFeatures &&
+              product?.productFeatures?.length > 0 && (
+                <Col
+                  lg={product && isImportantLink(product) ? "4" : "6"}
+                  md="6"
+                  sm="6"
+                >
+                  <Card className="card-stats">
+                    <CardBody>
+                      <Row>
+                        <Col md="12" xs="12" className="text-center">
+                          <i
+                            className="nc-icon nc-bullet-list-67 text-info"
+                            style={{ fontSize: "3em" }}
+                          />
+                        </Col>
+                      </Row>
+                    </CardBody>
+                    <CardFooter>
+                      <hr />
+                      <div className="stats">
+                        <h6
+                          className="text-center"
+                          style={{ textTransform: "capitalize", color: "#000" }}
+                        >
+                          Highlights
+                        </h6>
+                        {product?.productFeatures?.map((pf) => (
+                          <p className="p-card">👉 {pf} </p>
+                        ))}
+                      </div>
+                    </CardFooter>
+                  </Card>
+                </Col>
+              )}
+
             {product && isImportantLink(product) && (
               <Col lg="4" md="6" sm="6">
                 <Card className="card-stats">
@@ -401,7 +460,7 @@ const ProductDetail = () => {
                 </div>
                 <div className="card-body">
                   <h5 className="card-title" style={{ fontWeight: "bold" }}>
-                    {`${product?.originalAsk} Equity`}
+                    {`${product?.originalAsk}`}
                   </h5>
                 </div>
               </div>
@@ -444,7 +503,7 @@ const ProductDetail = () => {
             {product &&
               product?.unitEconomics &&
               product?.unitEconomics?.length > 0 && (
-                <Col md="4" className="text-center">
+                <Col md={column} className="text-center">
                   <div className="card" style={{ width: "100%" }}>
                     <div className={`card-header bg-ue`}>
                       <h6 className="mt-2 ">{`Unit Economics (${product?.unitEconomics[0]?.name} : ${product?.unitEconomics[0]?.value})`}</h6>
@@ -459,53 +518,64 @@ const ProductDetail = () => {
                         }}
                         className="text-center"
                       >
-                        <Doughnut data={unitEconomicsData} />;
+                        <Doughnut data={unitEconomicsData} />
                       </div>
                     </div>
                   </div>
                 </Col>
               )}
-            {product && product?.sales && product?.sales?.length > 0 && (
-              <Col md="4" className="text-center">
-                <div className="card" style={{ width: "100%" }}>
-                  <div className={`card-header bg-info`}>
-                    <h6 className="mt-2 ">Sale and Revenue</h6>
-                  </div>
-                  <div className="card-body">
-                    <div
-                      style={{
-                        height: "300px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                      className="text-center"
-                    >
-                      <Pie data={data} />
+
+            {product &&
+              product?.sales &&
+              product?.sales?.values &&
+              product?.sales?.values?.length > 0 && (
+                <Col md={column} className="text-center">
+                  <div className="card" style={{ width: "100%" }}>
+                    <div className={`card-header bg-ue`}>
+                      <h6 className="mt-2 ">Sale and Revenue</h6>
+                    </div>
+                    <div className="card-body">
+                      <div
+                        style={{
+                          height: "300px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        className="text-center"
+                      >
+                        <Pie data={data} />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Col>
-            )}
+                </Col>
+              )}
 
-            <Col md="4" className="text-center">
-              <div className="card" style={{ width: "100%" }}>
-                <div className={`card-header bg-ue`}>
-                  <h6 className="mt-2 ">Sales Split</h6>
-                </div>
-                <div className="card-body">
-                  <div
-                    style={{
-                      height: "300px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    className="text-center"
-                  ></div>
-                </div>
-              </div>
-            </Col>
+            {product &&
+              product?.salesSplit &&
+              product?.salesSplit?.values &&
+              product?.salesSplit?.values?.length > 0 && (
+                <Col md={column} className="text-center">
+                  <div className="card" style={{ width: "100%" }}>
+                    <div className={`card-header bg-ue`}>
+                      <h6 className="mt-2 ">Sales Split</h6>
+                    </div>
+                    <div className="card-body">
+                      <div
+                        style={{
+                          height: "300px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        className="text-center"
+                      >
+                        <Doughnut data={salesSplitData} />
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              )}
           </Row>
         </div>
         <div className="container mt-4">
