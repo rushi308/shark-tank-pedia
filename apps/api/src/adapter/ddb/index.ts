@@ -1,4 +1,4 @@
-import { DynamoDBClient, QueryCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
   GetCommand,
@@ -21,7 +21,11 @@ if (!PRODUCTS_TABLE_NAME) throw new Error("PRODUCTS_TABLE_NAME undefined");
 // if (!ACTIVITIES_NAME_INDEX_NAME)
 //   throw new Error("ACTIVITIES_NAME_INDEX_NAME undefined");
 
-const client = DynamoDBDocumentClient.from(new DynamoDBClient({}));
+const client = DynamoDBDocumentClient.from(new DynamoDBClient({}), {
+  marshallOptions: {
+    removeUndefinedValues: true,
+  },
+});
 
 export default class DynamoDBAdapter {
   async getProductDetailById(id: string): Promise<Product> {
@@ -82,6 +86,7 @@ export default class DynamoDBAdapter {
         })
       );
     } catch (e) {
+      console.log("Put Product Error", e);
       logger.error(`Unable to put product with id ${product.id}`, {
         product,
       });
