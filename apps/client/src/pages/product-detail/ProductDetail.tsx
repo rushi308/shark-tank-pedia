@@ -37,7 +37,7 @@ const ProductDetail = () => {
   const [unitEconomicsValue, setUnitEconomicsValue] = useState([]);
   const [convertedUnitEconomicsValue, setConvertedUnitEconomicsValue] =
     useState([]);
-
+    useAnalytics();
   const data = {
     labels: labels,
     datasets: [
@@ -172,11 +172,6 @@ const ProductDetail = () => {
     }
     return false;
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useAnalytics();
-  });
 
   return (
     <>
