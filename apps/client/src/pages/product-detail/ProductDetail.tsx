@@ -43,6 +43,13 @@ const ProductDetail = () => {
     fetchProducts();
   }, [id]);
 
+  const isImportantLink = (product: Product) => {
+    if (product.amazonLink || product.appStoreLink || product.website) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <>
       <Helmet>
@@ -52,9 +59,9 @@ const ProductDetail = () => {
         <meta name="og:image" content={product?.productImage} />
       </Helmet>
       <div
-        className="site-cover site-cover-sm same-height overlay single-page"
+        className="site-cover site-cover-sm same-height overlay single-page coverBg"
         style={{
-          backgroundImage: `url(https://news.northeastern.edu/wp-content/uploads/2022/07/great_white_1400.jpg)`,
+          backgroundImage: `url(https://i.pinimg.com/originals/4d/7d/57/4d7d57c57a18a708860cca50e98e00f5.gif)`,
         }}
       >
         <div className="container">
@@ -96,7 +103,7 @@ const ProductDetail = () => {
             </div>
             <div className="col-md-8 col-lg-8 main-content">
               <div className="post-content-body">
-                <p>{product?.productDetails}</p>
+                <p className="text-align-justify">{product?.productDetails}</p>
               </div>
               <div className="pt-2">
                 <p>
@@ -124,7 +131,11 @@ const ProductDetail = () => {
         </div>
         <div className="container">
           <Row>
-            <Col lg="4" md="6" sm="6">
+            <Col
+              lg={product && isImportantLink(product) ? "4" : "6"}
+              md="6"
+              sm="6"
+            >
               <Card className="card-stats">
                 <CardBody>
                   <Row>
@@ -150,7 +161,11 @@ const ProductDetail = () => {
                 </CardFooter>
               </Card>
             </Col>
-            <Col lg="4" md="6" sm="6">
+            <Col
+              lg={product && isImportantLink(product) ? "4" : "6"}
+              md="6"
+              sm="6"
+            >
               <Card className="card-stats">
                 <CardBody>
                   <Row>
@@ -178,73 +193,80 @@ const ProductDetail = () => {
                 </CardFooter>
               </Card>
             </Col>
-            <Col lg="4" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="12" xs="12" className="text-center">
-                      <i
-                        className="nc-icon nc-align-center text-danger"
-                        style={{ fontSize: "3em" }}
-                      />
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <h6
-                      className="text-center"
-                      style={{ textTransform: "capitalize", color: "#000" }}
-                    >
-                      Important Links
-                    </h6>
-                    {product?.website ? (
-                      <p className="p-card">
-                        🌎{" "}
-                        <a
-                          href={product?.website}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Website
-                        </a>{" "}
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                    {product?.amazonLink ? (
-                      <p className="p-card">
-                        🛒{" "}
-                        <a
-                          href={product?.amazonLink}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Amazon
-                        </a>
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                    {product?.flipkartLink ? (
-                      <p className="p-card">
-                        🛍️{" "}
-                        <a
-                          href={product?.flipkartLink}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Flipkart
-                        </a>
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
+            {product && isImportantLink(product) && (
+              <Col lg="4" md="6" sm="6">
+                <Card className="card-stats">
+                  <CardBody>
+                    <Row>
+                      <Col md="12" xs="12" className="text-center">
+                        <i
+                          className="nc-icon nc-align-center text-danger"
+                          style={{ fontSize: "3em" }}
+                        />
+                      </Col>
+                    </Row>
+                  </CardBody>
+                  <CardFooter>
+                    <hr />
+                    <div className="stats">
+                      <h6
+                        className="text-center"
+                        style={{ textTransform: "capitalize", color: "#000" }}
+                      >
+                        Important Links
+                      </h6>
+                      {product?.website ? (
+                        <p className="p-card">
+                          <a
+                            href={product?.website}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <button className="ctaButton">
+                              <span>Visit Website</span>
+                              <svg
+                                viewBox="0 0 13 10"
+                                height="10px"
+                                width="15px"
+                              >
+                                <path d="M1,5 L11,5"></path>
+                                <polyline points="8 1 12 5 8 9"></polyline>
+                              </svg>
+                            </button>
+                          </a>
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                      {product?.amazonLink ? (
+                        <p className="p-card">
+                          <button className="ctaButton">
+                            <span>Buy on Amazon</span>
+                            <svg viewBox="0 0 13 10" height="10px" width="15px">
+                              <path d="M1,5 L11,5"></path>
+                              <polyline points="8 1 12 5 8 9"></polyline>
+                            </svg>
+                          </button>
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                      {product?.flipkartLink ? (
+                        <button className="ctaButton">
+                          <span>Buy on Flipkart</span>
+                          <svg viewBox="0 0 13 10" height="10px" width="15px">
+                            <path d="M1,5 L11,5"></path>
+                            <polyline points="8 1 12 5 8 9"></polyline>
+                          </svg>
+                        </button>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </CardFooter>
+                </Card>
+              </Col>
+            )}
           </Row>
         </div>
         <div className="container">
@@ -294,137 +316,6 @@ const ProductDetail = () => {
             </Col>
           </Row>
         </div>
-
-        {/* <div className="container">
-          <div className="row">
-            <div className="col-md-4">
-              <h1 className="text-center mb-5">Statistics</h1>
-
-              <div className="row">
-                {product?.statistics?.map((s, index) => (
-                  <div className="col-md-6 col-lg-6 mt-2">
-                    <div className="card" style={{ width: "100%" }}>
-                      <div
-                        className={`card-header ${backgrounds[index]} text-white`}
-                      >
-                        {s.name}
-                      </div>
-                      <div className="card-body">
-                        <h5 className="card-title">{s.value}</h5>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="container">
-          <Row>
-            <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="4" xs="5">
-                      <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-globe text-warning" />
-                      </div>
-                    </Col>
-                    <Col md="8" xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Capacity</p>
-                        <CardTitle tag="p">150GB</CardTitle>
-                        <p />
-                      </div>
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <i className="fas fa-sync-alt" /> Update Now
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-            <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="4" xs="5">
-                      <i className="nc-icon nc-money-coins text-success" />
-                    </Col>
-                    <Col md="8" xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Revenue</p>
-                        <CardTitle tag="p">$ 1,345</CardTitle>
-                        <p />
-                      </div>
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <i className="far fa-calendar" /> Last day
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-            <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="4" xs="5">
-                      <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-vector text-danger" />
-                      </div>
-                    </Col>
-                    <Col md="8" xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Errors</p>
-                        <CardTitle tag="p">23</CardTitle>
-                        <p />
-                      </div>
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <i className="far fa-clock" /> In the last hour
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-            <Col lg="3" md="6" sm="6">
-              <Card className="card-stats">
-                <CardBody>
-                  <Row>
-                    <Col md="4" xs="5">
-                      <div className="icon-big text-center icon-warning">
-                        <i className="nc-icon nc-favourite-28 text-primary" />
-                      </div>
-                    </Col>
-                    <Col md="8" xs="7">
-                      <div className="numbers">
-                        <p className="card-category">Followers</p>
-                        <CardTitle tag="p">+45K</CardTitle>
-                        <p />
-                      </div>
-                    </Col>
-                  </Row>
-                </CardBody>
-                <CardFooter>
-                  <hr />
-                  <div className="stats">
-                    <i className="fas fa-sync-alt" /> Update now
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-          </Row>
-        </div> */}
       </section>
     </>
   );
