@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/images/logo.png";
 
 function Header() {
   return (
@@ -6,8 +7,12 @@ function Header() {
       <div className="container-fluid">
         <div className="row align-items-center">
           <div className="col-4 site-logo">
-            <a href="/" className="text-black h2 mb-0">
-              SharkTankPedia
+            <a href="/">
+              <img
+                src={logo}
+                alt="SharkTankPedia"
+                className="img-responsive logoShark"
+              />
             </a>
           </div>
           <div className="col-8 text-right">
