@@ -78,13 +78,21 @@ query product($input: GetProductDetailInput!) {
       originalAsk
       sales {
         __typename
-        name
-        value
+        unit
+        values {
+          __typename
+          name
+          value
+        }
       }
       salesSplit {
         __typename
-        name
-        value
+        unit
+        values {
+          __typename
+          name
+          value
+        }
       }
       unitEconomics {
         __typename
@@ -167,13 +175,21 @@ query products($input: GetProductsInput!) {
         originalAsk
         sales {
           __typename
-          name
-          value
+          unit
+          values {
+            __typename
+            name
+            value
+          }
         }
         salesSplit {
           __typename
-          name
-          value
+          unit
+          values {
+            __typename
+            name
+            value
+          }
         }
         unitEconomics {
           __typename

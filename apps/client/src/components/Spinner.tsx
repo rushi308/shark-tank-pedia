@@ -30,7 +30,7 @@ const Spinner = () => {
       <Bars
         height="80"
         width="80"
-        color="#2f89fc"
+        color="#42AFCB"
         ariaLabel="bars-loading"
         wrapperStyle={{
           position: "fixed",

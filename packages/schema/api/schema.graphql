@@ -17,6 +17,16 @@ input ImageInput {
   base64: String!
 }
 
+input SalesMetaDataInput {
+  name: String
+  value: Int
+}
+
+input SalesInput {
+  unit: String
+  values: [SalesMetaDataInput]
+}
+
 input ProductInput {
   id: String
   title: String!
@@ -28,15 +38,15 @@ input ProductInput {
   marketPlace: [MetaDataInput]
   appStoreLink: String
   playStoreLink: String
-  established: Int!
+  established: Int
   founders: String
   numberOfEmployees: Int
   story: String
   productFeatures: [String]
   valueChain: [String]
   originalAsk: String
-  sales: [MetaDataInput]
-  salesSplit: [MetaDataInput]
+  sales: SalesInput
+  salesSplit: SalesInput
   unitEconomics: [MetaDataInput]
   statistics: [MetaDataInput]
   counterOffer: [DealInput]
@@ -67,6 +77,16 @@ type Deal {
   debtInterest: Int
 }
 
+type SalesMetaData {
+  name: String
+  value: Int
+}
+
+type Sales {
+  unit: String
+  values: [SalesMetaData]
+}
+
 type Product {
   id: String!
   title: String!
@@ -78,15 +98,15 @@ type Product {
   marketPlace: [MetaData]
   appStoreLink: String
   playStoreLink: String
-  established: Int!
+  established: Int
   founders: String
   numberOfEmployees: Int
   story: String!
   productFeatures: [String]
   valueChain: [String]
   originalAsk: String!
-  sales: [MetaData]
-  salesSplit: [MetaData]
+  sales: Sales
+  salesSplit: Sales
   unitEconomics: [MetaData]
   statistics: [MetaData]
   counterOffer: [Deal]
