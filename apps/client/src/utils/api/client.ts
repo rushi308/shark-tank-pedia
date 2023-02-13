@@ -1,5 +1,6 @@
-import { API, GraphQLResult } from "@aws-amplify/api";
+import { GraphQLResult } from "@aws-amplify/api";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import { withSSRContext } from "aws-amplify";
 import {
   GetProductDetailInput,
   GetProductsInput,
@@ -19,7 +20,8 @@ async function query<
   requiresAuth: boolean,
   variables?: TVariables
 ): Promise<TData> {
-  const response = (await API.graphql({
+  const SSR = withSSRContext();
+  const response = (await SSR.API.graphql({
     query: operation,
     variables: variables ? { input: variables } : undefined,
     authMode: "API_KEY",

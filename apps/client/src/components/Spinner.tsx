@@ -1,6 +1,7 @@
 import { createRef, useImperativeHandle, useState } from "react";
 import { Bars } from "react-loader-spinner";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const loaderRef = createRef() as any;
 
 const Spinner = () => {
