@@ -6,6 +6,9 @@ const nextConfig = {
     awsAppsyncURL: process.env.APPSYNC_URL,
     awsAppsyncRegion: process.env.APPSYNC_AWS_REGION
   },
+  experimental: {
+    outputFileTracingRoot: path.join(__dirname, "../../"),
+  },
 }
 
 module.exports = nextConfig
