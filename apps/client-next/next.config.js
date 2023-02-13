@@ -4,7 +4,7 @@ const nextConfig = {
   env:{
     awsAppsyncAPIKey: process.env.APPSYNC_API_KEY,
     awsAppsyncURL: process.env.APPSYNC_URL,
-    awsAppsyncRegion: process.env.AWS_REGION
+    awsAppsyncRegion: process.env.APPSYNC_AWS_REGION
   },
 }
 
