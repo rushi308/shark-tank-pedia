@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import "@/styles/app.css";
+import "@/styles/App.css";
 import "@/styles/style.css";
 import "@/styles/style_1.css";
 import "@/styles/paper-dashboard.css";
