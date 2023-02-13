@@ -1,7 +1,13 @@
 import React from "react";
 import logo from "../assets/images/logo.png";
 
-function Header() {
+const Header = () => {
+
+  const onMobileMenuClick = () => {
+    document.body.classList.toggle('offcanvas-menu', true);
+  }
+
+
   return (
     <header className="site-navbar" role="banner">
       <div className="container-fluid">
@@ -24,17 +30,16 @@ function Header() {
                 <li>
                   <a href="/about-sharks">Sharks</a>
                 </li>
-                <li>
+                {/* <li>
                   <a href="category.html">Season</a>
-                </li>
+                </li> */}
               </ul>
             </nav>
-            <a
-              href="/"
+            <div
               className="site-menu-toggle js-menu-toggle text-black d-inline-block d-lg-none"
             >
-              <span className="icon-menu h3"></span>
-            </a>
+              <span className="icon-menu h3" onClick={() => onMobileMenuClick()}></span>
+            </div>
           </div>
         </div>
       </div>
