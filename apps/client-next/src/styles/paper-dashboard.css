@@ -3675,7 +3675,7 @@ img {
   -------------------------------- */
 @font-face {
   font-family: "nucleo-icons";
-  src: url("../fonts/nucleo-icons.eot");
+  src: url("./fonts/nucleo-icons.eot");
   src: url("./fonts/nucleo-icons.eot") format("embedded-opentype"),
     url("./fonts/nucleo-icons.woff2") format("woff2"),
     url("./fonts/nucleo-icons.woff") format("woff"),
@@ -6727,10 +6727,10 @@ select.form-control:not([size]):not([multiple]) {
 @font-face {
   font-family: "nucleo-icons";
   src: url("./fonts/nucleo-icons.eot");
-  src: url("../fonts/nucleo-icons.eot") format("embedded-opentype"),
+  src: url("./fonts/nucleo-icons.eot") format("embedded-opentype"),
     url("./fonts/nucleo-icons.woff2") format("woff2"),
-    url("../fonts/nucleo-icons.woff") format("woff"),
-    url("../fonts/nucleo-icons.ttf");
+    url("./fonts/nucleo-icons.woff") format("woff"),
+    url("./fonts/nucleo-icons.ttf");
   font-weight: normal;
   font-style: normal;
 }
