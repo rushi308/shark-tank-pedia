@@ -226,6 +226,7 @@ const ProductDetail = () => {
     return false;
   };
 
+
   return (
     <>
       <Helmet>
