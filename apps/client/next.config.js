@@ -6,7 +6,6 @@ const nextConfig = {
     awsAppsyncURL: process.env.APPSYNC_URL,
     awsAppsyncRegion: process.env.APPSYNC_AWS_REGION
   },
-  runtime: 'nodejs',
 }
 
 module.exports = nextConfig
