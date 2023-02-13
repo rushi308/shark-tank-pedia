@@ -31,7 +31,7 @@ function Footer() {
             <div>
               <h3 className="footer-heading mb-4">Connect With Us</h3>
               <p>
-                <a href="">
+                <a href="/">
                   <span className="icon-facebook pt-2 pr-2 pb-2 pl-0"></span>
                 </a>
                 <a href="/">
