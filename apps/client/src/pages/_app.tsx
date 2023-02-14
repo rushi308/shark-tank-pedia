@@ -10,7 +10,6 @@ import MobileMenu from "@/components/Layout/MobileMenu";
 import Head from "next/head";
 import { Amplify } from "aws-amplify";
 import Script from "next/script";
-import Spinner from "@/components/Spinner";
 
 Amplify.configure({
   aws_project_region: "us-east-1",
@@ -90,7 +89,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </Script>
       <div className="App">
         <div className="site-wrap">
-          <Spinner />
           <MobileMenu />
           <Header />
           <Component {...pageProps} />
