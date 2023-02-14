@@ -1,0 +1,61 @@
+{
+  "name": "client-react",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@aws-amplify/api": "^5.0.13",
+    "@graphql-typed-document-node/core": "^3.1.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.7.13",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "aws-amplify": "^5.0.13",
+    "bootstrap": "^5.2.3",
+    "chart.js": "^4.2.1",
+    "faker": "^6.6.6",
+    "jquery": "^3.6.3",
+    "moment": "^2.29.4",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-ga4": "^2.0.0",
+    "react-helmet": "^6.1.0",
+    "react-loader-spinner": "^5.3.4",
+    "react-router-dom": "^6.8.1",
+    "react-scripts": "5.0.1",
+    "reactstrap": "^9.1.5",
+    "sharktankpedia-schema": "file:../../packages/schema",
+    "typescript": "^4.4.2",
+    "web-vitals": "^2.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react-helmet": "^6.1.6"
+  }
+}
