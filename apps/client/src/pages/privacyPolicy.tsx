@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import { Col, Container, Row } from "reactstrap";
+import Link from "next/link";
 
 export default function PrivacyPolicyPage() {
   return (
@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
             <div className="col-md-12">
               <p>
                 One of our top goals at Shark Tank Pedia, located at{" "}
-                <a href="/">https://sharktankpedia.in/</a>, is the privacy of
+                <Link href="/">https://sharktankpedia.in/</Link>, is the privacy of
                 our users. The sorts of information that Shark Tank Pedia
                 collects and records, as well as how we utilise it, are detailed
                 in this privacy policy document. Please get in touch with us if

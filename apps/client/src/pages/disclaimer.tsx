@@ -35,7 +35,7 @@ export default function DiscaimerPage() {
             <div className="col-md-12">
               <p>
                 If you require more information or have questions about our
-                site’s disclaimer, please contact us by email at
+                site&apos;s disclaimer, please contact us by email at
                 info.sharktankpedia@gmail.com.
               </p>
             </div>
@@ -58,14 +58,14 @@ export default function DiscaimerPage() {
                 control over their content or general nature. These references
                 to other websites do not imply endorsement of all the
                 information contained therein. Before we have a chance to delete
-                a link that may have gone "bad," site owners and content are
+                a link that may have gone &quot;bad,&quot; site owners and content are
                 subject to change without prior notice.
                 <br />
                 <br />
                 Moreover, be aware that we have no control over the privacy
                 policies and agreements of other websites that you may visit
                 after leaving ours. Before conducting any business or uploading
-                any information, please be sure to review the "Terms of Service"
+                any information, please be sure to review the &quot;Terms of Service&quot;
                 and the Privacy Policies of these websites.
               </p>
             </div>

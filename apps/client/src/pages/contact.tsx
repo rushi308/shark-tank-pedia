@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet";
+import Link from "next/link";
 
 export default function ContactusPage() {
   return (
@@ -48,26 +49,27 @@ export default function ContactusPage() {
                 up-to-date with our latest news and promotions:
                 <br />
                 <br />
-                <a
+                <Link
                   href="https://www.linkedin.com/company/sharktankpedia-in/"
                   target="_blank"
+
                 >
                   LinkedIn
-                </a>
+                </Link>
                 <br />
-                <a
+                <Link
                   href="https://www.instagram.com/sharktankpedia.in/"
                   target="_blank"
                 >
                   Instagram
-                </a>
+                </Link>
                 <br />
-                <a
+                <Link
                   href="https://www.facebook.com/sharktankpedia.in"
                   target="_blank"
                 >
                   Facebook
-                </a>
+                </Link>
                 <br />
                 <br />
                 Thank you for your interest in our company. We look forward to

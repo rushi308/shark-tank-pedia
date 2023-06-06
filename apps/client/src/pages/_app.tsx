@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
     loaderRef?.current?.show();
   });
 
-  Router.events.on("routeChangeComplete", (url: string) => {
+  Router.events.on("routeChangeComplete", (_url: string) => {
     loaderRef?.current?.hide();
   });
   return (

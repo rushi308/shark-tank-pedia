@@ -20,19 +20,19 @@ function Footer() {
           <div className="col-md-4 ml-auto">
             <ul className="list-unstyled float-left mr-5">
               <li>
-                <a href="/privacyPolicy" style={{ color: "#fff" }}>
+                <Link href="/privacyPolicy" style={{ color: "#fff" }}>
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/disclaimer" style={{ color: "#fff" }}>
+                <Link href="/disclaimer" style={{ color: "#fff" }}>
                   Disclaimer
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/aboutUs" style={{ color: "#fff" }}>
+                <Link href="/aboutUs" style={{ color: "#fff" }}>
                   About us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

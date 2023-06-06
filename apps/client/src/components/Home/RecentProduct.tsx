@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Product } from "@/schema";
+import { Product } from "sharktankpedia-schema";
 import { convertDate, myLoader } from "../../utils/util";
 import { loaderRef } from "../../components/Spinner";
 import { Helmet } from "react-helmet";
@@ -16,20 +16,20 @@ type ShowMoreProp = {
   onClick: () => void;
 };
 
-function Search() {
-  return (
-    <div className="row mb-5">
-      <div className="col-md-12 col-xs-12 col-s-12 text-center">
-        <input
-          type="text"
-          placeholder="Search your favourite products..."
-          name="text"
-          className="search-input"
-        />
-      </div>
-    </div>
-  );
-}
+// function Search() {
+//   return (
+//     <div className="row mb-5">
+//       <div className="col-md-12 col-xs-12 col-s-12 text-center">
+//         <input
+//           type="text"
+//           placeholder="Search your favourite products..."
+//           name="text"
+//           className="search-input"
+//         />
+//       </div>
+//     </div>
+//   );
+// }
 
 function Title() {
   return (
