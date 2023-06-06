@@ -16,9 +16,7 @@ export default function ProductDetailPage({ productDetail }: ProductDetailProps)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getServerSideProps(context: any) {
   try {
-    // loaderRef?.current?.show();
     const productDetail = await getProductDetail(context.query.id);
-    // loaderRef?.current?.hide();
     return {
       props: {
         productDetail,

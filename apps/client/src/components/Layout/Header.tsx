@@ -31,9 +31,9 @@ const Header = () => {
                 <li>
                   <Link href="/about-sharks">Sharks</Link>
                 </li>
-                {/* <li>
-                  <a href="category.html">Season</a>
-                </li> */}
+                <li>
+                  <Link href="/contact">Contact</Link>
+                </li>
               </ul>
             </nav>
             <div className="site-menu-toggle js-menu-toggle text-black d-inline-block d-lg-none">

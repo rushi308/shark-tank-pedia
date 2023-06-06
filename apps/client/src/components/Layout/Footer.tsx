@@ -9,23 +9,53 @@ function Footer() {
           <div className="col-md-4">
             <h3 className="footer-heading mb-4">About Us</h3>
             <p className="text-white">
-              You may discover more about the products showcased on Shark Tank
-              India by visiting SharkTankPedia.in
+              On Shark Tank Pedia, we will share infromation of the pitchers who
+              have come to Shark Tank India. We wish to use a digital platform
+              to display written data, graphical sales and statistic overviews,
+              and statistics in order to become a source of inspiration. We
+              enjoy media technology.And we want to offer motivational content
+              while making that work available to everyone.
             </p>
           </div>
-          <div className="col-md-4 ml-auto"></div>
+          <div className="col-md-4 ml-auto">
+            <ul className="list-unstyled float-left mr-5">
+              <li>
+                <Link href="/privacyPolicy" style={{ color: "#fff" }}>
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/disclaimer" style={{ color: "#fff" }}>
+                  Disclaimer
+                </Link>
+              </li>
+              <li>
+                <Link href="/aboutUs" style={{ color: "#fff" }}>
+                  About us
+                </Link>
+              </li>
+            </ul>
+          </div>
           <div className="col-md-4">
             <div>
               <h3 className="footer-heading mb-4">Connect With Us</h3>
               <p>
-                <Link href="/">
+                <Link
+                  href="https://www.facebook.com/sharktankpedia.in"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <span className="icon-facebook pt-2 pr-2 pb-2 pl-0"></span>
                 </Link>
-                <Link href="/">
-                  <span className="icon-twitter p-2"></span>
+                <Link
+                  href="https://www.linkedin.com/company/sharktankpedia-in/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="icon-linkedin p-2"></span>
                 </Link>
                 <Link
-                  href="https://www.instagram.com/sharktankpedia/"
+                  href="https://www.instagram.com/sharktankpedia.in/"
                   target="_blank"
                   rel="noreferrer"
                 >
