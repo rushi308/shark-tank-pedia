@@ -1,6 +1,3 @@
-import { GraphQLResult } from "@aws-amplify/api";
-import { TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { withSSRContext } from "aws-amplify";
 import {
   GetProductDetailInput,
   GetProductsInput,
@@ -11,6 +8,9 @@ import {
   ProductsDocument,
   ProductsQuery,
 } from "sharktankpedia-schema";
+import { GraphQLResult } from "@aws-amplify/api";
+import { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import { withSSRContext } from "aws-amplify";
 
 async function query<
   TData,

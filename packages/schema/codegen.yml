@@ -5,7 +5,7 @@ schema:
 documents:
   - api/operations.graphql
 generates:
-  schema/index.ts:
+  src/schema/index.ts:
     plugins:
       - typescript
       - typescript-operations

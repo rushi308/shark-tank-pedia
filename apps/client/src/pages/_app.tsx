@@ -10,9 +10,14 @@ import MobileMenu from "@/components/Layout/MobileMenu";
 import Head from "next/head";
 import { Amplify } from "aws-amplify";
 import Script from "next/script";
+import { Router } from "next/router";
+import Spinner, { loaderRef } from "@/components/Spinner";
 
 Amplify.configure({
-  aws_project_region: "us-east-1",
+  aws_project_region: process.env.awsAppsyncRegion,
+  aws_cognito_region: process.env.awsAppsyncRegion,
+  aws_user_pools_id: process.env.userPoolId,
+  aws_user_pools_web_client_id: process.env.userPoolClientId,
   API: {
     aws_appsync_graphqlEndpoint: process.env.awsAppsyncURL,
     aws_appsync_apiKey: process.env.awsAppsyncAPIKey,
@@ -23,6 +28,13 @@ Amplify.configure({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  Router.events.on("routeChangeStart", (url: string) => {
+    loaderRef?.current?.show();
+  });
+
+  Router.events.on("routeChangeComplete", (url: string) => {
+    loaderRef?.current?.hide();
+  });
   return (
     <>
       <Head>
@@ -70,6 +82,22 @@ export default function App({ Component, pageProps }: AppProps) {
         ></link>
       </Head>
       <Script
+        id="Adsense-id-next"
+        data-ad-client="ca-pub-7553767508353117"
+        async
+        strategy="beforeInteractive"
+        crossOrigin="anonymous"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      />
+      <Script
+        id="Adsense-id"
+        data-ad-client="ca-pub-7553767508353117"
+        async
+        strategy="beforeInteractive"
+        crossOrigin="anonymous"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7553767508353117"
+      />
+      <Script
         src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
         crossOrigin="anonymous"
@@ -89,6 +117,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Script>
       <div className="App">
         <div className="site-wrap">
+          <Spinner />
           <MobileMenu />
           <Header />
           <Component {...pageProps} />

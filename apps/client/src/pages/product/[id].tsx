@@ -1,6 +1,6 @@
 import ProductDetail from "@/components/ProductDetail/ProductDetail";
 import { getProductDetail } from "@/utils/api/client";
-import { Product } from "sharktankpedia-schema";
+import { Product } from "@/schema";
 type ProductDetailProps = {
   productDetail: Product;
 };
@@ -16,9 +16,7 @@ export default function ProductDetailPage({ productDetail }: ProductDetailProps)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function getServerSideProps(context: any) {
   try {
-    // loaderRef?.current?.show();
     const productDetail = await getProductDetail(context.query.id);
-    // loaderRef?.current?.hide();
     return {
       props: {
         productDetail,

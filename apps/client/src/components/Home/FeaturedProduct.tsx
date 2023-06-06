@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Product } from "sharktankpedia-schema";
+import { Product } from "@/schema";
 import { convertDate } from "../../utils/util";
 import { Helmet } from "react-helmet";
 

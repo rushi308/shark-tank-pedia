@@ -1,5 +1,5 @@
 // import useAnalytics from "../../utils/analytics/useAnalytics";
-import { Product } from "sharktankpedia-schema";
+import { Product } from "@/schema";
 import FeaturedProduct from "./FeaturedProduct";
 import RecentProduct from "./RecentProduct";
 

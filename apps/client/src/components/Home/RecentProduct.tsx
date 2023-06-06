@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Product } from "sharktankpedia-schema";
+import { Product } from "@/schema";
 import { convertDate, myLoader } from "../../utils/util";
 import { loaderRef } from "../../components/Spinner";
 import { Helmet } from "react-helmet";
 import Image from "next/image";
 import Link from "next/link";
+// import searchImage from "../../assets/images/search.png";
+// import { Col, Input, InputGroup, InputGroupText, Row } from "reactstrap";
 
 type ProductListProp = {
   products: Product[];
@@ -14,11 +16,26 @@ type ShowMoreProp = {
   onClick: () => void;
 };
 
-function Title() {
+function Search() {
   return (
     <div className="row mb-5">
-      <div className="col-12">
-        <h2>Recent Products</h2>
+      <div className="col-md-12 col-xs-12 col-s-12 text-center">
+        <input
+          type="text"
+          placeholder="Search your favourite products..."
+          name="text"
+          className="search-input"
+        />
+      </div>
+    </div>
+  );
+}
+
+function Title() {
+  return (
+    <div className="row">
+      <div className="col-md-12 col-xs-12 col-s-12">
+        <h2 style={{ textAlign: "center" }}>Recent Products</h2>
       </div>
     </div>
   );
@@ -30,13 +47,13 @@ function ProductList({ products }: ProductListProp) {
       <div className="row">
         {products?.map((product: Product) => (
           <div className="col-lg-4 mb-4" key={product?.companyName}>
-            <Helmet>
+            <Helmet key={product.title}>
               <meta charSet="utf-8" />
-              <title>{product.title}</title>
               <meta name="description" content={product.productDetails} />
               <meta name="og:image" content={product.productImage} />
+              <meta name="og:title" content={product.title} />
             </Helmet>
-            <div className="entry2">
+            <div className="entry2" key={product?.companyName + product.title}>
               <Link href={`/product/${product.id}`}>
                 <Image
                   src={product?.productImage || ""}
@@ -73,11 +90,16 @@ function ProductList({ products }: ProductListProp) {
                   )}
                 </h2>
 
-                <div className="post-meta align-items-center text-left clearfix">
+                <div
+                  className="post-meta align-items-center text-left clearfix"
+                  key={product.title + "post-meta"}
+                >
                   <span className="d-inline-block mt-1 mb-3">
                     By <Link href="/">SharkTankPedia</Link>
                   </span>
-                  <span>{"-"} {convertDate(product?.createdAt ?? "")}</span>
+                  <span>
+                    {" -"} {convertDate(product?.createdAt ?? "")}
+                  </span>
                 </div>
                 <p>
                   {product?.productDetails
@@ -109,14 +131,14 @@ function ShowMore({ onClick }: ShowMoreProp) {
 }
 
 type RecentProductProp = {
-    recentProducts: Product[];
+  recentProducts: Product[];
 };
 
-function RecentProduct({recentProducts}:RecentProductProp) {
+function RecentProduct({ recentProducts }: RecentProductProp) {
   const [productsList, setProductsList] = useState<Product[]>();
   const [pagination, setPagination] = useState({
     page: 1,
-    limit: 6,
+    limit: 18,
     start: 0,
     totalPages: 0,
     end: 0,
@@ -135,12 +157,12 @@ function RecentProduct({recentProducts}:RecentProductProp) {
     };
 
     fetchProducts();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     setProductsList(recentProducts.slice(pagination.start, pagination.end));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination]);
 
   const onClick = () => {
@@ -154,7 +176,7 @@ function RecentProduct({recentProducts}:RecentProductProp) {
       end: page * limit,
     });
     setProductsList([
-      ...productsList || [],
+      ...(productsList || []),
       ...recentProducts.slice(pagination.start, pagination.end),
     ]);
   };
@@ -164,6 +186,7 @@ function RecentProduct({recentProducts}:RecentProductProp) {
       <div className="site-section">
         <div className="container">
           <Title />
+          {/* <Search /> */}
           <ProductList products={productsList || []} />
           {pagination.totalPages !== pagination.page && (
             <ShowMore onClick={onClick} />

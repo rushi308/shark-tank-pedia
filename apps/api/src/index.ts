@@ -32,7 +32,7 @@ export const handler: AppSyncResolverHandler<
   | QueryProductsArgs
   | MutationImageUploadArgs
   | undefined,
-  | ProductCreationResult
+  | ProductCreaionResult
   | GetProductDetailResult
   | GetProductsResult
   | ImageUploadResult

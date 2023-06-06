@@ -238,6 +238,7 @@ const ProductDetail = ({ productDetail }: ProductDetailProps) => {
             </div>
           </div>
         </div>
+
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12 col-lg-12">
@@ -265,10 +266,12 @@ const ProductDetail = ({ productDetail }: ProductDetailProps) => {
                 loader={myLoader}
                 width={100}
                 height={100}
+                style={{ minHeight: "198px", objectFit: "cover" }}
               />
             </div>
             <div className="col-md-8 col-lg-8 main-content">
               <div className="post-content-body">
+                <h5 style={{ fontWeight: "500" }}>{product?.title}</h5>
                 <p className="text-align-justify">{product?.productDetails}</p>
               </div>
               <div className="pt-2">
@@ -413,25 +416,93 @@ const ProductDetail = ({ productDetail }: ProductDetailProps) => {
                       )}
                       {product?.amazonLink ? (
                         <p className="p-card">
-                          <button className="ctaButton">
-                            <span>Buy on Amazon</span>
-                            <svg viewBox="0 0 13 10" height="10px" width="15px">
-                              <path d="M1,5 L11,5"></path>
-                              <polyline points="8 1 12 5 8 9"></polyline>
-                            </svg>
-                          </button>
+                          <Link
+                            href={product?.amazonLink}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <button className="ctaButton">
+                              <span>Buy on Amazon</span>
+                              <svg
+                                viewBox="0 0 13 10"
+                                height="10px"
+                                width="15px"
+                              >
+                                <path d="M1,5 L11,5"></path>
+                                <polyline points="8 1 12 5 8 9"></polyline>
+                              </svg>
+                            </button>
+                          </Link>
                         </p>
                       ) : (
                         <></>
                       )}
                       {product?.flipkartLink ? (
-                        <button className="ctaButton">
-                          <span>Buy on Flipkart</span>
-                          <svg viewBox="0 0 13 10" height="10px" width="15px">
-                            <path d="M1,5 L11,5"></path>
-                            <polyline points="8 1 12 5 8 9"></polyline>
-                          </svg>
-                        </button>
+                        <p className="p-card">
+                          <Link
+                            href={product?.flipkartLink}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <button className="ctaButton">
+                              <span>Buy on Flipkart</span>
+                              <svg
+                                viewBox="0 0 13 10"
+                                height="10px"
+                                width="15px"
+                              >
+                                <path d="M1,5 L11,5"></path>
+                                <polyline points="8 1 12 5 8 9"></polyline>
+                              </svg>
+                            </button>
+                          </Link>
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                      {product?.appStoreLink ? (
+                        <p className="p-card">
+                          <Link
+                            href={product?.appStoreLink}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <button className="ctaButton">
+                              <span>Download from AppStore</span>
+                              <svg
+                                viewBox="0 0 13 10"
+                                height="10px"
+                                width="15px"
+                              >
+                                <path d="M1,5 L11,5"></path>
+                                <polyline points="8 1 12 5 8 9"></polyline>
+                              </svg>
+                            </button>
+                          </Link>
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                      {product?.playStoreLink ? (
+                        <p className="p-card">
+                          <Link
+                            href={product?.playStoreLink}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <button className="ctaButton">
+                              <span>Download from PlayStore</span>
+                              <svg
+                                viewBox="0 0 13 10"
+                                height="10px"
+                                width="15px"
+                              >
+                                <path d="M1,5 L11,5"></path>
+                                <polyline points="8 1 12 5 8 9"></polyline>
+                              </svg>
+                            </button>
+                          </Link>
+                        </p>
                       ) : (
                         <></>
                       )}
@@ -469,14 +540,14 @@ const ProductDetail = ({ productDetail }: ProductDetailProps) => {
                   {product?.dealClosed ? (
                     <h5 className="card-title" style={{ fontWeight: "bold" }}>
                       {product?.dealClosed?.amount} for{" "}
-                      {product?.dealClosed?.equity}% &nbsp;
+                      {product?.dealClosed?.equity}% Equity &nbsp;
                       {product?.dealClosed?.debt
                         ? product?.dealClosed?.debt &&
                           "& " +
                             product?.dealClosed?.debt +
                             " Debt for " +
                             product?.dealClosed?.debtInterest +
-                            "%"
+                            "% Interest"
                         : ""}
                     </h5>
                   ) : (
