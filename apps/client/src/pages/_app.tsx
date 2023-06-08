@@ -4,14 +4,11 @@ import "@/styles/App.css";
 import "@/styles/style.css";
 import "@/styles/style_1.css";
 import "@/styles/paper-dashboard.css";
-import Header from "@/components/Layout/Header";
-import Footer from "@/components/Layout/Footer";
-import MobileMenu from "@/components/Layout/MobileMenu";
 import Head from "next/head";
 import { Amplify } from "aws-amplify";
 import Script from "next/script";
 import { Router } from "next/router";
-import Spinner, { loaderRef } from "@/components/Spinner";
+import { loaderRef } from "@/components/Spinner";
 
 Amplify.configure({
   aws_project_region: process.env.awsAppsyncRegion,
@@ -28,12 +25,14 @@ Amplify.configure({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  Router.events.on("routeChangeStart", (url: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  Router.events.on("routeChangeStart", (_url: string) => {
     loaderRef?.current?.show();
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Router.events.on("routeChangeComplete", (_url: string) => {
-    loaderRef?.current?.hide();
+    // loaderRef?.current?.hide();
   });
   return (
     <>
@@ -117,11 +116,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Script>
       <div className="App">
         <div className="site-wrap">
-          <Spinner />
-          <MobileMenu />
-          <Header />
           <Component {...pageProps} />
-          <Footer />
         </div>
       </div>
     </>

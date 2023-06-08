@@ -1,4 +1,6 @@
 import HomePage from "@/components/Home/HomePage";
+import Header from "@/components/Layout/Header";
+import Layout from "@/components/Layout/Layout";
 import { getProducts } from "@/utils/api/client";
 import { Product } from "sharktankpedia-schema";
 
@@ -10,10 +12,12 @@ type HomeProps = {
 export default function Home({ featuredProducts, recentProducts }: HomeProps) {
   return (
     <>
-      <HomePage
-        featuredProducts={featuredProducts}
-        recentProducts={recentProducts}
-      />
+      <Layout>
+        <HomePage
+          featuredProducts={featuredProducts}
+          recentProducts={recentProducts}
+        />
+      </Layout>
     </>
   );
 }
@@ -30,7 +34,7 @@ export async function getServerSideProps({ req, res }: any) {
     let recentProducts: Product[] = [];
     if (recentProductsResponse.products.length > 0) {
       recentProducts = recentProductsResponse.products.sort((a, b) => {
-        return(a.season - b.season || b.episode - a.episode  );
+        return a.season - b.season || b.episode - a.episode;
       });
     }
     return {
