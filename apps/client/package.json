@@ -30,7 +30,7 @@
     "react-helmet": "^6.1.0",
     "react-loader-spinner": "^5.3.4",
     "reactstrap": "^9.1.5",
-    "sharktankpedia-schema": "workspace:^1.0.0",
+    "sharktankpedia-schema": "workspace:*",
     "sharp": "^0.31.3",
     "typescript": "4.9.5"
   },
