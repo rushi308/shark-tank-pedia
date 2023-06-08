@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx nx run-many --target=build --all",
+    "build": "turbo run build",
     "prettier-check": "prettier --check \"**/*.{jsx,ts,tsx,js,css,md,mdx,json,yml}\"",
     "prettier-write": "prettier --write \"**/*.{jsx,ts,tsx,js,css,md,mdx,json,yml}\"",
     "eslint-check": "eslint --fix-dry-run \"**/*.{jsx,ts,tsx,js}\"",
@@ -28,5 +28,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "turbo": "^1.10.2"
+  }
 }
