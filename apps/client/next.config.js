@@ -12,6 +12,7 @@ const nextConfig = {
     outputFileTracingRoot: path.join(__dirname, "../../"),
   },
   output: 'standalone',
+  transpilePackages:['sharktankpedia-schema']
 }
 
 module.exports = nextConfig
