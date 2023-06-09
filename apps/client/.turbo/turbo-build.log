@@ -1,52 +1,20 @@
 
-> client@0.1.0 build /Users/rushipatel/Documents/Projects/shark-tank-pedia/apps/client
+> client@0.1.0 build /Users/rushipatel/Documents/Private/shark-tank-pedia/apps/client
 > next build
 
-info  - Loaded env from /Users/rushipatel/Documents/Projects/shark-tank-pedia/apps/client/.env
 warn  - You have enabled experimental feature (outputFileTracingRoot) in next.config.js.
 warn  - Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
 
 info  - Linting and checking validity of types...
 
 ./src/pages/_app.tsx
-31:41  Warning: 'url' is defined but never used.  @typescript-eslint/no-unused-vars
-35:44  Warning: '_url' is defined but never used.  @typescript-eslint/no-unused-vars
-84:7  Warning: `next/script`'s `beforeInteractive` strategy should not be used outside of `pages/_document.js`. See: https://nextjs.org/docs/messages/no-before-interactive-script-outside-document  @next/next/no-before-interactive-script-outside-document
-92:7  Warning: `next/script`'s `beforeInteractive` strategy should not be used outside of `pages/_document.js`. See: https://nextjs.org/docs/messages/no-before-interactive-script-outside-document  @next/next/no-before-interactive-script-outside-document
+85:9  Warning: `next/script`'s `beforeInteractive` strategy should not be used outside of `pages/_document.js`. See: https://nextjs.org/docs/messages/no-before-interactive-script-outside-document  @next/next/no-before-interactive-script-outside-document
+93:9  Warning: `next/script`'s `beforeInteractive` strategy should not be used outside of `pages/_document.js`. See: https://nextjs.org/docs/messages/no-before-interactive-script-outside-document  @next/next/no-before-interactive-script-outside-document
 
 ./src/pages/index.tsx
-20:44  Warning: 'req' is defined but never used.  @typescript-eslint/no-unused-vars
-20:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2:8  Warning: 'Header' is defined but never used.  @typescript-eslint/no-unused-vars
+24:44  Warning: 'req' is defined but never used.  @typescript-eslint/no-unused-vars
+24:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
 info  - Creating an optimized production build...
-info  - Compiled successfully
-info  - Collecting page data...
-info  - Generating static pages (0/7)
-info  - Generating static pages (1/7)
-info  - Generating static pages (3/7)
-info  - Generating static pages (5/7)
-info  - Generating static pages (7/7)
-info  - Finalizing page optimization...
-
-Route (pages)                              Size     First Load JS
-┌ λ /                                      1.85 kB         124 kB
-├   /_app                                  0 B            97.6 kB
-├ ○ /404                                   182 B          97.7 kB
-├ ○ /500                                   281 B          97.8 kB
-├ ○ /about-sharks                          2.57 kB         139 kB
-├ ○ /aboutUs                               914 B           104 kB
-├ ○ /contact                               1.14 kB         104 kB
-├ ○ /disclaimer                            1.54 kB         105 kB
-├ ○ /privacyPolicy                         1.04 kB         104 kB
-└ λ /product/[id]                          68.5 kB         223 kB
-+ First Load JS shared by all              135 kB
-  ├ chunks/framework-2647c7e378e02044.js   45.2 kB
-  ├ chunks/main-811a386f97ab9b97.js        26.8 kB
-  ├ chunks/pages/_app-51a32077ab868a23.js  24.6 kB
-  ├ chunks/webpack-18e1e020f3fa96ee.js     867 B
-  └ css/8d89a651c96fd6d0.css               37.7 kB
-
-λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
-○  (Static)  automatically rendered as static HTML (uses no initial props)
-

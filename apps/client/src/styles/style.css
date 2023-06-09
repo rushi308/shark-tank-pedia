@@ -971,35 +971,6 @@ h5,
   color: #b3b3b3;
 }
 
-.sidebar {
-  padding-left: 5em;
-}
-
-@media (max-width: 991.98px) {
-  .sidebar {
-    padding-left: 15px;
-  }
-}
-
-.sidebar-box {
-  margin-bottom: 4em;
-  font-size: 15px;
-  width: 100%;
-  float: left;
-  background: #fff;
-}
-
-.sidebar-box *:last-child {
-  margin-bottom: 0;
-}
-
-.sidebar-box .heading {
-  font-size: 18px;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e6e6e6;
-}
-
 .tags {
   padding: 0;
   margin: 0;
@@ -1136,40 +1107,6 @@ h5,
 .comment-list li .comment-body .reply:hover {
   color: #000;
   background: #e3e3e3;
-}
-
-.post-entry-sidebar .post-meta {
-  font-size: 14px;
-  color: #b3b3b3;
-}
-
-.post-entry-sidebar ul {
-  padding: 0;
-  margin: 0;
-}
-
-.post-entry-sidebar ul li {
-  list-style: none;
-  padding: 0 0 20px 0;
-  margin: 0 0 20px 0;
-}
-
-.post-entry-sidebar ul li a {
-  display: table;
-}
-
-.post-entry-sidebar ul li a img {
-  width: 90px;
-}
-
-.post-entry-sidebar ul li a img,
-.post-entry-sidebar ul li a .text {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.post-entry-sidebar ul li a .text h4 {
-  font-size: 18px;
 }
 
 .search-form-wrap {

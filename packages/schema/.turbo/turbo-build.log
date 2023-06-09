@@ -1,5 +1,5 @@
 
-> sharktankpedia-schema@1.0.0 build /Users/rushipatel/Documents/Projects/shark-tank-pedia/packages/schema
+> sharktankpedia-schema@1.0.0 build /Users/rushipatel/Documents/Private/shark-tank-pedia/packages/schema
 > graphql-codegen && tsc -b
 
 [STARTED] Parse Configuration
