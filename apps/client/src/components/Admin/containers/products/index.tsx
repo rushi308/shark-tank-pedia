@@ -1,7 +1,7 @@
 import { Button, Loading, Text } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
-import { Flex } from "../styles/flex";
-import { TableWrapper } from "../table/table";
+import { Flex } from "../../styles/flex";
+import { TableWrapper } from "../../components/table/table";
 import { Product } from "sharktankpedia-schema";
 import { getProducts } from "@/utils/api/client";
 import { useRouter } from "next/router";

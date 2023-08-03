@@ -1,7 +1,7 @@
 import { Input, Link, Navbar } from "@nextui-org/react";
 import React from "react";
-import { SearchIcon } from "../icons/searchicon";
-import { Box } from "../styles/box";
+import { SearchIcon } from "../../icons/searchicon";
+import { Box } from "../../styles/box";
 import { BurguerButton } from "./burguer-button";
 import { UserDropdown } from "./user-dropdown";
 

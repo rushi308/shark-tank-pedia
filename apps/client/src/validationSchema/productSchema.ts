@@ -81,18 +81,18 @@ const productValidationSchema = Yup.object({
       amount: Yup.string().trim().required("Please enter a amount"),
       valuation: Yup.string().trim().required("Please enter a valuation"),
       equity: Yup.number().required("Please enter an equity"),
-      debt: Yup.string().trim().required("Please enter a debt"),
-      debtInterest: Yup.number().required("Please enter a debt intrest"),
+      debt: Yup.string().trim(),
+      debtInterest: Yup.number(),
     })
   ),
 
   dealClosed: Yup.object({
-    sharkName: Yup.string().trim().required("Please enter a shark name"),
-    amount: Yup.string().trim().required("Please enter a amount"),
-    valuation: Yup.string().trim().required("Please enter a valuation"),
-    equity: Yup.number().required("Please enter an equity"),
-    debt: Yup.string().trim().required("Please enter a debt"),
-    debtInterest: Yup.number().required("Please enter a debt intrest"),
+    sharkName: Yup.string().trim(),
+    amount: Yup.string().trim(),
+    valuation: Yup.string(),
+    equity: Yup.number(),
+    debt: Yup.string().trim(),
+    debtInterest: Yup.number(),
   }),
 
   productImage: Yup.string().trim().required("Please enter product image url"),

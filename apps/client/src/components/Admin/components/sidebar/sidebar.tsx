@@ -1,13 +1,13 @@
 import React from "react";
-import { Box } from "../styles/box";
+import { Box } from "../../styles/box";
 import { Sidebar } from "./sidebar.styles";
-import { Flex } from "../styles/flex";
+import { Flex } from "../../styles/flex";
 import { CompaniesDropdown } from "./companies-dropdown";
-import { HomeIcon } from "../icons/sidebar/home-icon";
-import { ProductsIcon } from "../icons/sidebar/products-icon";
+import { HomeIcon } from "../../icons/sidebar/home-icon";
+import { ProductsIcon } from "../../icons/sidebar/products-icon";
 import { SidebarItem } from "./sidebar-item";
 import { SidebarMenu } from "./sidebar-menu";
-import { useSidebarContext } from "../adminlayout/layout-context";
+import { useSidebarContext } from "../../adminlayout/layout-context";
 import { useRouter } from "next/router";
 
 export const SidebarWrapper = () => {

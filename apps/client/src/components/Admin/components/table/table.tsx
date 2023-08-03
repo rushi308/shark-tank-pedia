@@ -1,6 +1,6 @@
 import { Table } from "@nextui-org/react";
 import React from "react";
-import { Box } from "../styles/box";
+import { Box } from "../../styles/box";
 import { columns } from "./data";
 import { RenderCell } from "./render-cell";
 import { Product } from "sharktankpedia-schema";

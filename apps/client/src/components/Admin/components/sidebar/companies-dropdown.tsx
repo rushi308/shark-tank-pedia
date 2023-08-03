@@ -1,10 +1,8 @@
-import { Dropdown, Text } from "@nextui-org/react";
+import { Text } from "@nextui-org/react";
 import React, { useState } from "react";
-import { AcmeIcon } from "../icons/acme-icon";
-import { AcmeLogo } from "../icons/acmelogo";
-import { BottomIcon } from "../icons/sidebar/bottom-icon";
-import { Box } from "../styles/box";
-import { Flex } from "../styles/flex";
+import { AcmeIcon } from "../../icons/acme-icon";
+import { Box } from "../../styles/box";
+import { Flex } from "../../styles/flex";
 
 interface Company {
   name: string;

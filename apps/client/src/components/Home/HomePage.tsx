@@ -4,18 +4,17 @@ import FeaturedProduct from "./FeaturedProduct";
 import RecentProduct from "./RecentProduct";
 
 type HomePageProps = {
-  featuredProducts:Product[],
-  recentProducts:Product[]
-}
+  featuredProducts: Product[];
+  recentProducts: Product[];
+};
 
-function HomePage({featuredProducts,recentProducts}:HomePageProps) {
+function HomePage({ featuredProducts, recentProducts }: HomePageProps) {
   // useAnalytics();
- 
 
   return (
     <>
-      <FeaturedProduct featuredProducts={featuredProducts}/>
-      <RecentProduct recentProducts={recentProducts}/>
+      <FeaturedProduct featuredProducts={featuredProducts} />
+      <RecentProduct recentProducts={recentProducts} />
     </>
   );
 }

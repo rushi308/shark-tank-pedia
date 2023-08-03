@@ -1,7 +1,7 @@
 import { Text, Link } from "@nextui-org/react";
 import React from "react";
-import { useSidebarContext } from "../adminlayout/layout-context";
-import { Flex } from "../styles/flex";
+import { useSidebarContext } from "../../adminlayout/layout-context";
+import { Flex } from "../../styles/flex";
 
 interface Props {
   title: string;
