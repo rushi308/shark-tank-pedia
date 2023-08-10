@@ -6,7 +6,7 @@ export const withAuthenticationRequired = <P extends Record<string, unknown>>(
   Component: ComponentType<P>
 ): FC<P> =>
   function WithAuthenticationRequired(props: P): JSX.Element {
-    const { isAuthenticated, isLoading, user } = useAuth();
+    const { isAuthenticated, isLoading } = useAuth();
     console.log("isAuthenticated", isAuthenticated);
 
     useEffect(() => {

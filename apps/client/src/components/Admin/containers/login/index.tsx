@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { Mail } from "../../icons/mail-icon";
 import { Password } from "../../icons/password-icon";
-import { Formik } from "formik";
+import { Formik, FormikValues } from "formik";
 import loginValidationSchema from "@/validationSchema/loginSchema";
 import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 export const Login = () => {
   const router = useRouter();
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async (values: FormikValues) => {
     try {
       const user = await Auth.signIn(values.username, values.password);
       if (user) {
@@ -40,17 +40,7 @@ export const Login = () => {
       validateOnChange={false}
       onSubmit={onSubmit}
     >
-      {({
-        handleSubmit,
-        setValues,
-        getFieldProps,
-        values,
-        handleChange,
-        handleBlur,
-        errors,
-        touched,
-        isSubmitting,
-      }) => (
+      {({ handleSubmit, handleChange, handleBlur, errors, touched }) => (
         <form onSubmit={handleSubmit} noValidate id="page-login-form">
           <div>
             <Container

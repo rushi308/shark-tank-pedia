@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useLockedBody } from "../hooks/useBodyLock";
 import { NavbarWrapper } from "../components/navbar/navbar";
 import { SidebarWrapper } from "../components/sidebar/sidebar";
@@ -27,6 +27,7 @@ const darkTheme = createTheme({
 
 export const AdminLayout = ({ children }: Props) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setLocked] = useLockedBody(false);
   const handleToggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
