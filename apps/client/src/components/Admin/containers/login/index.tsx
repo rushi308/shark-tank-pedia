@@ -12,7 +12,6 @@ import { Password } from "../../icons/password-icon";
 import { Formik } from "formik";
 import loginValidationSchema from "@/validationSchema/loginSchema";
 import { Auth } from "aws-amplify";
-import useAuth from "../../hooks/useAuth";
 import { useRouter } from "next/router";
 
 export const Login = () => {
