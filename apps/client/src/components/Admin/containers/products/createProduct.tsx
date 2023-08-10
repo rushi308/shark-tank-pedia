@@ -8,10 +8,14 @@ import {
   Row,
   Col,
 } from "@nextui-org/react";
-import React from "react";
+import React, { use, useRef, useState } from "react";
 import { Flex } from "../../styles/flex";
 import { FieldArray, Formik } from "formik";
 import productValidationSchema from "@/validationSchema/productSchema";
+import Image from "next/image";
+import { TrashIcon } from "../../icons/accounts/trash-icon";
+import { IconButton } from "../../components/table/table.styled";
+import { DeleteIcon } from "../../icons/table/delete-icon";
 
 const initialProductFormValues = {
   id: "",
@@ -53,9 +57,26 @@ const initialProductFormValues = {
 };
 
 export const CreateProduct = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const onSubmit = async (values: any) => {
     console.log(values);
   };
+
+  const uploadImageToClient = (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedImage(event.target.files[0]);
+    }
+  };
+
+  const removeSelectedImage = () => {
+    setSelectedImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   return (
     <Flex
       css={{
@@ -1791,6 +1812,140 @@ export const CreateProduct = () => {
                 </Col>
               </Row>
             </Container>
+            <Container fluid gap={1} className="mt-4">
+              <Row>
+                <Col span={3}>
+                  <Row>
+                    <Col>
+                      <Input
+                        ref={fileInputRef}
+                        type="file"
+                        width="100%"
+                        label="Upload Image"
+                        placeholder="Choose File"
+                        onChange={uploadImageToClient}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+                <Col span={3} offset={0.5}>
+                  {selectedImage && (
+                    <div
+                      style={{
+                        ...styles.preview,
+                        flexDirection: "row",
+                      }}
+                    >
+                      <Image
+                        src={URL.createObjectURL(selectedImage)}
+                        style={styles.image}
+                        alt="Thumb"
+                        width="100"
+                        height="100"
+                      />
+                      <IconButton
+                        type="button"
+                        onClick={removeSelectedImage}
+                        style={{ marginLeft: "10px" }}
+                      >
+                        <DeleteIcon fill="#FF0080" />
+                      </IconButton>
+                    </div>
+                  )}
+                </Col>
+                <Col span={6}>
+                  <Row>
+                    <Col>
+                      <Text h6 css={{ fontWeight: "normal" }}>
+                        Categories
+                      </Text>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12}>
+                      <Row>
+                        <Col>
+                          <FieldArray
+                            name="categories"
+                            render={(arrayHelpers) => (
+                              <>
+                                {values.categories.map((cat, index) => (
+                                  <Row key={index}>
+                                    <Col span={9}>
+                                      <Input
+                                        required
+                                        name={`categories[${index}]`}
+                                        shadow={false}
+                                        width="100%"
+                                        placeholder="i.e Technology, Retail, E-commerce"
+                                        status={
+                                          touched.categories &&
+                                          touched.categories.length > 0 &&
+                                          touched.categories[index] &&
+                                          errors.categories &&
+                                          errors.categories.length > 0 &&
+                                          errors.categories[index]
+                                            ? "error"
+                                            : undefined
+                                        }
+                                        value={values.categories[index]}
+                                        label={
+                                          (touched.categories &&
+                                            touched.categories.length > 0 &&
+                                            touched.categories[index] &&
+                                            errors.categories &&
+                                            errors.categories.length > 0 &&
+                                            errors.categories[index]) ||
+                                          `Category ${index + 1}`
+                                        }
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                      />
+                                    </Col>
+
+                                    <Col
+                                      span={2}
+                                      offset={1}
+                                      // className="mt-4"
+                                      css={{ marginTop: "27px" }}
+                                    >
+                                      <Button
+                                        type="button"
+                                        bordered
+                                        color="primary"
+                                        auto
+                                        onClick={() =>
+                                          arrayHelpers.remove(index)
+                                        }
+                                      >
+                                        Remove
+                                      </Button>
+                                    </Col>
+                                  </Row>
+                                ))}
+                                <Row className="mt-2">
+                                  <Col>
+                                    <Button
+                                      type="button"
+                                      bordered
+                                      color="primary"
+                                      auto
+                                      onClick={() => arrayHelpers.push("")}
+                                    >
+                                      Add Category
+                                    </Button>
+                                  </Col>
+                                </Row>
+                              </>
+                            )}
+                          ></FieldArray>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </Container>
 
             <Grid.Container css={{ paddingTop: "$10" }} gap={2}>
               <Grid xs={6}>
@@ -1802,4 +1957,29 @@ export const CreateProduct = () => {
       </Formik>
     </Flex>
   );
+};
+
+// Just some styles
+const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 50,
+  },
+  preview: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: { maxWidth: "100%", maxHeight: 320 },
+  delete: {
+    cursor: "pointer",
+    padding: 15,
+    background: "red",
+    color: "white",
+    border: "none",
+  },
 };
