@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLockedBody } from "../hooks/useBodyLock";
 import { NavbarWrapper } from "../components/navbar/navbar";
 import { SidebarWrapper } from "../components/sidebar/sidebar";

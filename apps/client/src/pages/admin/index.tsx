@@ -1,7 +1,9 @@
 import { AdminLayout } from "@/components/Admin/adminlayout/AdminLayout";
 import React from "react";
 
-export default function Admin() {
+import withAuthenticationRequired from "@/components/Admin/adminlayout/AdminAuthenticator";
+
+export default withAuthenticationRequired(function Admin() {
   return (
     <>
       {/* {CssBaseline.flush()} */}
@@ -10,4 +12,4 @@ export default function Admin() {
       </AdminLayout>
     </>
   );
-}
+});

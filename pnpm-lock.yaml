@@ -111,6 +111,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.0.0
         version: 18.0.10
+      amazon-cognito-identity-js:
+        specifier: ^6.3.1
+        version: 6.3.1
       aws-amplify:
         specifier: ^5.0.13
         version: 5.0.13(react-native@0.71.8)
@@ -8510,6 +8513,18 @@ packages:
 
   /amazon-cognito-identity-js@6.1.2:
     resolution: {integrity: sha512-Ptutf9SLvKEM1Kr2kTPUvu/9THjQ0Si1l80iZYcS8NqScAAiDg8WjOOhQeJPcQDXt3Vym91luZ6zNW/3ErjEdQ==}
+    dependencies:
+      '@aws-crypto/sha256-js': 1.2.2
+      buffer: 4.9.2
+      fast-base64-decode: 1.0.0
+      isomorphic-unfetch: 3.1.0
+      js-cookie: 2.2.1
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /amazon-cognito-identity-js@6.3.1:
+    resolution: {integrity: sha512-PxBdufgS8uZShrcIFAsRjmqNXsh/4fXOWUGQOUhKLHWWK1pcp/y+VeFF48avXIWefM8XwsT3JlN6m9J2eHt4LA==}
     dependencies:
       '@aws-crypto/sha256-js': 1.2.2
       buffer: 4.9.2

@@ -48,8 +48,9 @@ export class CognitoUserPool extends Construct {
       scope,
       `${environmentName}-SharkTankPediAdminClient`,
       {
-        userPoolClientName: `${environmentName}SharkTankPediAdminClient`,
+        userPoolClientName: `${environmentName}SharkTankPediaAdminClient`,
         userPool,
+        
       }
     );
 

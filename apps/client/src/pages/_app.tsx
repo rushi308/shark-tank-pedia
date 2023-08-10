@@ -9,10 +9,16 @@ import { Router } from "next/router";
 import { loaderRef } from "@/components/Spinner";
 
 Amplify.configure({
+  Auth: {
+    region: process.env.awsAppsyncRegion,
+    userPoolId: process.env.cognitoUserPoolId,
+    userPoolWebClientId: process.env.cognitoUserPoolClientId,
+  },
+  region: process.env.awsAppsyncRegion,
+  userPoolId: process.env.cognitoUserPoolId,
+  userPoolWebClientId: process.env.cognitoUserPoolClientId,
   aws_project_region: process.env.awsAppsyncRegion,
   aws_cognito_region: process.env.awsAppsyncRegion,
-  aws_user_pools_id: process.env.userPoolId,
-  aws_user_pools_web_client_id: process.env.userPoolClientId,
   API: {
     aws_appsync_graphqlEndpoint: process.env.awsAppsyncURL,
     aws_appsync_apiKey: process.env.awsAppsyncAPIKey,
