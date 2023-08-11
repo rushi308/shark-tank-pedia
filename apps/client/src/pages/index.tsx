@@ -1,5 +1,4 @@
 import HomePage from "@/components/Home/HomePage";
-import Header from "@/components/Layout/Header";
 import Layout from "@/components/Layout/Layout";
 import { getProducts } from "@/utils/api/client";
 import { Product } from "sharktankpedia-schema";
@@ -21,6 +20,7 @@ export default function Home({ featuredProducts, recentProducts }: HomeProps) {
     </>
   );
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 export async function getServerSideProps({ req, res }: any) {
   // Call an external API endpoint to get products
   try {

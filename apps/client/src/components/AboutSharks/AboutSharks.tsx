@@ -56,10 +56,11 @@ function AboutSharks() {
                   <p className="shark-text-body">
                     Anupam Mittal founded People Group, which runs Shaadi.com,
                     India&apos;s largest matrimonial site. He&apos;s a notable
-                    entrepreneur in India, but there&apos;s no evidence he&apos;s appeared
-                    on &quot;Shark Tank India&quot;. To find Indian entrepreneurs who have
-                    appeared on the show, check its official website or search
-                    for &quot;Shark Tank India&quot;.
+                    entrepreneur in India, but there&apos;s no evidence
+                    he&apos;s appeared on &quot;Shark Tank India&quot;. To find
+                    Indian entrepreneurs who have appeared on the show, check
+                    its official website or search for &quot;Shark Tank
+                    India&quot;.
                   </p>
                 </div>
               </div>
@@ -106,10 +107,10 @@ function AboutSharks() {
                   <p className="shark-text-body">
                     Peyush Bansal is the founder of Lenskart.com, an Indian
                     online eyewear retailer. Before Lenskart, he worked in tech
-                    companies in India and the US. Bansal&apos;s innovative ideas
-                    have made Lenskart a popular brand, and it offers a variety
-                    of eyewear products. He&apos;s helped to change the way people
-                    buy eyewear in India.
+                    companies in India and the US. Bansal&apos;s innovative
+                    ideas have made Lenskart a popular brand, and it offers a
+                    variety of eyewear products. He&apos;s helped to change the
+                    way people buy eyewear in India.
                   </p>
                 </div>
               </div>
@@ -129,8 +130,8 @@ function AboutSharks() {
                   <p className="shark-text-body">
                     Namita Thapar is the Vice President of Emcure
                     Pharmaceuticals in India, where she has worked for over 20
-                    years. She&apos;s involved in social initiatives, including the
-                    Emcure Cares Foundation, and is committed to improving
+                    years. She&apos;s involved in social initiatives, including
+                    the Emcure Cares Foundation, and is committed to improving
                     healthcare and education in India. Thapar has received
                     recognition for her contributions to the pharmaceutical
                     industry and is a role model for women in business.

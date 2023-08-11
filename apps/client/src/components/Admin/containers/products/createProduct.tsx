@@ -7,13 +7,13 @@ import {
   Container,
   Row,
   Col,
+  Checkbox,
 } from "@nextui-org/react";
-import React, { use, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Flex } from "../../styles/flex";
 import { FieldArray, Formik } from "formik";
 import productValidationSchema from "@/validationSchema/productSchema";
 import Image from "next/image";
-import { TrashIcon } from "../../icons/accounts/trash-icon";
 import { IconButton } from "../../components/table/table.styled";
 import { DeleteIcon } from "../../icons/table/delete-icon";
 
@@ -60,10 +60,12 @@ export const CreateProduct = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (values: any) => {
     console.log(values);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const uploadImageToClient = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedImage(event.target.files[0]);
@@ -101,12 +103,9 @@ export const CreateProduct = () => {
           handleBlur,
           handleChange,
           handleSubmit,
-          setValues,
-          getFieldProps,
           values,
           errors,
           touched,
-          isSubmitting,
         }) => (
           <form onSubmit={handleSubmit} noValidate id="page-product-form">
             <Grid.Container gap={2}>
@@ -1941,6 +1940,22 @@ export const CreateProduct = () => {
                           ></FieldArray>
                         </Col>
                       </Row>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </Container>
+            <Container fluid gap={1} className="mt-4">
+              <Row>
+                <Col span={12}>
+                  <Row>
+                    <Col>
+                      <Checkbox
+                        name="featured"
+                        defaultSelected={values.featured}
+                      >
+                        Featured
+                      </Checkbox>
                     </Col>
                   </Row>
                 </Col>

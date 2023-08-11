@@ -50,7 +50,6 @@ export class CognitoUserPool extends Construct {
       {
         userPoolClientName: `${environmentName}SharkTankPediaAdminClient`,
         userPool,
-        
       }
     );
 

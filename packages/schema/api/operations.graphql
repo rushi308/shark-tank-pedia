@@ -5,10 +5,73 @@ mutation MutateProduct($input: ProductInput!) {
       id
       title
       companyName
+      amazonLink
+      productDetails
+      flipkartLink
+      website
+      marketPlace {
+        __typename
+        name
+        value
+      }
+      appStoreLink
+      playStoreLink
+      established
+      founders
       numberOfEmployees
+      story
       productFeatures
+      valueChain
+      originalAsk
+      sales {
+        __typename
+        unit
+        values {
+          __typename
+          name
+          value
+        }
+      }
+      salesSplit {
+        __typename
+        unit
+        values {
+          __typename
+          name
+          value
+        }
+      }
+      unitEconomics {
+        __typename
+        name
+        value
+      }
+      statistics {
+        __typename
+        name
+        value
+      }
+      counterOffer {
+        __typename
+        sharkName
+        amount
+        valuation
+        equity
+        debt
+        debtInterest
+      }
+      dealClosed {
+        __typename
+        sharkName
+        amount
+        valuation
+        equity
+        debt
+        debtInterest
+      }
       productImage
       informationImage
+      categories
       season
       episode
       precedence

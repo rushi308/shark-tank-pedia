@@ -1,17 +1,20 @@
 import { Avatar, Dropdown, Navbar, Text } from "@nextui-org/react";
 import React from "react";
 import { DarkModeSwitch } from "./darkmodeswitch";
+import useAuth from "../../hooks/useAuth";
 
 export const UserDropdown = () => {
+  const { user } = useAuth();
+
   return (
     <Dropdown placement="bottom-right">
       <Navbar.Item>
         <Dropdown.Trigger>
           <Avatar
             bordered
-            color="secondary"
+            color="primary"
             size="md"
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            text={user?.getUsername()}
           />
         </Dropdown.Trigger>
       </Navbar.Item>
@@ -24,20 +27,8 @@ export const UserDropdown = () => {
             Signed in as
           </Text>
           <Text b color="inherit" css={{ d: "flex" }}>
-            zoey@example.com
+            {user?.getUsername()}
           </Text>
-        </Dropdown.Item>
-        <Dropdown.Item key="settings" withDivider>
-          My Settings
-        </Dropdown.Item>
-        <Dropdown.Item key="team_settings">Team Settings</Dropdown.Item>
-        <Dropdown.Item key="analytics" withDivider>
-          Analytics
-        </Dropdown.Item>
-        <Dropdown.Item key="system">System</Dropdown.Item>
-        <Dropdown.Item key="configurations">Configurations</Dropdown.Item>
-        <Dropdown.Item key="help_and_feedback" withDivider>
-          Help & Feedback
         </Dropdown.Item>
         <Dropdown.Item key="logout" withDivider color="error">
           Log Out

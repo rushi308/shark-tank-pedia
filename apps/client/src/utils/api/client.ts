@@ -1,12 +1,17 @@
 import {
   GetProductDetailInput,
   GetProductsInput,
+  // MutateProductDocument,
+  // MutateProductMutation,
   Product,
   ProductDocument,
+  // ProductInput,
   ProductQuery,
   Products,
   ProductsDocument,
   ProductsQuery,
+  // ServerError,
+  // ValidationError,
 } from "sharktankpedia-schema";
 import { GraphQLResult } from "@aws-amplify/api";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
@@ -85,3 +90,27 @@ export async function getProductDetail(id: string): Promise<Product> {
       throw new Error("Unable to determine type");
   }
 }
+
+// export async function mutateProduct(
+//   input: ProductInput
+// ): Promise<Product | ValidationError | ServerError> {
+//   const response = await query<MutateProductMutation, ProductInput>(
+//     MutateProductDocument,
+//     true,
+//     input
+//   );
+//   if (!response.product) {
+//     throw new Error("No response found");
+//   }
+//   switch (response.product.__typename) {
+//     case "Product":
+//       return response.product;
+//     case "ValidationError":
+//     case "ServerError":
+//       return new Error(
+//         "Unable to mutate product: ServerError"
+//       ) as unknown as ServerError;
+//     default:
+//       throw new Error("Unable to determine type");
+//   }
+// }

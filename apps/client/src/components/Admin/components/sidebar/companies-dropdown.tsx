@@ -11,7 +11,7 @@ interface Company {
 }
 
 export const CompaniesDropdown = () => {
-  const [company, setCompany] = useState<Company>({
+  const [company] = useState<Company>({
     name: "SharkTankPedia",
     location: "London, UK",
     logo: <AcmeIcon />,

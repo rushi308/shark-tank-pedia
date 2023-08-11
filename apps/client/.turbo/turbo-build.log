@@ -2,14 +2,138 @@
 > client@0.1.0 build /Users/rushipatel/Documents/Private/shark-tank-pedia/apps/client
 > next build
 
-warn  - You have enabled experimental feature (outputFileTracingRoot) in next.config.js.
-warn  - Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
+- info Loaded env from /Users/rushipatel/Documents/Private/shark-tank-pedia/apps/client/.env
+- warn You have enabled experimental feature (outputFileTracingRoot) in next.config.js.
+- warn Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
 
-info  - Linting and checking validity of types...
+- info Linting and checking validity of types...
 
-./src/pages/_app.tsx
-85:9  Warning: `next/script`'s `beforeInteractive` strategy should not be used outside of `pages/_document.js`. See: https://nextjs.org/docs/messages/no-before-interactive-script-outside-document  @next/next/no-before-interactive-script-outside-document
-93:9  Warning: `next/script`'s `beforeInteractive` strategy should not be used outside of `pages/_document.js`. See: https://nextjs.org/docs/messages/no-before-interactive-script-outside-document  @next/next/no-before-interactive-script-outside-document
+Failed to compile.
+
+./src/components/Admin/components/navbar/darkmodeswitch.tsx
+1:19  Error: Strings must use doublequote.  quotes
+2:40  Error: Strings must use doublequote.  quotes
+3:32  Error: Strings must use doublequote.  quotes
+7:19  Warning: 'type' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+11:55  Error: Strings must use doublequote.  quotes
+11:64  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/components/navbar/navbar.styles.ts
+1:22  Error: Strings must use doublequote.  quotes
+3:38  Error: Strings must use doublequote.  quotes
+4:14  Error: Strings must use doublequote.  quotes
+5:12  Error: Strings must use doublequote.  quotes
+6:13  Error: Strings must use doublequote.  quotes
+8:42  Error: Strings must use doublequote.  quotes
+9:4  Error: Strings must use doublequote.  quotes
+9:16  Error: Strings must use doublequote.  quotes
+10:4  Error: Strings must use doublequote.  quotes
+10:15  Error: Strings must use doublequote.  quotes
+11:4  Error: Strings must use doublequote.  quotes
+11:21  Error: Strings must use doublequote.  quotes
+12:4  Error: Strings must use doublequote.  quotes
+12:22  Error: Strings must use doublequote.  quotes
+14:4  Error: Strings must use doublequote.  quotes
+14:13  Error: Strings must use doublequote.  quotes
+15:4  Error: Strings must use doublequote.  quotes
+15:14  Error: Strings must use doublequote.  quotes
+16:4  Error: Strings must use doublequote.  quotes
+16:18  Error: Strings must use doublequote.  quotes
+17:4  Error: Strings must use doublequote.  quotes
+17:14  Error: Strings must use doublequote.  quotes
+18:4  Error: Strings must use doublequote.  quotes
+18:14  Error: Strings must use doublequote.  quotes
+19:4  Error: Strings must use doublequote.  quotes
+19:15  Error: Strings must use doublequote.  quotes
+20:4  Error: Strings must use doublequote.  quotes
+20:14  Error: Strings must use doublequote.  quotes
+21:4  Error: Strings must use doublequote.  quotes
+22:16  Error: Strings must use doublequote.  quotes
+24:4  Error: Strings must use doublequote.  quotes
+25:7  Error: Strings must use doublequote.  quotes
+25:16  Error: Strings must use doublequote.  quotes
+26:7  Error: Strings must use doublequote.  quotes
+26:17  Error: Strings must use doublequote.  quotes
+27:7  Error: Strings must use doublequote.  quotes
+27:21  Error: Strings must use doublequote.  quotes
+28:7  Error: Strings must use doublequote.  quotes
+28:23  Error: Strings must use doublequote.  quotes
+29:7  Error: Strings must use doublequote.  quotes
+29:21  Error: Strings must use doublequote.  quotes
+30:7  Error: Strings must use doublequote.  quotes
+30:19  Error: Strings must use doublequote.  quotes
+31:7  Error: Strings must use doublequote.  quotes
+31:26  Error: Strings must use doublequote.  quotes
+33:7  Error: Strings must use doublequote.  quotes
+34:21  Error: Strings must use doublequote.  quotes
+35:18  Error: Strings must use doublequote.  quotes
+36:21  Error: Strings must use doublequote.  quotes
+38:7  Error: Strings must use doublequote.  quotes
+39:21  Error: Strings must use doublequote.  quotes
+40:18  Error: Strings must use doublequote.  quotes
+41:24  Error: Strings must use doublequote.  quotes
+44:4  Error: Strings must use doublequote.  quotes
+47:13  Error: Strings must use doublequote.  quotes
+48:16  Error: Strings must use doublequote.  quotes
+49:30  Error: Strings must use doublequote.  quotes
+50:30  Error: Strings must use doublequote.  quotes
+52:16  Error: Strings must use doublequote.  quotes
+53:33  Error: Strings must use doublequote.  quotes
+54:30  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/components/navbar/user-dropdown.tsx
+7:17  Warning: 'logout' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/components/sidebar/companies-dropdown.tsx
+14:19  Warning: 'setCompany' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/components/sidebar/sidebar-item.tsx
+14:11  Warning: 'collapsed' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/components/table/render-cell.tsx
+1:26  Warning: 'Text' is defined but never used.  @typescript-eslint/no-unused-vars
+5:10  Warning: 'EyeIcon' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/containers/products/createProduct.tsx
+63:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+67:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+104:11  Warning: 'setValues' is defined but never used.  @typescript-eslint/no-unused-vars
+105:11  Warning: 'getFieldProps' is defined but never used.  @typescript-eslint/no-unused-vars
+109:11  Warning: 'isSubmitting' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/home/card-transactions.tsx
+3:10  Warning: 'Box' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/hooks/useAuth.ts
+2:31  Warning: 'useCallback' is defined but never used.  @typescript-eslint/no-unused-vars
+4:8  Warning: 'login' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/hooks/useBodyLock.ts
+1:35  Error: Strings must use doublequote.  quotes
+2:41  Error: Strings must use doublequote.  quotes
+20:38  Error: Strings must use doublequote.  quotes
+23:44  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/hooks/useIsomorphicLayoutEffect.ts
+1:42  Error: Strings must use doublequote.  quotes
+4:22  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/icons/navbar/notificationicon.tsx
+2:10  Warning: 'Box' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/icons/searchicon.tsx
+1:19  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/styles/box.ts
+1:22  Error: Strings must use doublequote.  quotes
+3:27  Error: Strings must use doublequote.  quotes
+4:15  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/styles/svg.ts
+1:22  Error: Strings must use doublequote.  quotes
+3:28  Error: Strings must use doublequote.  quotes
+4:29  Error: Strings must use doublequote.  quotes
+5:29  Error: Strings must use doublequote.  quotes
 
 ./src/pages/index.tsx
 2:8  Warning: 'Header' is defined but never used.  @typescript-eslint/no-unused-vars
@@ -17,4 +141,4 @@ info  - Linting and checking validity of types...
 24:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
-info  - Creating an optimized production build...
+ ELIFECYCLE  Command failed with exit code 1.
