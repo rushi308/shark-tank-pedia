@@ -11,6 +11,7 @@ import { Construct } from "constructs";
 import { NodejsServiceFunction } from "./constructs/nodejs-service-function";
 import * as path from "path";
 import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
+import { CognitoUserPool } from "./constructs/cognito-userpool";
 
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
@@ -95,5 +96,14 @@ export class SharkTankPediaStack extends Stack {
     new CfnOutput(this, "Graphqlurl", {
       value: graphqlAPI.graphqlUrl,
     });
+
+    // cognito user pool
+    new CognitoUserPool(
+      this,
+      `${environmentName}-SharkTankPediaCognitoUserPool`,
+      {
+        environmentName,
+      }
+    );
   }
 }

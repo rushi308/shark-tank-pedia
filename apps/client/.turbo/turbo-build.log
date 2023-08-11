@@ -1,52 +1,144 @@
 
-> client@0.1.0 build /Users/rushipatel/Documents/Projects/shark-tank-pedia/apps/client
+> client@0.1.0 build /Users/rushipatel/Documents/Private/shark-tank-pedia/apps/client
 > next build
 
-info  - Loaded env from /Users/rushipatel/Documents/Projects/shark-tank-pedia/apps/client/.env
-warn  - You have enabled experimental feature (outputFileTracingRoot) in next.config.js.
-warn  - Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
+- info Loaded env from /Users/rushipatel/Documents/Private/shark-tank-pedia/apps/client/.env
+- warn You have enabled experimental feature (outputFileTracingRoot) in next.config.js.
+- warn Experimental features are not covered by semver, and may cause unexpected or broken application behavior. Use at your own risk.
 
-info  - Linting and checking validity of types...
+- info Linting and checking validity of types...
 
-./src/pages/_app.tsx
-31:41  Warning: 'url' is defined but never used.  @typescript-eslint/no-unused-vars
-35:44  Warning: '_url' is defined but never used.  @typescript-eslint/no-unused-vars
-84:7  Warning: `next/script`'s `beforeInteractive` strategy should not be used outside of `pages/_document.js`. See: https://nextjs.org/docs/messages/no-before-interactive-script-outside-document  @next/next/no-before-interactive-script-outside-document
-92:7  Warning: `next/script`'s `beforeInteractive` strategy should not be used outside of `pages/_document.js`. See: https://nextjs.org/docs/messages/no-before-interactive-script-outside-document  @next/next/no-before-interactive-script-outside-document
+Failed to compile.
+
+./src/components/Admin/components/navbar/darkmodeswitch.tsx
+1:19  Error: Strings must use doublequote.  quotes
+2:40  Error: Strings must use doublequote.  quotes
+3:32  Error: Strings must use doublequote.  quotes
+7:19  Warning: 'type' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+11:55  Error: Strings must use doublequote.  quotes
+11:64  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/components/navbar/navbar.styles.ts
+1:22  Error: Strings must use doublequote.  quotes
+3:38  Error: Strings must use doublequote.  quotes
+4:14  Error: Strings must use doublequote.  quotes
+5:12  Error: Strings must use doublequote.  quotes
+6:13  Error: Strings must use doublequote.  quotes
+8:42  Error: Strings must use doublequote.  quotes
+9:4  Error: Strings must use doublequote.  quotes
+9:16  Error: Strings must use doublequote.  quotes
+10:4  Error: Strings must use doublequote.  quotes
+10:15  Error: Strings must use doublequote.  quotes
+11:4  Error: Strings must use doublequote.  quotes
+11:21  Error: Strings must use doublequote.  quotes
+12:4  Error: Strings must use doublequote.  quotes
+12:22  Error: Strings must use doublequote.  quotes
+14:4  Error: Strings must use doublequote.  quotes
+14:13  Error: Strings must use doublequote.  quotes
+15:4  Error: Strings must use doublequote.  quotes
+15:14  Error: Strings must use doublequote.  quotes
+16:4  Error: Strings must use doublequote.  quotes
+16:18  Error: Strings must use doublequote.  quotes
+17:4  Error: Strings must use doublequote.  quotes
+17:14  Error: Strings must use doublequote.  quotes
+18:4  Error: Strings must use doublequote.  quotes
+18:14  Error: Strings must use doublequote.  quotes
+19:4  Error: Strings must use doublequote.  quotes
+19:15  Error: Strings must use doublequote.  quotes
+20:4  Error: Strings must use doublequote.  quotes
+20:14  Error: Strings must use doublequote.  quotes
+21:4  Error: Strings must use doublequote.  quotes
+22:16  Error: Strings must use doublequote.  quotes
+24:4  Error: Strings must use doublequote.  quotes
+25:7  Error: Strings must use doublequote.  quotes
+25:16  Error: Strings must use doublequote.  quotes
+26:7  Error: Strings must use doublequote.  quotes
+26:17  Error: Strings must use doublequote.  quotes
+27:7  Error: Strings must use doublequote.  quotes
+27:21  Error: Strings must use doublequote.  quotes
+28:7  Error: Strings must use doublequote.  quotes
+28:23  Error: Strings must use doublequote.  quotes
+29:7  Error: Strings must use doublequote.  quotes
+29:21  Error: Strings must use doublequote.  quotes
+30:7  Error: Strings must use doublequote.  quotes
+30:19  Error: Strings must use doublequote.  quotes
+31:7  Error: Strings must use doublequote.  quotes
+31:26  Error: Strings must use doublequote.  quotes
+33:7  Error: Strings must use doublequote.  quotes
+34:21  Error: Strings must use doublequote.  quotes
+35:18  Error: Strings must use doublequote.  quotes
+36:21  Error: Strings must use doublequote.  quotes
+38:7  Error: Strings must use doublequote.  quotes
+39:21  Error: Strings must use doublequote.  quotes
+40:18  Error: Strings must use doublequote.  quotes
+41:24  Error: Strings must use doublequote.  quotes
+44:4  Error: Strings must use doublequote.  quotes
+47:13  Error: Strings must use doublequote.  quotes
+48:16  Error: Strings must use doublequote.  quotes
+49:30  Error: Strings must use doublequote.  quotes
+50:30  Error: Strings must use doublequote.  quotes
+52:16  Error: Strings must use doublequote.  quotes
+53:33  Error: Strings must use doublequote.  quotes
+54:30  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/components/navbar/user-dropdown.tsx
+7:17  Warning: 'logout' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/components/sidebar/companies-dropdown.tsx
+14:19  Warning: 'setCompany' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/components/sidebar/sidebar-item.tsx
+14:11  Warning: 'collapsed' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/components/table/render-cell.tsx
+1:26  Warning: 'Text' is defined but never used.  @typescript-eslint/no-unused-vars
+5:10  Warning: 'EyeIcon' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/containers/products/createProduct.tsx
+63:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+67:39  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+104:11  Warning: 'setValues' is defined but never used.  @typescript-eslint/no-unused-vars
+105:11  Warning: 'getFieldProps' is defined but never used.  @typescript-eslint/no-unused-vars
+109:11  Warning: 'isSubmitting' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/home/card-transactions.tsx
+3:10  Warning: 'Box' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/hooks/useAuth.ts
+2:31  Warning: 'useCallback' is defined but never used.  @typescript-eslint/no-unused-vars
+4:8  Warning: 'login' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/hooks/useBodyLock.ts
+1:35  Error: Strings must use doublequote.  quotes
+2:41  Error: Strings must use doublequote.  quotes
+20:38  Error: Strings must use doublequote.  quotes
+23:44  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/hooks/useIsomorphicLayoutEffect.ts
+1:42  Error: Strings must use doublequote.  quotes
+4:22  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/icons/navbar/notificationicon.tsx
+2:10  Warning: 'Box' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Admin/icons/searchicon.tsx
+1:19  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/styles/box.ts
+1:22  Error: Strings must use doublequote.  quotes
+3:27  Error: Strings must use doublequote.  quotes
+4:15  Error: Strings must use doublequote.  quotes
+
+./src/components/Admin/styles/svg.ts
+1:22  Error: Strings must use doublequote.  quotes
+3:28  Error: Strings must use doublequote.  quotes
+4:29  Error: Strings must use doublequote.  quotes
+5:29  Error: Strings must use doublequote.  quotes
 
 ./src/pages/index.tsx
-20:44  Warning: 'req' is defined but never used.  @typescript-eslint/no-unused-vars
-20:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+2:8  Warning: 'Header' is defined but never used.  @typescript-eslint/no-unused-vars
+24:44  Warning: 'req' is defined but never used.  @typescript-eslint/no-unused-vars
+24:56  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
 
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
-info  - Creating an optimized production build...
-info  - Compiled successfully
-info  - Collecting page data...
-info  - Generating static pages (0/7)
-info  - Generating static pages (1/7)
-info  - Generating static pages (3/7)
-info  - Generating static pages (5/7)
-info  - Generating static pages (7/7)
-info  - Finalizing page optimization...
-
-Route (pages)                              Size     First Load JS
-┌ λ /                                      1.85 kB         124 kB
-├   /_app                                  0 B            97.6 kB
-├ ○ /404                                   182 B          97.7 kB
-├ ○ /500                                   281 B          97.8 kB
-├ ○ /about-sharks                          2.57 kB         139 kB
-├ ○ /aboutUs                               914 B           104 kB
-├ ○ /contact                               1.14 kB         104 kB
-├ ○ /disclaimer                            1.54 kB         105 kB
-├ ○ /privacyPolicy                         1.04 kB         104 kB
-└ λ /product/[id]                          68.5 kB         223 kB
-+ First Load JS shared by all              135 kB
-  ├ chunks/framework-2647c7e378e02044.js   45.2 kB
-  ├ chunks/main-811a386f97ab9b97.js        26.8 kB
-  ├ chunks/pages/_app-51a32077ab868a23.js  24.6 kB
-  ├ chunks/webpack-18e1e020f3fa96ee.js     867 B
-  └ css/8d89a651c96fd6d0.css               37.7 kB
-
-λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
-○  (Static)  automatically rendered as static HTML (uses no initial props)
-
+ ELIFECYCLE  Command failed with exit code 1.

@@ -8,4 +8,21 @@ export const convertDate = (date: string): string => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const toBase64 = (file: File) :any => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const myLoader = ({ src }: any) => `${src}`;

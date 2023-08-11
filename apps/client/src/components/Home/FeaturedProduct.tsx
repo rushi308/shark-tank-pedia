@@ -126,13 +126,11 @@ function FeaturedProduct({ featuredProducts }: FeaturedProductsProps) {
   const [products] = useState<Product[]>(featuredProducts);
 
   return (
-    <>
-      <div className="site-section bg-light">
-        <div className="container">
-          <ProductList products={products} />
-        </div>
+    <div className="site-section bg-light">
+      <div className="container">
+        <ProductList products={products} />
       </div>
-    </>
+    </div>
   );
 }
 

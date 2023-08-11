@@ -189,6 +189,10 @@ union ProductCreationResult = Product | ValidationError | ServerError
 union ImageUploadResult = ImageUploadSuccess | ValidationError | ServerError
 
 type Mutation {
-  product(input: ProductInput!): ProductCreationResult @aws_iam @aws_api_key
-  imageUpload(input: ImageInput!): ImageUploadResult @aws_iam @aws_api_key
+  product(input: ProductInput!): ProductCreationResult
+    @aws_cognito_user_pools
+    @aws_api_key
+  imageUpload(input: ImageInput!): ImageUploadResult
+    @aws_cognito_user_pools
+    @aws_api_key
 }

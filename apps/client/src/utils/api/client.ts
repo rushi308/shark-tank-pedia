@@ -1,12 +1,21 @@
 import {
   GetProductDetailInput,
   GetProductsInput,
+  ImageInput,
+  ImageUploadSuccess,
+  MutateImageDocument,
+  MutateImageMutation,
+  MutateProductDocument,
+  MutateProductMutation,
   Product,
   ProductDocument,
+  ProductInput,
   ProductQuery,
   Products,
   ProductsDocument,
   ProductsQuery,
+  ServerError,
+  ValidationError,
 } from "sharktankpedia-schema";
 import { GraphQLResult } from "@aws-amplify/api";
 import { TypedDocumentNode } from "@graphql-typed-document-node/core";
@@ -24,7 +33,7 @@ async function query<
   const response = (await SSR.API.graphql({
     query: operation,
     variables: variables ? { input: variables } : undefined,
-    authMode: "API_KEY",
+    authMode: requiresAuth ? "API_KEY" : "API_KEY",
   })) as GraphQLResult<TData>;
 
   if (response.errors) {
@@ -81,6 +90,55 @@ export async function getProductDetail(id: string): Promise<Product> {
     case "ValidationError":
     case "ServerError":
       throw new Error("Unable to get products: ServerError");
+    default:
+      throw new Error("Unable to determine type");
+  }
+}
+
+export async function mutateProduct(
+  input: ProductInput
+): Promise<Product | ValidationError | ServerError> {
+  const response = await query<MutateProductMutation, ProductInput>(
+    MutateProductDocument,
+    true,
+    input
+  );
+  if (!response.product) {
+    throw new Error("No response found");
+  }
+  switch (response.product.__typename) {
+    case "Product":
+      return response.product;
+    case "ValidationError":
+    case "ServerError":
+      return new Error(
+        "Unable to mutate product: ServerError"
+      ) as unknown as ServerError;
+    default:
+      throw new Error("Unable to determine type");
+  }
+}
+
+export async function mutateImage(
+  input: ImageInput
+): Promise<ImageUploadSuccess | ValidationError | ServerError> {
+  const response = await query<MutateImageMutation, ImageInput>(
+    MutateImageDocument,
+    true,
+    input
+  );
+  if (!response.imageUpload) {
+    throw new Error("No response found");
+  }
+  switch (response.imageUpload.__typename) {
+    case "ImageUploadSuccess":
+      return response.imageUpload;
+    case "ValidationError":
+    case "ServerError":
+      console.log(response);
+      return new Error(
+        "Unable to mutate image upload: ServerError"
+      ) as unknown as ServerError;
     default:
       throw new Error("Unable to determine type");
   }

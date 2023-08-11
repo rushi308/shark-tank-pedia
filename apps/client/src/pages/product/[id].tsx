@@ -1,3 +1,4 @@
+import Layout from "@/components/Layout/Layout";
 import ProductDetail from "@/components/ProductDetail/ProductDetail";
 import { getProductDetail } from "@/utils/api/client";
 import { Product } from "sharktankpedia-schema";
@@ -5,10 +6,14 @@ type ProductDetailProps = {
   productDetail: Product;
 };
 
-export default function ProductDetailPage({ productDetail }: ProductDetailProps) {
+export default function ProductDetailPage({
+  productDetail,
+}: ProductDetailProps) {
   return (
     <>
-      <ProductDetail productDetail={productDetail} />
+      <Layout>
+        <ProductDetail productDetail={productDetail} />
+      </Layout>
     </>
   );
 }

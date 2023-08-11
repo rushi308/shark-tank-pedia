@@ -25,8 +25,8 @@ export default class ProductUsecase {
 
   constructor(
     ddbAdapter: DynamoDBAdapter,
-    s3Adapter: S3Adapter,
-    validator?: Validator
+    s3Adapter: S3Adapter
+    // validator?: Validator
   ) {
     this.ddbAdapter = ddbAdapter;
     this.s3Adapter = s3Adapter;
@@ -80,6 +80,7 @@ export default class ProductUsecase {
     }
     const date = new Date().toISOString();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const product: any = {
       ...input,
       __typename: "Product",
