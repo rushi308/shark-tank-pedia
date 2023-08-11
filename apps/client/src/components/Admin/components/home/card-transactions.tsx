@@ -1,6 +1,6 @@
 import { Avatar, Card, Text } from "@nextui-org/react";
 import React from "react";
-import { Flex } from "../styles/flex";
+import { Flex } from "../../styles/flex";
 
 export const CardTransactions = () => {
   return (

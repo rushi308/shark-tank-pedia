@@ -1,8 +1,8 @@
 import { Card, Text } from "@nextui-org/react";
 import React from "react";
-import { Community } from "../icons/community";
-import { Box } from "../styles/box";
-import { Flex } from "../styles/flex";
+import { Community } from "../../icons/community";
+import { Box } from "../../styles/box";
+import { Flex } from "../../styles/flex";
 
 export const CardBalance1 = () => {
   return (

@@ -16,8 +16,13 @@ import productValidationSchema from "@/validationSchema/productSchema";
 import Image from "next/image";
 import { IconButton } from "../../components/table/table.styled";
 import { DeleteIcon } from "../../icons/table/delete-icon";
+import { mutateImage, mutateProduct } from "@/utils/api/client";
+import { toBase64 } from "@/utils/util";
+import { useRouter } from "next/router";
+import { Product } from "sharktankpedia-schema";
 
-const initialProductFormValues = {
+const initialProductFormValues: Product = {
+  __typename: "Product",
   id: "",
   title: "",
   productDetails: "",
@@ -32,43 +37,110 @@ const initialProductFormValues = {
   flipkartLink: "",
   appStoreLink: "",
   playStoreLink: "",
-  established: "",
+  established: 2012,
   founders: "",
   numberOfEmployees: 0,
   story: "",
   productFeatures: [],
   valueChain: [],
   originalAsk: "",
-  sales: { values: [], unit: "" },
-  salesSplit: { values: [], unit: "" },
+  sales: { __typename: "Sales", values: [], unit: "" },
+  salesSplit: { __typename: "Sales", values: [], unit: "" },
   unitEconomics: [],
   statistics: [],
   counterOffer: [],
   dealClosed: {
+    __typename: "Deal",
     sharkName: "",
     amount: "",
-    equity: "",
+    equity: 0,
     valuation: "",
     debt: "",
-    debtInterest: "",
+    debtInterest: 0,
   },
   informationImage: "",
   precedence: 1,
 };
 
-export const CreateProduct = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+interface CreateProductProps {
+  product?: Product;
+  title?: string;
+}
+
+export const CreateProduct = ({ product, title }: CreateProductProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [selectedImage, setSelectedImage] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  if (product) {
+    if (!product.marketPlace) {
+      delete product.marketPlace;
+    }
+    if (product.sales && !product.sales.unit) {
+      product.sales.unit = "";
+      product.sales.values = [];
+    }
+    if (product.salesSplit && !product.salesSplit.unit) {
+      product.salesSplit.unit = "";
+      product.salesSplit.values = [];
+    }
+  }
+  const productValues = product ? product : initialProductFormValues;
+  console.log(productValues);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (values: any) => {
+    // Step 1 upload image to s3
+    if (selectedImage) {
+      const imageUrl = await uploadImage();
+      if (imageUrl) {
+        values.productImage = imageUrl;
+      }
+    }
+    // Step 2 create product
+    values = alignValuesWithDB(values);
     console.log(values);
+    const update = await mutateProduct(values);
+    console.log(update);
+    router.push("/admin/products");
+  };
+
+  const alignValuesWithDB = (values: any) => {
+    if (values.dealClosed && !values.dealClosed.amount) {
+      delete values.dealClosed;
+    }
+    if (!values.id) {
+      delete values.id;
+    }
+    if (values.sales && !values.sales.unit) {
+      delete values.sales;
+    }
+    if (values.salesSplit && !values.salesSplit.unit) {
+      delete values.salesSplit;
+    }
+    if (!values.numberOfEmployees) {
+      values.numberOfEmployees = 0;
+    }
+
+    return values;
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const uploadImageToClient = (event: any) => {
+  const uploadImageToClient = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedImage(event.target.files[0]);
+    }
+  };
+
+  const uploadImage = async () => {
+    const imageBase64 = await toBase64(selectedImage);
+    const imageInput = {
+      contentType: "image/jpeg",
+      base64: imageBase64.split(",")[1],
+    };
+    const mutateImageResult = await mutateImage(imageInput);
+    if (mutateImageResult.__typename === "ImageUploadSuccess") {
+      return mutateImageResult.url;
     }
   };
 
@@ -92,9 +164,9 @@ export const CreateProduct = () => {
       justify={"center"}
       direction={"column"}
     >
-      <Text h3>Create Product</Text>
+      <Text h3> {title ? title : "Create Product"}</Text>
       <Formik
-        initialValues={initialProductFormValues}
+        initialValues={productValues}
         validationSchema={productValidationSchema}
         validateOnChange={false}
         onSubmit={onSubmit}
@@ -106,6 +178,7 @@ export const CreateProduct = () => {
           values,
           errors,
           touched,
+          isSubmitting,
         }) => (
           <form onSubmit={handleSubmit} noValidate id="page-product-form">
             <Grid.Container gap={2}>
@@ -326,7 +399,7 @@ export const CreateProduct = () => {
                   shadow={false}
                   type="number"
                   width="100%"
-                  placeholder="https://www.flipkart.com"
+                  placeholder="10"
                   status={
                     touched.numberOfEmployees && errors?.numberOfEmployees
                       ? "error"
@@ -443,58 +516,59 @@ export const CreateProduct = () => {
                     name="productFeatures"
                     render={(arrayHelpers) => (
                       <>
-                        {values.productFeatures.map((feature, index) => (
-                          <Row key={index}>
-                            <Col span={9}>
-                              <Input
-                                required
-                                name={`productFeatures[${index}]`}
-                                shadow={false}
-                                width="100%"
-                                placeholder="i.e Smooth, Fast, Reliable"
-                                status={
-                                  touched.productFeatures &&
-                                  touched.productFeatures.length > 0 &&
-                                  touched.productFeatures[index] &&
-                                  errors.productFeatures &&
-                                  errors.productFeatures.length > 0 &&
-                                  errors.productFeatures[index]
-                                    ? "error"
-                                    : undefined
-                                }
-                                value={values.productFeatures[index]}
-                                label={
-                                  (touched.productFeatures &&
+                        {values.productFeatures &&
+                          values.productFeatures.map((feature, index) => (
+                            <Row key={`${index}Productfeatures`}>
+                              <Col span={9}>
+                                <Input
+                                  required
+                                  name={`productFeatures[${index}]`}
+                                  shadow={false}
+                                  width="100%"
+                                  placeholder="i.e Smooth, Fast, Reliable"
+                                  status={
+                                    touched.productFeatures &&
                                     touched.productFeatures.length > 0 &&
                                     touched.productFeatures[index] &&
                                     errors.productFeatures &&
                                     errors.productFeatures.length > 0 &&
-                                    errors.productFeatures[index]) ||
-                                  `Feature ${index + 1}`
-                                }
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                              />
-                            </Col>
+                                    errors.productFeatures[index]
+                                      ? "error"
+                                      : undefined
+                                  }
+                                  value={values.productFeatures[index]}
+                                  label={
+                                    (touched.productFeatures &&
+                                      touched.productFeatures.length > 0 &&
+                                      touched.productFeatures[index] &&
+                                      errors.productFeatures &&
+                                      errors.productFeatures.length > 0 &&
+                                      errors.productFeatures[index]) ||
+                                    `Feature ${index + 1}`
+                                  }
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                />
+                              </Col>
 
-                            <Col
-                              span={2}
-                              offset={1}
-                              // className="mt-4"
-                              css={{ marginTop: "27px" }}
-                            >
-                              <Button
-                                type="button"
-                                bordered
-                                color="primary"
-                                auto
-                                onClick={() => arrayHelpers.remove(index)}
+                              <Col
+                                span={2}
+                                offset={1}
+                                // className="mt-4"
+                                css={{ marginTop: "27px" }}
                               >
-                                Remove
-                              </Button>
-                            </Col>
-                          </Row>
-                        ))}
+                                <Button
+                                  type="button"
+                                  bordered
+                                  color="primary"
+                                  auto
+                                  onClick={() => arrayHelpers.remove(index)}
+                                >
+                                  Remove
+                                </Button>
+                              </Col>
+                            </Row>
+                          ))}
                         <Row className="mt-2">
                           <Col>
                             <Button
@@ -524,57 +598,58 @@ export const CreateProduct = () => {
                     name="valueChain"
                     render={(arrayHelpers) => (
                       <>
-                        {values.valueChain.map((feature, index) => (
-                          <Row key={index}>
-                            <Col span={9}>
-                              <Input
-                                required
-                                name={`valueChain[${index}]`}
-                                shadow={false}
-                                width="100%"
-                                placeholder="i.e Logistics, Manufacturing, Retail"
-                                status={
-                                  touched.valueChain &&
-                                  touched.valueChain.length > 0 &&
-                                  touched.valueChain[index] &&
-                                  errors.valueChain &&
-                                  errors.valueChain.length > 0 &&
-                                  errors.valueChain[index]
-                                    ? "error"
-                                    : undefined
-                                }
-                                value={values.valueChain[index]}
-                                label={
-                                  (touched.valueChain &&
+                        {values?.valueChain &&
+                          values?.valueChain.map((feature, index) => (
+                            <Row key={`${index}Valuechain`}>
+                              <Col span={9}>
+                                <Input
+                                  required
+                                  name={`valueChain[${index}]`}
+                                  shadow={false}
+                                  width="100%"
+                                  placeholder="i.e Logistics, Manufacturing, Retail"
+                                  status={
+                                    touched.valueChain &&
                                     touched.valueChain.length > 0 &&
                                     touched.valueChain[index] &&
                                     errors.valueChain &&
                                     errors.valueChain.length > 0 &&
-                                    errors.valueChain[index]) ||
-                                  `Value Chain ${index + 1}`
-                                }
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                              />
-                            </Col>
+                                    errors.valueChain[index]
+                                      ? "error"
+                                      : undefined
+                                  }
+                                  value={values.valueChain[index]}
+                                  label={
+                                    (touched.valueChain &&
+                                      touched.valueChain.length > 0 &&
+                                      touched.valueChain[index] &&
+                                      errors.valueChain &&
+                                      errors.valueChain.length > 0 &&
+                                      errors.valueChain[index]) ||
+                                    `Value Chain ${index + 1}`
+                                  }
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                />
+                              </Col>
 
-                            <Col
-                              span={2}
-                              offset={1}
-                              css={{ marginTop: "27px" }}
-                            >
-                              <Button
-                                type="button"
-                                bordered
-                                color="primary"
-                                auto
-                                onClick={() => arrayHelpers.remove(index)}
+                              <Col
+                                span={2}
+                                offset={1}
+                                css={{ marginTop: "27px" }}
                               >
-                                Remove
-                              </Button>
-                            </Col>
-                          </Row>
-                        ))}
+                                <Button
+                                  type="button"
+                                  bordered
+                                  color="primary"
+                                  auto
+                                  onClick={() => arrayHelpers.remove(index)}
+                                >
+                                  Remove
+                                </Button>
+                              </Col>
+                            </Row>
+                          ))}
                         <Row className="mt-2">
                           <Col>
                             <Button
@@ -612,7 +687,7 @@ export const CreateProduct = () => {
                         name="sales.unit"
                         shadow={false}
                         width="100%"
-                        placeholder="i.e Percentage"
+                        placeholder="i.e Crore, Lakhs"
                         status={
                           touched.sales &&
                           touched.sales.unit &&
@@ -647,128 +722,98 @@ export const CreateProduct = () => {
                             name="sales.values"
                             render={(arrayHelpers) => (
                               <>
-                                {values.sales.values.map((saleData, index) => (
-                                  <>
-                                    <Row key={index}>
-                                      <Col span={4}>
-                                        <Input
-                                          required
-                                          name={`sales.values[${index}].name`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="i.e FY 22-21"
-                                          value={
-                                            values.sales.values[index]["name"]
-                                          }
-                                          status={
-                                            touched.sales &&
-                                            touched.sales.values &&
-                                            touched.sales.values.length > 0 &&
-                                            touched.sales.values[index] &&
-                                            touched.sales.values[index][
-                                              "name"
-                                            ] &&
-                                            errors.sales &&
-                                            errors.sales.values &&
-                                            errors.sales.values[index] &&
-                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //@ts-expect-error
-                                            errors.sales.values[index]["name"]
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={
-                                            // (touched.sales &&
-                                            //   touched.sales.values &&
-                                            //   touched.sales.values.length > 0 &&
-                                            //   touched.sales.values[index] &&
-                                            //   touched.sales.values[index][
-                                            //     "name"
-                                            //   ] &&
-                                            //   errors.sales &&
-                                            //   errors.sales.values &&
-                                            //   errors.sales.values.length > 0 &&
-                                            //   errors.sales.values[index][
-                                            //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //     //@ts-ignore
-                                            //     "name"
-                                            //   ]) ||
-                                            "Name"
-                                          }
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
-                                      <Col span={4} offset={1}>
-                                        <Input
-                                          required
-                                          name={`sales.values[${index}].value`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="100"
-                                          value={
-                                            values.sales.values[index]["value"]
-                                          }
-                                          status={
-                                            touched.sales &&
-                                            touched.sales.values &&
-                                            touched.sales.values.length > 0 &&
-                                            touched.sales.values[index] &&
-                                            touched.sales.values[index][
-                                              "value"
-                                            ] &&
-                                            errors.sales &&
-                                            errors.sales.values &&
-                                            errors.sales.values[index] &&
-                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //@ts-expect-error
-                                            errors.sales.values[index].value
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={
-                                            // (touched.sales &&
-                                            //   touched.sales.values &&
-                                            //   touched.sales.values.length > 0 &&
-                                            //   touched.sales.values[index] &&
-                                            //   touched.sales.values[index][
-                                            //     "value"
-                                            //   ] &&
-                                            //   errors.sales &&
-                                            //   errors.sales.values &&
-                                            //   errors.sales.values.length > 0 &&
-                                            //   errors.sales.values[index][
-                                            //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //     //@ts-ignore
-                                            //     "value"
-                                            //   ]) ||
-                                            "Value"
-                                          }
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
+                                {values.sales &&
+                                  values.sales.values &&
+                                  values.sales.values.map((saleData, index) => (
+                                    <>
+                                      <Row key={`${index}SalesValues`}>
+                                        <Col span={4}>
+                                          <Input
+                                            required
+                                            name={`sales.values[${index}].name`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="i.e FY 22-21"
+                                            value={
+                                              values.sales.values[index]["name"]
+                                            }
+                                            status={
+                                              touched.sales &&
+                                              touched.sales.values &&
+                                              touched.sales.values.length > 0 &&
+                                              touched.sales.values[index] &&
+                                              touched.sales.values[index][
+                                                "name"
+                                              ] &&
+                                              errors.sales &&
+                                              errors.sales.values &&
+                                              errors.sales.values[index] &&
+                                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                              // @ts-expect-error
+                                              errors.sales.values[index]["name"]
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Name"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
+                                        <Col span={4} offset={1}>
+                                          <Input
+                                            required
+                                            name={`sales.values[${index}].value`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="100"
+                                            value={
+                                              values.sales.values[index][
+                                                "value"
+                                              ]
+                                            }
+                                            status={
+                                              touched.sales &&
+                                              touched.sales.values &&
+                                              touched.sales.values.length > 0 &&
+                                              touched.sales.values[index] &&
+                                              touched.sales.values[index][
+                                                "value"
+                                              ] &&
+                                              errors.sales &&
+                                              errors.sales.values &&
+                                              errors.sales.values[index] &&
+                                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                              //@ts-expect-error
+                                              errors.sales.values[index].value
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Value"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
 
-                                      <Col
-                                        span={2}
-                                        offset={1}
-                                        css={{ marginTop: "27px" }}
-                                      >
-                                        <Button
-                                          type="button"
-                                          bordered
-                                          color="primary"
-                                          auto
-                                          onClick={() =>
-                                            arrayHelpers.remove(index)
-                                          }
+                                        <Col
+                                          span={2}
+                                          offset={1}
+                                          css={{ marginTop: "27px" }}
                                         >
-                                          Remove
-                                        </Button>
-                                      </Col>
-                                    </Row>
-                                  </>
-                                ))}
+                                          <Button
+                                            type="button"
+                                            bordered
+                                            color="primary"
+                                            auto
+                                            onClick={() =>
+                                              arrayHelpers.remove(index)
+                                            }
+                                          >
+                                            Remove
+                                          </Button>
+                                        </Col>
+                                      </Row>
+                                    </>
+                                  ))}
                                 <Row className="mt-2">
                                   <Col>
                                     <Button
@@ -849,152 +894,116 @@ export const CreateProduct = () => {
                             name="salesSplit.values"
                             render={(arrayHelpers) => (
                               <>
-                                {values.salesSplit.values.map(
-                                  (saleData, index) => (
-                                    <>
-                                      <Row key={index}>
-                                        <Col span={4}>
-                                          <Input
-                                            required
-                                            name={`salesSplit.values[${index}].name`}
-                                            shadow={false}
-                                            width="100%"
-                                            placeholder="i.e Raw Material Cost"
-                                            value={
-                                              values.salesSplit.values[index][
-                                                "name"
-                                              ]
-                                            }
-                                            status={
-                                              touched.salesSplit &&
-                                              touched.salesSplit.values &&
-                                              touched.salesSplit.values.length >
-                                                0 &&
-                                              touched.salesSplit.values[
-                                                index
-                                              ] &&
-                                              touched.salesSplit.values[index][
-                                                "name"
-                                              ] &&
-                                              errors.salesSplit &&
-                                              errors.salesSplit.values &&
-                                              errors.salesSplit.values[index] &&
-                                              errors.salesSplit.values[index][
-                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                                //@ts-ignore
-                                                "name"
-                                              ]
-                                                ? "error"
-                                                : undefined
-                                            }
-                                            label={
-                                              // (touched.salesSplit &&
-                                              //   touched.salesSplit.values &&
-                                              //   touched.salesSplit.values
-                                              //     .length > 0 &&
-                                              //   touched.salesSplit.values[
-                                              //     index
-                                              //   ] &&
-                                              //   touched.salesSplit.values[
-                                              //     index
-                                              //   ]["name"] &&
-                                              //   errors.salesSplit &&
-                                              //   errors.salesSplit.values &&
-                                              //   errors.salesSplit.values
-                                              //     .length > 0 &&
-                                              //   errors.salesSplit.values[index][
-                                              //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                              //     //@ts-ignore
-                                              //     "name"
-                                              //   ]) ||
-                                              "Name"
-                                            }
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                          />
-                                        </Col>
-                                        <Col span={4} offset={1}>
-                                          <Input
-                                            required
-                                            name={`salesSplit.values[${index}].value`}
-                                            shadow={false}
-                                            width="100%"
-                                            placeholder="10"
-                                            value={
-                                              values.salesSplit.values[index][
-                                                "value"
-                                              ]
-                                            }
-                                            status={
-                                              touched.salesSplit &&
-                                              touched.salesSplit.values &&
-                                              touched.salesSplit.values.length >
-                                                0 &&
-                                              touched.salesSplit.values[
-                                                index
-                                              ] &&
-                                              touched.salesSplit.values[index][
-                                                "value"
-                                              ] &&
-                                              errors.salesSplit &&
-                                              errors.salesSplit.values &&
-                                              errors.salesSplit.values[index] &&
-                                              errors.salesSplit.values[index][
-                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                                //@ts-ignore
-                                                "value"
-                                              ]
-                                                ? "error"
-                                                : undefined
-                                            }
-                                            label={
-                                              // (touched.salesSplit &&
-                                              //   touched.salesSplit.values &&
-                                              //   touched.salesSplit.values
-                                              //     .length > 0 &&
-                                              //   touched.salesSplit.values[
-                                              //     index
-                                              //   ] &&
-                                              //   touched.salesSplit.values[
-                                              //     index
-                                              //   ]["value"] &&
-                                              //   errors.salesSplit &&
-                                              //   errors.salesSplit.values &&
-                                              //   errors.salesSplit.values
-                                              //     .length > 0 &&
-                                              //   errors.salesSplit.values[index][
-                                              //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                              //     //@ts-ignore
-                                              //     "value"
-                                              //   ]) ||
-                                              "Value"
-                                            }
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                          />
-                                        </Col>
+                                {values.salesSplit &&
+                                  values.salesSplit.values &&
+                                  values.salesSplit.values.map(
+                                    (saleData, index) => (
+                                      <>
+                                        <Row key={`${index}SalesSplit`}>
+                                          <Col span={4}>
+                                            <Input
+                                              required
+                                              name={`salesSplit.values[${index}].name`}
+                                              shadow={false}
+                                              width="100%"
+                                              placeholder="i.e Raw Material Cost"
+                                              value={
+                                                values.salesSplit.values[index][
+                                                  "name"
+                                                ]
+                                              }
+                                              status={
+                                                touched.salesSplit &&
+                                                touched.salesSplit.values &&
+                                                touched.salesSplit.values
+                                                  .length > 0 &&
+                                                touched.salesSplit.values[
+                                                  index
+                                                ] &&
+                                                touched.salesSplit.values[
+                                                  index
+                                                ]["name"] &&
+                                                errors.salesSplit &&
+                                                errors.salesSplit.values &&
+                                                errors.salesSplit.values[
+                                                  index
+                                                ] &&
+                                                errors.salesSplit.values[index][
+                                                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                  //@ts-ignore
+                                                  "name"
+                                                ]
+                                                  ? "error"
+                                                  : undefined
+                                              }
+                                              label={"Name"}
+                                              onChange={handleChange}
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
+                                          <Col span={4} offset={1}>
+                                            <Input
+                                              required
+                                              name={`salesSplit.values[${index}].value`}
+                                              shadow={false}
+                                              width="100%"
+                                              placeholder="10"
+                                              value={
+                                                values.salesSplit.values[index][
+                                                  "value"
+                                                ]
+                                              }
+                                              status={
+                                                touched.salesSplit &&
+                                                touched.salesSplit.values &&
+                                                touched.salesSplit.values
+                                                  .length > 0 &&
+                                                touched.salesSplit.values[
+                                                  index
+                                                ] &&
+                                                touched.salesSplit.values[
+                                                  index
+                                                ]["value"] &&
+                                                errors.salesSplit &&
+                                                errors.salesSplit.values &&
+                                                errors.salesSplit.values[
+                                                  index
+                                                ] &&
+                                                errors.salesSplit.values[index][
+                                                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                  //@ts-ignore
+                                                  "value"
+                                                ]
+                                                  ? "error"
+                                                  : undefined
+                                              }
+                                              label={"Value"}
+                                              onChange={handleChange}
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
 
-                                        <Col
-                                          span={2}
-                                          offset={1}
-                                          css={{ marginTop: "27px" }}
-                                        >
-                                          <Button
-                                            type="button"
-                                            bordered
-                                            color="primary"
-                                            auto
-                                            onClick={() =>
-                                              arrayHelpers.remove(index)
-                                            }
+                                          <Col
+                                            span={2}
+                                            offset={1}
+                                            css={{ marginTop: "27px" }}
                                           >
-                                            Remove
-                                          </Button>
-                                        </Col>
-                                      </Row>
-                                    </>
-                                  )
-                                )}
+                                            <Button
+                                              type="button"
+                                              bordered
+                                              color="primary"
+                                              auto
+                                              onClick={() =>
+                                                arrayHelpers.remove(index)
+                                              }
+                                            >
+                                              Remove
+                                            </Button>
+                                          </Col>
+                                        </Row>
+                                      </>
+                                    )
+                                  )}
                                 <Row className="mt-2">
                                   <Col>
                                     <Button
@@ -1041,128 +1050,101 @@ export const CreateProduct = () => {
                             name="unitEconomics"
                             render={(arrayHelpers) => (
                               <>
-                                {values.unitEconomics.map((saleData, index) => (
-                                  <>
-                                    <Row key={index}>
-                                      <Col span={4}>
-                                        <Input
-                                          required
-                                          name={`unitEconomics[${index}].name`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="i.e Gross Margin"
-                                          value={
-                                            values.unitEconomics[index]["name"]
-                                          }
-                                          status={
-                                            touched.unitEconomics &&
-                                            touched.unitEconomics.length > 0 &&
-                                            touched.unitEconomics[index] &&
-                                            touched.unitEconomics[index][
-                                              "name"
-                                            ] &&
-                                            errors.unitEconomics &&
-                                            errors.unitEconomics[index] &&
-                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //@ts-ignore
-                                            errors.unitEconomics[index].name
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={
-                                            // (touched.unitEconomics &&
-                                            //   touched.unitEconomics.length >
-                                            //     0 &&
-                                            //   touched.unitEconomics[index] &&
-                                            //   touched.unitEconomics[index][
-                                            //     "name"
-                                            //   ] &&
-                                            //   errors.unitEconomics &&
-                                            //   errors.unitEconomics[index] &&
-                                            //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //   //@ts-ignore
-                                            //   errors.unitEconomics[index]
-                                            //     .name) ||
-                                            "Name"
-                                          }
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
-                                      <Col span={4} offset={1}>
-                                        <Input
-                                          required
-                                          name={`unitEconomics[${index}].value`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="50%"
-                                          value={
-                                            values.unitEconomics[index]["value"]
-                                          }
-                                          status={
-                                            touched.unitEconomics &&
-                                            touched.unitEconomics.length > 0 &&
-                                            touched.unitEconomics[index] &&
-                                            touched.unitEconomics[index][
-                                              "value"
-                                            ] &&
-                                            errors.unitEconomics &&
-                                            errors.unitEconomics[index] &&
-                                            errors.unitEconomics[index][
-                                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                              //@ts-ignore
-                                              "value"
-                                            ]
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={
-                                            // (touched.salesSplit &&
-                                            //   touched.salesSplit.values &&
-                                            //   touched.salesSplit.values
-                                            //     .length > 0 &&
-                                            //   touched.salesSplit.values[
-                                            //     index
-                                            //   ] &&
-                                            //   touched.salesSplit.values[
-                                            //     index
-                                            //   ]["value"] &&
-                                            //   errors.salesSplit &&
-                                            //   errors.salesSplit.values &&
-                                            //   errors.salesSplit.values
-                                            //     .length > 0 &&
-                                            //   errors.salesSplit.values[index][
-                                            //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //     //@ts-ignore
-                                            //     "value"
-                                            //   ]) ||
-                                            "Value"
-                                          }
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
+                                {values.unitEconomics &&
+                                  values.unitEconomics.map(
+                                    (saleData, index) => (
+                                      <>
+                                        <Row key={`${index}UnitEconomics`}>
+                                          <Col span={4}>
+                                            <Input
+                                              required
+                                              name={`unitEconomics[${index}].name`}
+                                              shadow={false}
+                                              width="100%"
+                                              placeholder="i.e Gross Margin"
+                                              value={
+                                                values.unitEconomics[index][
+                                                  "name"
+                                                ]
+                                              }
+                                              status={
+                                                touched.unitEconomics &&
+                                                touched.unitEconomics.length >
+                                                  0 &&
+                                                touched.unitEconomics[index] &&
+                                                touched.unitEconomics[index][
+                                                  "name"
+                                                ] &&
+                                                errors.unitEconomics &&
+                                                errors.unitEconomics[index] &&
+                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                //@ts-ignore
+                                                errors.unitEconomics[index].name
+                                                  ? "error"
+                                                  : undefined
+                                              }
+                                              label={"Name"}
+                                              onChange={handleChange}
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
+                                          <Col span={4} offset={1}>
+                                            <Input
+                                              required
+                                              name={`unitEconomics[${index}].value`}
+                                              shadow={false}
+                                              width="100%"
+                                              placeholder="50%"
+                                              value={
+                                                values.unitEconomics[index][
+                                                  "value"
+                                                ]
+                                              }
+                                              status={
+                                                touched.unitEconomics &&
+                                                touched.unitEconomics.length >
+                                                  0 &&
+                                                touched.unitEconomics[index] &&
+                                                touched.unitEconomics[index][
+                                                  "value"
+                                                ] &&
+                                                errors.unitEconomics &&
+                                                errors.unitEconomics[index] &&
+                                                errors.unitEconomics[index][
+                                                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                  //@ts-ignore
+                                                  "value"
+                                                ]
+                                                  ? "error"
+                                                  : undefined
+                                              }
+                                              label={"Value"}
+                                              onChange={handleChange}
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
 
-                                      <Col
-                                        span={2}
-                                        offset={1}
-                                        css={{ marginTop: "27px" }}
-                                      >
-                                        <Button
-                                          type="button"
-                                          bordered
-                                          color="primary"
-                                          auto
-                                          onClick={() =>
-                                            arrayHelpers.remove(index)
-                                          }
-                                        >
-                                          Remove
-                                        </Button>
-                                      </Col>
-                                    </Row>
-                                  </>
-                                ))}
+                                          <Col
+                                            span={2}
+                                            offset={1}
+                                            css={{ marginTop: "27px" }}
+                                          >
+                                            <Button
+                                              type="button"
+                                              bordered
+                                              color="primary"
+                                              auto
+                                              onClick={() =>
+                                                arrayHelpers.remove(index)
+                                              }
+                                            >
+                                              Remove
+                                            </Button>
+                                          </Col>
+                                        </Row>
+                                      </>
+                                    )
+                                  )}
                                 <Row className="mt-2">
                                   <Col>
                                     <Button
@@ -1209,126 +1191,94 @@ export const CreateProduct = () => {
                             name="statistics"
                             render={(arrayHelpers) => (
                               <>
-                                {values.statistics.map((saleData, index) => (
-                                  <>
-                                    <Row key={index}>
-                                      <Col span={4}>
-                                        <Input
-                                          required
-                                          name={`statistics[${index}].name`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="i.e Monthly Active Users"
-                                          value={
-                                            values.statistics[index]["name"]
-                                          }
-                                          status={
-                                            touched.statistics &&
-                                            touched.statistics.length > 0 &&
-                                            touched.statistics[index] &&
-                                            touched.statistics[index]["name"] &&
-                                            errors.statistics &&
-                                            errors.statistics[index] &&
-                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //@ts-ignore
-                                            errors.statistics[index].name
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={
-                                            // (touched.statistics &&
-                                            //   touched.statistics.length >
-                                            //     0 &&
-                                            //   touched.statistics[index] &&
-                                            //   touched.statistics[index][
-                                            //     "name"
-                                            //   ] &&
-                                            //   errors.statistics &&
-                                            //   errors.statistics[index] &&
-                                            //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //   //@ts-ignore
-                                            //   errors.statistics[index]
-                                            //     .name) ||
-                                            "Name"
-                                          }
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
-                                      <Col span={4} offset={1}>
-                                        <Input
-                                          required
-                                          name={`statistics[${index}].value`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="5000"
-                                          value={
-                                            values.statistics[index]["value"]
-                                          }
-                                          status={
-                                            touched.statistics &&
-                                            touched.statistics.length > 0 &&
-                                            touched.statistics[index] &&
-                                            touched.statistics[index][
-                                              "value"
-                                            ] &&
-                                            errors.statistics &&
-                                            errors.statistics[index] &&
-                                            errors.statistics[index][
+                                {values?.statistics &&
+                                  values?.statistics?.length > 0 &&
+                                  values.statistics.map((saleData, index) => (
+                                    <>
+                                      <Row key={`${index}Statistics`}>
+                                        <Col span={4}>
+                                          <Input
+                                            required
+                                            name={`statistics[${index}].name`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="i.e Monthly Active Users"
+                                            value={
+                                              values?.statistics[index]["name"]
+                                            }
+                                            status={
+                                              touched.statistics &&
+                                              touched.statistics.length > 0 &&
+                                              touched.statistics[index] &&
+                                              touched.statistics[index][
+                                                "name"
+                                              ] &&
+                                              errors.statistics &&
+                                              errors.statistics[index] &&
                                               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                               //@ts-ignore
-                                              "value"
-                                            ]
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={
-                                            // (touched.salesSplit &&
-                                            //   touched.salesSplit.values &&
-                                            //   touched.salesSplit.values
-                                            //     .length > 0 &&
-                                            //   touched.salesSplit.values[
-                                            //     index
-                                            //   ] &&
-                                            //   touched.salesSplit.values[
-                                            //     index
-                                            //   ]["value"] &&
-                                            //   errors.salesSplit &&
-                                            //   errors.salesSplit.values &&
-                                            //   errors.salesSplit.values
-                                            //     .length > 0 &&
-                                            //   errors.salesSplit.values[index][
-                                            //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //     //@ts-ignore
-                                            //     "value"
-                                            //   ]) ||
-                                            "Value"
-                                          }
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
+                                              errors.statistics[index].name
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Name"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
+                                        <Col span={4} offset={1}>
+                                          <Input
+                                            required
+                                            name={`statistics[${index}].value`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="5000"
+                                            value={
+                                              values.statistics[index]["value"]
+                                            }
+                                            status={
+                                              touched.statistics &&
+                                              touched.statistics.length > 0 &&
+                                              touched.statistics[index] &&
+                                              touched.statistics[index][
+                                                "value"
+                                              ] &&
+                                              errors.statistics &&
+                                              errors.statistics[index] &&
+                                              errors.statistics[index][
+                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                //@ts-ignore
+                                                "value"
+                                              ]
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Value"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
 
-                                      <Col
-                                        span={2}
-                                        offset={1}
-                                        css={{ marginTop: "27px" }}
-                                      >
-                                        <Button
-                                          type="button"
-                                          bordered
-                                          color="primary"
-                                          auto
-                                          onClick={() =>
-                                            arrayHelpers.remove(index)
-                                          }
+                                        <Col
+                                          span={2}
+                                          offset={1}
+                                          css={{ marginTop: "27px" }}
                                         >
-                                          Remove
-                                        </Button>
-                                      </Col>
-                                    </Row>
-                                  </>
-                                ))}
+                                          <Button
+                                            type="button"
+                                            bordered
+                                            color="primary"
+                                            auto
+                                            onClick={() =>
+                                              arrayHelpers.remove(index)
+                                            }
+                                          >
+                                            Remove
+                                          </Button>
+                                        </Col>
+                                      </Row>
+                                    </>
+                                  ))}
                                 <Row className="mt-2">
                                   <Col>
                                     <Button
@@ -1375,225 +1325,232 @@ export const CreateProduct = () => {
                             name="counterOffer"
                             render={(arrayHelpers) => (
                               <>
-                                {values.counterOffer.map((saleData, index) => (
-                                  <>
-                                    <Row key={index}>
-                                      <Col span={2}>
-                                        <Input
-                                          required
-                                          name={`counterOffer[${index}].sharkName`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="i.e Aman, Vineeta, Piyush"
-                                          value={
-                                            values.counterOffer[index][
-                                              "sharkName"
-                                            ]
-                                          }
-                                          status={
-                                            touched.counterOffer &&
-                                            touched.counterOffer.length > 0 &&
-                                            touched.counterOffer[index] &&
-                                            touched.counterOffer[index][
-                                              "sharkName"
-                                            ] &&
-                                            errors.counterOffer &&
-                                            errors.counterOffer[index] &&
-                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            //@ts-ignore
-                                            errors.counterOffer[index].sharkName
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={"Shark Name"}
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
-                                      <Col span={2} offset={0.1}>
-                                        <Input
-                                          required
-                                          name={`counterOffer[${index}].amount`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="50 Lakhs"
-                                          value={
-                                            values.counterOffer[index]["amount"]
-                                          }
-                                          status={
-                                            touched.counterOffer &&
-                                            touched.counterOffer.length > 0 &&
-                                            touched.counterOffer[index] &&
-                                            touched.counterOffer[index][
-                                              "amount"
-                                            ] &&
-                                            errors.counterOffer &&
-                                            errors.counterOffer[index] &&
-                                            errors.counterOffer[index][
+                                {values.counterOffer &&
+                                  values.counterOffer.map((saleData, index) => (
+                                    <>
+                                      <Row key={`${index}CounterOffer`}>
+                                        <Col span={2}>
+                                          <Input
+                                            required
+                                            name={`counterOffer[${index}].sharkName`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="i.e Aman, Vineeta, Piyush"
+                                            value={
+                                              values.counterOffer[index][
+                                                "sharkName"
+                                              ]
+                                            }
+                                            status={
+                                              touched.counterOffer &&
+                                              touched.counterOffer.length > 0 &&
+                                              touched.counterOffer[index] &&
+                                              touched.counterOffer[index][
+                                                "sharkName"
+                                              ] &&
+                                              errors.counterOffer &&
+                                              errors.counterOffer[index] &&
                                               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                               //@ts-ignore
-                                              "amount"
-                                            ]
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={"Amount"}
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
-                                      <Col span={2} offset={0.1}>
-                                        <Input
-                                          required
-                                          name={`counterOffer[${index}].valuation`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="i.e 15 Crores"
-                                          value={
-                                            values.counterOffer[index][
-                                              "valuation"
-                                            ]
-                                          }
-                                          status={
-                                            touched.counterOffer &&
-                                            touched.counterOffer.length > 0 &&
-                                            touched.counterOffer[index] &&
-                                            touched.counterOffer[index][
-                                              "valuation"
-                                            ] &&
-                                            errors.counterOffer &&
-                                            errors.counterOffer[index] &&
-                                            errors.counterOffer[index][
-                                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                              //@ts-ignore
-                                              "valuation"
-                                            ]
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={"Valuation"}
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
-                                      <Col span={2} offset={0.1}>
-                                        <Input
-                                          required
-                                          name={`counterOffer[${index}].equity`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="1.5"
-                                          value={
-                                            values.counterOffer[index]["equity"]
-                                          }
-                                          status={
-                                            touched.counterOffer &&
-                                            touched.counterOffer.length > 0 &&
-                                            touched.counterOffer[index] &&
-                                            touched.counterOffer[index][
-                                              "equity"
-                                            ] &&
-                                            errors.counterOffer &&
-                                            errors.counterOffer[index] &&
-                                            errors.counterOffer[index][
-                                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                              //@ts-ignore
-                                              "equity"
-                                            ]
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={"Equity"}
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
-                                      <Col span={2} offset={0.1}>
-                                        <Input
-                                          required
-                                          name={`counterOffer[${index}].debt`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="i.e 50 Lakhs"
-                                          value={
-                                            values.counterOffer[index]["debt"]
-                                          }
-                                          status={
-                                            touched.counterOffer &&
-                                            touched.counterOffer.length > 0 &&
-                                            touched.counterOffer[index] &&
-                                            touched.counterOffer[index][
-                                              "debt"
-                                            ] &&
-                                            errors.counterOffer &&
-                                            errors.counterOffer[index] &&
-                                            errors.counterOffer[index][
-                                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                              //@ts-ignore
-                                              "debt"
-                                            ]
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={"Debt"}
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
-                                      <Col span={2} offset={0.1}>
-                                        <Input
-                                          required
-                                          name={`counterOffer[${index}].debtInterest`}
-                                          shadow={false}
-                                          width="100%"
-                                          placeholder="10%"
-                                          value={
-                                            values.counterOffer[index][
-                                              "debtInterest"
-                                            ]
-                                          }
-                                          status={
-                                            touched.counterOffer &&
-                                            touched.counterOffer.length > 0 &&
-                                            touched.counterOffer[index] &&
-                                            touched.counterOffer[index][
-                                              "debtInterest"
-                                            ] &&
-                                            errors.counterOffer &&
-                                            errors.counterOffer[index] &&
-                                            errors.counterOffer[index][
-                                              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                              //@ts-ignore
-                                              "debtInterest"
-                                            ]
-                                              ? "error"
-                                              : undefined
-                                          }
-                                          label={"Debt Interest"}
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                        />
-                                      </Col>
-                                      <Col
-                                        offset={0.2}
-                                        span={1}
-                                        css={{ marginTop: "27px" }}
-                                      >
-                                        <Button
-                                          type="button"
-                                          bordered
-                                          color="primary"
-                                          auto
-                                          onClick={() =>
-                                            arrayHelpers.remove(index)
-                                          }
+                                              errors.counterOffer[index]
+                                                .sharkName
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Shark Name"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
+                                        <Col span={2} offset={0.1}>
+                                          <Input
+                                            required
+                                            name={`counterOffer[${index}].amount`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="50 Lakhs"
+                                            value={
+                                              values.counterOffer[index][
+                                                "amount"
+                                              ]
+                                            }
+                                            status={
+                                              touched.counterOffer &&
+                                              touched.counterOffer.length > 0 &&
+                                              touched.counterOffer[index] &&
+                                              touched.counterOffer[index][
+                                                "amount"
+                                              ] &&
+                                              errors.counterOffer &&
+                                              errors.counterOffer[index] &&
+                                              errors.counterOffer[index][
+                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                //@ts-ignore
+                                                "amount"
+                                              ]
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Amount"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
+                                        <Col span={2} offset={0.1}>
+                                          <Input
+                                            required
+                                            name={`counterOffer[${index}].valuation`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="i.e 15 Crores"
+                                            value={
+                                              values.counterOffer[index][
+                                                "valuation"
+                                              ]
+                                            }
+                                            status={
+                                              touched.counterOffer &&
+                                              touched.counterOffer.length > 0 &&
+                                              touched.counterOffer[index] &&
+                                              touched.counterOffer[index][
+                                                "valuation"
+                                              ] &&
+                                              errors.counterOffer &&
+                                              errors.counterOffer[index] &&
+                                              errors.counterOffer[index][
+                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                //@ts-ignore
+                                                "valuation"
+                                              ]
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Valuation"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
+                                        <Col span={2} offset={0.1}>
+                                          <Input
+                                            required
+                                            name={`counterOffer[${index}].equity`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="1.5"
+                                            value={
+                                              values.counterOffer[index][
+                                                "equity"
+                                              ]
+                                            }
+                                            status={
+                                              touched.counterOffer &&
+                                              touched.counterOffer.length > 0 &&
+                                              touched.counterOffer[index] &&
+                                              touched.counterOffer[index][
+                                                "equity"
+                                              ] &&
+                                              errors.counterOffer &&
+                                              errors.counterOffer[index] &&
+                                              errors.counterOffer[index][
+                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                //@ts-ignore
+                                                "equity"
+                                              ]
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Equity"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
+                                        <Col span={2} offset={0.1}>
+                                          <Input
+                                            required
+                                            name={`counterOffer[${index}].debt`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="i.e 50 Lakhs"
+                                            value={
+                                              values.counterOffer[index]["debt"]
+                                            }
+                                            status={
+                                              touched.counterOffer &&
+                                              touched.counterOffer.length > 0 &&
+                                              touched.counterOffer[index] &&
+                                              touched.counterOffer[index][
+                                                "debt"
+                                              ] &&
+                                              errors.counterOffer &&
+                                              errors.counterOffer[index] &&
+                                              errors.counterOffer[index][
+                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                //@ts-ignore
+                                                "debt"
+                                              ]
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Debt"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
+                                        <Col span={2} offset={0.1}>
+                                          <Input
+                                            required
+                                            type="number"
+                                            name={`counterOffer[${index}].debtInterest`}
+                                            shadow={false}
+                                            width="100%"
+                                            placeholder="10"
+                                            value={
+                                              values.counterOffer[index][
+                                                "debtInterest"
+                                              ]
+                                            }
+                                            status={
+                                              touched.counterOffer &&
+                                              touched.counterOffer.length > 0 &&
+                                              touched.counterOffer[index] &&
+                                              touched.counterOffer[index][
+                                                "debtInterest"
+                                              ] &&
+                                              errors.counterOffer &&
+                                              errors.counterOffer[index] &&
+                                              errors.counterOffer[index][
+                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                //@ts-ignore
+                                                "debtInterest"
+                                              ]
+                                                ? "error"
+                                                : undefined
+                                            }
+                                            label={"Debt Interest"}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                        </Col>
+                                        <Col
+                                          offset={0.2}
+                                          span={1}
+                                          css={{ marginTop: "27px" }}
                                         >
-                                          Remove
-                                        </Button>
-                                      </Col>
-                                    </Row>
-                                  </>
-                                ))}
+                                          <Button
+                                            type="button"
+                                            bordered
+                                            color="primary"
+                                            auto
+                                            onClick={() =>
+                                              arrayHelpers.remove(index)
+                                            }
+                                          >
+                                            Remove
+                                          </Button>
+                                        </Col>
+                                      </Row>
+                                    </>
+                                  ))}
                                 <Row className="mt-2">
                                   <Col>
                                     <Button
@@ -1603,8 +1560,12 @@ export const CreateProduct = () => {
                                       auto
                                       onClick={() =>
                                         arrayHelpers.push({
-                                          name: "",
-                                          value: "",
+                                          amount: "",
+                                          equity: "",
+                                          sharkName: "",
+                                          valuation: "",
+                                          debt: "",
+                                          debtInterest: 0,
                                         })
                                       }
                                     >
@@ -1724,6 +1685,7 @@ export const CreateProduct = () => {
                       <Row>
                         <Input
                           required
+                          type="number"
                           name="dealClosed.equity"
                           shadow={false}
                           width="100%"
@@ -1782,6 +1744,7 @@ export const CreateProduct = () => {
                       <Row>
                         <Input
                           required
+                          type="number"
                           name="dealClosed.debtInterest"
                           shadow={false}
                           width="100%"
@@ -1836,7 +1799,11 @@ export const CreateProduct = () => {
                       }}
                     >
                       <Image
-                        src={URL.createObjectURL(selectedImage)}
+                        src={
+                          values?.productImage && !selectedImage
+                            ? values?.productImage
+                            : URL.createObjectURL(selectedImage)
+                        }
                         style={styles.image}
                         alt="Thumb"
                         width="100"
@@ -1869,7 +1836,7 @@ export const CreateProduct = () => {
                             render={(arrayHelpers) => (
                               <>
                                 {values.categories.map((cat, index) => (
-                                  <Row key={index}>
+                                  <Row key={`${index}Categories`}>
                                     <Col span={9}>
                                       <Input
                                         required
@@ -1945,6 +1912,7 @@ export const CreateProduct = () => {
                 </Col>
               </Row>
             </Container>
+            {console.log("Errors", errors)}
             <Container fluid gap={1} className="mt-4">
               <Row>
                 <Col span={12}>
@@ -1964,7 +1932,11 @@ export const CreateProduct = () => {
 
             <Grid.Container css={{ paddingTop: "$10" }} gap={2}>
               <Grid xs={6}>
-                <Button type="submit"> Create Product</Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting
+                    ? "Please wait..."
+                    : `${product ? "Update" : "Create"} Product`}
+                </Button>
               </Grid>
             </Grid.Container>
           </form>

@@ -46,7 +46,7 @@ export const Products = () => {
           Add Product
         </Button>
       </Flex>
-      {loading ? <Loading /> : <TableWrapper data={products} />}
+      {loading ? <Loading /> : <TableWrapper data={products} push={push} />}
     </Flex>
   );
 };

@@ -16,6 +16,7 @@ const productValidationSchema = Yup.object({
   playStoreLink: Yup.string().trim().url("Please enter a valid play store URL"),
 
   productDetails: Yup.string().trim().required("Please enter product details"),
+  
   marketPlace: Yup.array(
     Yup.object({
       name: Yup.string().trim().required("Please enter a name"),
@@ -42,7 +43,7 @@ const productValidationSchema = Yup.object({
   originalAsk: Yup.string().trim().required("Please enter an original ask"),
 
   sales: Yup.object({
-    unit: Yup.string().trim().required("Please enter a unit"),
+    unit: Yup.string().trim(),
     values: Yup.array(
       Yup.object({
         name: Yup.string().trim().required("Please enter a name"),
@@ -52,7 +53,7 @@ const productValidationSchema = Yup.object({
   }),
 
   salesSplit: Yup.object({
-    unit: Yup.string().trim().required("Please enter a unit"),
+    unit: Yup.string().trim(),
     values: Yup.array(
       Yup.object({
         name: Yup.string().trim().required("Please enter a name"),
@@ -95,7 +96,7 @@ const productValidationSchema = Yup.object({
     debtInterest: Yup.number(),
   }),
 
-  productImage: Yup.string().trim().required("Please enter product image url"),
+  productImage: Yup.string().trim(),
 
   informationImage: Yup.string(),
 

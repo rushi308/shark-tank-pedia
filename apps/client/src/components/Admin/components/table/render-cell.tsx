@@ -8,9 +8,10 @@ import { Product } from "sharktankpedia-schema";
 interface Props {
   item: Product;
   columnKey: string | React.Key;
+  push: (path: string) => void;
 }
 
-export const RenderCell = ({ item, columnKey }: Props) => {
+export const RenderCell = ({ item, columnKey, push }: Props) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const cellValue = item[columnKey];
@@ -45,7 +46,7 @@ export const RenderCell = ({ item, columnKey }: Props) => {
         >
           <Col css={{ d: "flex" }}>
             <Tooltip content="Edit Product">
-              <IconButton onClick={() => console.log("Edit Product", item.id)}>
+              <IconButton onClick={() => push(`products/edit/${item.id}`)}>
                 <EditIcon size={20} fill="#979797" />
               </IconButton>
             </Tooltip>

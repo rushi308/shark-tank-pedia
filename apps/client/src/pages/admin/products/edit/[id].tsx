@@ -1,11 +1,11 @@
 import withAuthenticationRequired from "@/components/Admin/adminlayout/AdminAuthenticator";
 import { AdminLayout } from "@/components/Admin/adminlayout/AdminLayout";
-import { CreateProduct } from "@/components/Admin/containers/products/createProduct";
+import EditProduct from "@/components/Admin/containers/products/editProduct";
 
-export default withAuthenticationRequired(function CreateProductPage() {
+export default withAuthenticationRequired(function EditProductPage() {
   return (
     <AdminLayout>
-      <CreateProduct />
+      <EditProduct />
     </AdminLayout>
   );
 });

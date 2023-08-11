@@ -6,7 +6,6 @@ import withAuthenticationRequired from "@/components/Admin/adminlayout/AdminAuth
 export default withAuthenticationRequired(function Admin() {
   return (
     <>
-      {/* {CssBaseline.flush()} */}
       <AdminLayout>
         <h1>Admin Home</h1>
       </AdminLayout>

@@ -34,7 +34,7 @@ export async function getServerSideProps({ req, res }: any) {
     let recentProducts: Product[] = [];
     if (recentProductsResponse.products.length > 0) {
       recentProducts = recentProductsResponse.products.sort((a, b) => {
-        return a.season - b.season || b.episode - a.episode;
+        return b.season - a.season || b.episode - a.episode;
       });
     }
     return {

@@ -7,9 +7,10 @@ import { Product } from "sharktankpedia-schema";
 
 interface TableWrapperProps {
   data: Product[];
+  push: (url: string) => void;
 }
 
-export const TableWrapper = ({ data }: TableWrapperProps) => {
+export const TableWrapper = ({ data, push }: TableWrapperProps) => {
   return (
     <Box
       css={{
@@ -44,7 +45,7 @@ export const TableWrapper = ({ data }: TableWrapperProps) => {
             <Table.Row>
               {(columnKey) => (
                 <Table.Cell>
-                  {RenderCell({ item, columnKey: columnKey })}
+                  {RenderCell({ item, columnKey: columnKey, push })}
                 </Table.Cell>
               )}
             </Table.Row>
