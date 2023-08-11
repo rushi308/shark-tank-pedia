@@ -16,7 +16,7 @@ const productValidationSchema = Yup.object({
   playStoreLink: Yup.string().trim().url("Please enter a valid play store URL"),
 
   productDetails: Yup.string().trim().required("Please enter product details"),
-  
+
   marketPlace: Yup.array(
     Yup.object({
       name: Yup.string().trim().required("Please enter a name"),
@@ -37,29 +37,29 @@ const productValidationSchema = Yup.object({
     Yup.string().trim().required("Please enter a product feature")
   ),
   valueChain: Yup.array(
-    Yup.string().trim().required("Please enter a value chain")
+    Yup.string().trim().required("Please enter a value chain").nullable()
   ),
 
   originalAsk: Yup.string().trim().required("Please enter an original ask"),
 
   sales: Yup.object({
-    unit: Yup.string().trim(),
+    unit: Yup.string().trim().nullable(),
     values: Yup.array(
       Yup.object({
         name: Yup.string().trim().required("Please enter a name"),
         value: Yup.string().trim().required("Please enter a value"),
       })
-    ),
+    ).nullable(),
   }),
 
   salesSplit: Yup.object({
-    unit: Yup.string().trim(),
+    unit: Yup.string().trim().nullable(),
     values: Yup.array(
       Yup.object({
         name: Yup.string().trim().required("Please enter a name"),
         value: Yup.string().trim().required("Please enter a value"),
       })
-    ),
+    ).nullable()
   }),
 
   unitEconomics: Yup.array(
@@ -82,8 +82,8 @@ const productValidationSchema = Yup.object({
       amount: Yup.string().trim().required("Please enter a amount"),
       valuation: Yup.string().trim().required("Please enter a valuation"),
       equity: Yup.number().required("Please enter an equity"),
-      debt: Yup.string().trim(),
-      debtInterest: Yup.number(),
+      debt: Yup.string().trim().nullable(),
+      debtInterest: Yup.number().nullable(),
     })
   ),
 
@@ -92,9 +92,9 @@ const productValidationSchema = Yup.object({
     amount: Yup.string().trim(),
     valuation: Yup.string(),
     equity: Yup.number(),
-    debt: Yup.string().trim(),
-    debtInterest: Yup.number(),
-  }),
+    debt: Yup.string().trim().nullable(),
+    debtInterest: Yup.number().nullable(),
+  }).nullable(),
 
   productImage: Yup.string().trim(),
 

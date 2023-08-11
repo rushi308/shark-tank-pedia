@@ -72,21 +72,37 @@ export const CreateProduct = ({ product, title }: CreateProductProps) => {
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const stripTypenames = (value: any): any => {
+    if (Array.isArray(value)) {
+      return value.map(stripTypenames);
+    } else if (value !== null && typeof value === "object") {
+      const newObject = {};
+      for (const property in value) {
+        if (property !== "__typename") {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          newObject[property] = stripTypenames(value[property]);
+        }
+      }
+      return newObject;
+    } else {
+      return value;
+    }
+  };
+
   if (product) {
     if (!product.marketPlace) {
       delete product.marketPlace;
     }
-    if (product.sales && !product.sales.unit) {
-      product.sales.unit = "";
-      product.sales.values = [];
-    }
-    if (product.salesSplit && !product.salesSplit.unit) {
-      product.salesSplit.unit = "";
-      product.salesSplit.values = [];
+    if (!product.numberOfEmployees) {
+      product.numberOfEmployees = 0;
     }
   }
-  const productValues = product ? product : initialProductFormValues;
-  console.log(productValues);
+  const productValues = product
+    ? stripTypenames(product)
+    : initialProductFormValues;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (values: any) => {
@@ -99,9 +115,7 @@ export const CreateProduct = ({ product, title }: CreateProductProps) => {
     }
     // Step 2 create product
     values = alignValuesWithDB(values);
-    console.log(values);
-    const update = await mutateProduct(values);
-    console.log(update);
+    await mutateProduct(values);
     router.push("/admin/products");
   };
 
@@ -112,16 +126,9 @@ export const CreateProduct = ({ product, title }: CreateProductProps) => {
     if (!values.id) {
       delete values.id;
     }
-    if (values.sales && !values.sales.unit) {
-      delete values.sales;
-    }
-    if (values.salesSplit && !values.salesSplit.unit) {
-      delete values.salesSplit;
-    }
     if (!values.numberOfEmployees) {
       values.numberOfEmployees = 0;
     }
-
     return values;
   };
 
@@ -1912,7 +1919,6 @@ export const CreateProduct = ({ product, title }: CreateProductProps) => {
                 </Col>
               </Row>
             </Container>
-            {console.log("Errors", errors)}
             <Container fluid gap={1} className="mt-4">
               <Row>
                 <Col span={12}>
