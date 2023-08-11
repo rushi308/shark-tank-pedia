@@ -38,7 +38,7 @@ export default function DiscaimerPage() {
                 <p>
                   If you require more information or have questions about our
                   site&apos;s disclaimer, please contact us by email at
-                  info.sharktankpedia@gmail.com.
+                  info.sharktankpedia@gmail.com djvwjydbwjhdvjyu3dhfew.
                 </p>
               </div>
               <div className="col-md-12">

@@ -21,7 +21,7 @@ export const EditProduct = () => {
     getProductDetailCall(id);
   }, [id, router.isReady]);
 
-  return product && <CreateProduct product={product} title="Edit Product" />;
+  return (product ? <CreateProduct product={product} title="Edit Product" /> : <></>);
 };
 
 export default EditProduct;
